@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://yourdomain.com"), // ⚠️ change to your real domain
+  metadataBase: new URL("https://hirenmasaliya1411.web.app"), // ⚠️ change to your real domain
 
   title: {
     default: "Hiren Masaliya – Flutter & Web Developer",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title: "Hiren Masaliya – Developer & Founder",
     description:
       "Portfolio website of Hiren Masaliya. Flutter, Web Development & Aptro App Founder.",
-    url: "https://yourdomain.com",
+    url: "https://hirenmasaliya1411.web.app",
     siteName: "Hiren.dev",
     locale: "en_IN",
     type: "website",
@@ -57,6 +57,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-site-verification" content="uljdxnlbbu3lWTHQtj1pHRdt_-KURCN0cdngsmV7LJ0" />
+      </head>
       <body className="bg-black text-white antialiased">
         <Navbar />
         <main>{children}</main>

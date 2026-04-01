@@ -97,6 +97,8 @@ export default function Home() {
               "Flutter",
               "Android",
               "PHP",
+              "UI & UX ",
+              "Figma",
               "Tailwind CSS",
               "Firebase",
               "REST APIs"
@@ -115,10 +117,26 @@ export default function Home() {
       {/* 3. EXPERIENCE SECTION */}
       <section className="py-24 bg-zinc-950/50 border-y border-white/5">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-4">
-            Professional Journey <div className="h-px flex-1 bg-white/10"></div>
-          </h2>
-          
+          <div className="mb-20">
+            <div className="flex items-center gap-6 mb-4">
+              {/* The Title with a sleek gradient and tight tracking */}
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">
+                Professional Journey
+              </h2>
+
+              {/* Improved Divider: Gradient line that fades out */}
+              <div className="h-[1px] flex-1 bg-gradient-to-r from-blue-500/50 via-zinc-800 to-transparent"></div>
+            </div>
+
+            {/* Subtitle / Contextual Tag */}
+            <div className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+              <p className="text-zinc-500 text-sm md:text-base font-medium uppercase tracking-[0.2em]">
+                Experience & Career Milestones
+              </p>
+            </div>
+          </div>
+
           <div className="space-y-12">
             {[
               {
@@ -248,80 +266,86 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. PROJECTS SECTION */}
-      <section className="py-24 bg-zinc-950 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Work</h2>
-              <p className="text-gray-400">Projects I've built that demonstrate my skills in mobile, web, and SaaS development.</p>
-            </div>
-            <a href="https://github.com/hirenmasaliya" className="text-blue-400 hover:text-blue-300 font-medium">
-              View all GitHub →
-            </a>
+      {/* 5. EDUCATION SECTION */}
+      <section className="py-24 bg-zinc-950 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto">
+          {/* Heading */}
+          <div className="mb-20 text-center">
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-b from-white to-zinc-500 bg-clip-text text-transparent tracking-tight">
+              Education
+            </h2>
+            <div className="h-1 w-12 bg-blue-600 mx-auto rounded-full mb-6"></div>
+            <p className="text-zinc-400 text-lg max-w-xl mx-auto">
+              My academic journey and milestones that shaped my technical foundation.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Aptro Platform */}
-            <div className="group relative bg-zinc-900 rounded-2xl p-8 border border-white/5 hover:border-blue-500/50 transition-all overflow-hidden">
-              <h3 className="text-2xl font-bold mb-3">Aptro – Order & Billing App</h3>
-              <p className="text-gray-400 mb-6 text-sm md:text-base">
-                A Flutter-based mobile application to help small businesses manage orders, payments, customers, stock, and generate billing & reports. Supports role-based access and subscription plans via Razorpay.
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <span className="text-xs font-bold text-blue-400 px-3 py-1 bg-blue-500/10 rounded">Flutter</span>
-                <span className="text-xs font-bold text-blue-400 px-3 py-1 bg-blue-500/10 rounded">Firebase</span>
-                <span className="text-xs font-bold text-blue-400 px-3 py-1 bg-blue-500/10 rounded">Razorpay</span>
-              </div>
-            </div>
+          <div className="mb-16 ml-8 relative group">
+  <div className="absolute -left-[41px] top-1">
+    <span className="flex h-5 w-5 rounded-full bg-zinc-950 border-2 border-blue-500 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 z-10 relative"></span>
+  </div>
 
-            {/* Wallzer App */}
-            <div className="group relative bg-zinc-900 rounded-2xl p-8 border border-white/5 hover:border-purple-500/50 transition-all overflow-hidden">
-              <h3 className="text-2xl font-bold mb-3">Wallzer – Devotional Photo App</h3>
-              <p className="text-gray-400 mb-6 text-sm md:text-base">
-                An Instagram-style devotional photo-sharing mobile application built with Flutter and Firebase. Features include likes, shares, push notifications, in-app purchases, and real-time engagement.
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <span className="text-xs font-bold text-purple-400 px-3 py-1 bg-purple-500/10 rounded">Flutter</span>
-                <span className="text-xs font-bold text-purple-400 px-3 py-1 bg-purple-500/10 rounded">Firebase</span>
-                <span className="text-xs font-bold text-purple-400 px-3 py-1 bg-purple-500/10 rounded">FCM</span>
-              </div>
-            </div>
+  <div className="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/50 hover:border-blue-500/30 hover:bg-zinc-900/60 transition-all duration-300 backdrop-blur-sm">
+    <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
+      <div>
+        <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">
+          M.Sc. IT – Mobile Application & UI Development
+        </h3>
+        <p className="text-blue-400 font-medium mt-1">
+          Department of Animation, IT-IMS & Mobile Application  
+          Gujarat University
+        </p>
+      </div>
 
-            {/* Freelance Web Projects */}
-            <div className="group relative bg-zinc-900 rounded-2xl p-8 border border-white/5 hover:border-green-500/50 transition-all overflow-hidden">
-              <h3 className="text-2xl font-bold mb-3">Dira – Business Website</h3>
-              <p className="text-gray-400 mb-6 text-sm md:text-base">
-                Designed and developed the official website for Dira, a business-focused platform. Built a responsive layout with clean UI/UX, optimized performance, and integrated client-specific features to showcase services and products effectively.
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <span className="text-xs font-bold text-green-400 px-3 py-1 bg-green-500/10 rounded">HTML</span>
-                <span className="text-xs font-bold text-green-400 px-3 py-1 bg-green-500/10 rounded">CSS</span>
-                <span className="text-xs font-bold text-green-400 px-3 py-1 bg-green-500/10 rounded">Java Script</span>
-              </div>
-            </div>
+      <div className="flex flex-col items-end gap-2">
+        <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest border border-blue-500/20">
+          Aug 2023 – Jun 2025
+        </span>
+        <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">
+          First Class
+        </span>
+      </div>
+    </div>
 
-            <div className="group relative bg-zinc-900 rounded-2xl p-8 border border-white/5 hover:border-pink-500/50 transition-all overflow-hidden">
-              <h3 className="text-2xl font-bold mb-3">Local Link – Mobile App</h3>
-              <p className="text-gray-400 mb-6 text-sm md:text-base">
-                A Flutter-based mobile application that helps users share and discover local connections easily. Features include real-time chat, location-based suggestions, and secure user profiles.
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <span className="text-xs font-bold text-pink-400 px-3 py-1 bg-pink-500/10 rounded">Flutter</span>
-                <span className="text-xs font-bold text-pink-400 px-3 py-1 bg-pink-500/10 rounded">Firebase</span>
-                <span className="text-xs font-bold text-pink-400 px-3 py-1 bg-pink-500/10 rounded">Google Maps API</span>
-              </div>
-            </div>
+    <p className="text-zinc-400 text-sm md:text-base leading-relaxed">
+      Specialized in <span className="text-zinc-200">Mobile Application Development, UI/UX Design, and Advanced Computer Programming</span>. 
+      Built scalable mobile applications, focused on performance optimization, real-time databases, and modern development frameworks. 
+      Strengthened expertise in software architecture, application lifecycle management, and user-centered design.
+    </p>
+  </div>
+</div>
 
-            <div className="group relative bg-zinc-900 rounded-2xl p-8 border border-white/5 hover:border-green-500/50 transition-all overflow-hidden">
-              <h3 className="text-2xl font-bold mb-3">Builart Industries – Website</h3>
-              <p className="text-gray-400 mb-6 text-sm md:text-base">
-                Designed and developed the official website for Builart Industries, owned by Yash Masaliya. Responsive and optimized with clean UI, showcasing products, services, and company info professionally.
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <span className="text-xs font-bold text-green-400 px-3 py-1 bg-green-500/10 rounded">Next.js</span>
-                <span className="text-xs font-bold text-green-400 px-3 py-1 bg-green-500/10 rounded">React</span>
-                <span className="text-xs font-bold text-green-400 px-3 py-1 bg-green-500/10 rounded">Tailwind CSS</span>
+          <div className="relative border-l-2 border-zinc-900 ml-4 md:ml-6">
+            {/* BCA */}
+            <div className="mb-16 ml-8 relative group">
+              {/* Animated Dot */}
+              <div className="absolute -left-[41px] top-1">
+                <span className="flex h-5 w-5 rounded-full bg-zinc-950 border-2 border-blue-500 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300 z-10 relative"></span>
+                <span className="absolute inset-0 rounded-full bg-blue-500/20 animate-ping group-hover:hidden"></span>
+              </div>
+
+              {/* Content Card */}
+              <div className="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/50 hover:border-blue-500/30 hover:bg-zinc-900/60 transition-all duration-300 backdrop-blur-sm group">
+                <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">
+                      Bachelor of Commerce (B.Com) – Computer Science
+                    </h3>
+                    <p className="text-blue-400 font-medium mt-1">
+                      G.K. & C.K. Boshimiya Arts & Commerce College
+                    </p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest border border-blue-500/20">
+                    2020 – 2023
+                  </span>
+                </div>
+
+                <p className="text-zinc-400 text-sm md:text-base leading-relaxed">
+                  Specialized in <span className="text-zinc-200">Computer Science</span> as an optional subject alongside core commerce studies.
+                  Learned fundamentals of <span className="text-zinc-200">C Programming</span> and
+                  <span className="text-zinc-200"> FoxPro (Database Management)</span>, building a strong foundation in logic building,
+                  structured programming, and data handling.
+                </p>
               </div>
             </div>
           </div>

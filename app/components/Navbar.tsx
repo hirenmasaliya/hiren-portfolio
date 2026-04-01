@@ -33,11 +33,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled
           ? "bg-black/70 backdrop-blur-xl border-b border-white/10 py-3"
           : "bg-transparent py-5"
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
 
@@ -63,11 +62,10 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative px-5 py-2 text-xs font-bold uppercase tracking-widest transition-colors duration-300 ${
-                  isActive
+                className={`relative px-5 py-2 text-xs font-bold uppercase tracking-widest transition-colors duration-300 ${isActive
                     ? "text-white"
                     : "text-zinc-400 hover:text-white"
-                }`}
+                  }`}
               >
                 {isActive && (
                   <motion.div
@@ -92,7 +90,7 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/contact"
+            href="/pricing"
             className="bg-white text-black px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all duration-300"
           >
             Hire Me
@@ -134,11 +132,10 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`text-3xl font-black ${
-                    isActive
+                  className={`text-3xl font-black ${isActive
                       ? "text-blue-500"
                       : "text-white/60 hover:text-white"
-                  }`}
+                    }`}
                 >
                   {link.name}
                 </Link>
@@ -154,7 +151,7 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/contact"
+                href="/pricing"
                 className="text-center bg-blue-600 text-white py-3 rounded-xl font-bold uppercase"
               >
                 Hire Me

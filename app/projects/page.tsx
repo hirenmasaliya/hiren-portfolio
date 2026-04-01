@@ -14,7 +14,7 @@ export default function Projects() {
             description: "A comprehensive ecosystem for freelancers to automate invoicing, client onboarding, and project tracking.",
             tech: ["Flutter", "Firebase", "Razorpay", "Android"],
             link: "https://aptrooms.web.app/",
-            github: "https://github.com/hirenmasaliya/aptro",
+            github: "",
             image: "/images/projects/aptro-website.png",
             mobileApp: true,
             playStore: "https://play.google.com/store/apps/details?id=com.hirenmasaliya.aptro",
@@ -26,7 +26,7 @@ export default function Projects() {
             description: "A full-featured business website for Buildart Industries, showcasing services, portfolio, and contact integration with modern responsive design.",
             tech: ["React js", "Tailwind CSS", "Firebase"],
             link: "https://buildartind.com",
-            github: "https://github.com/hirenmasaliya/buildart-website",
+            github: "",
             image: "/images/projects/buildart-website.png",
             mobileApp: false
         },
@@ -37,7 +37,7 @@ export default function Projects() {
             description: "A simple, fast, and responsive static website for Dira, showcasing services and company information with modern UI design.",
             tech: ["HTML", "CSS", "JavaScript"],
             link: "https://www.dirainfratech.com/",
-            github: "https://github.com/hirenmasaliya/dira-website",
+            github: "",
             image: "/images/projects/dira-website.png",
             mobileApp: false
         },
