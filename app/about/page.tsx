@@ -3,10 +3,9 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Rocket, Cpu, Globe, Smartphone, Users, Layers, ArrowRight, Briefcase, Sparkles, Zap } from "lucide-react";
+import { Rocket, Cpu, Globe, Smartphone, Users, Layers, ArrowRight, Briefcase, Sparkles, Zap, CheckCircle2 } from "lucide-react";
 
 export default function About() {
-  // Animation variants
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -18,11 +17,11 @@ export default function About() {
   };
 
   return (
-    <main className="bg-black text-white min-h-screen pt-32 pb-16 selection:bg-blue-500/30">
-      {/* Background Floating Gradients */}
+    <main className="bg-white text-zinc-900 min-h-screen pt-32 pb-16 selection:bg-blue-100 selection:text-blue-700">
+      
+      {/* Subtle Background Elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -left-16 w-96 h-96 bg-blue-600/20 rounded-full blur-[128px] opacity-20"></div>
-        <div className="absolute -bottom-20 -right-16 w-96 h-96 bg-cyan-600/20 rounded-full blur-[128px] opacity-20"></div>
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-[120px]"></div>
       </div>
 
       <section className="max-w-6xl mx-auto px-6 relative z-10">
@@ -32,229 +31,184 @@ export default function About() {
           initial="initial"
           animate="animate"
           variants={staggerContainer}
-          className="flex flex-col lg:flex-row items-center gap-12 mb-32"
+          className="flex flex-col lg:flex-row items-center gap-16 mb-40"
         >
           {/* Text Section */}
-          <motion.div variants={fadeInUp} className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-6">
-              <Sparkles className="w-4 h-4" />
+          <motion.div variants={fadeInUp} className="flex-1 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-widest mb-8 border border-blue-100">
+              <Sparkles className="w-3 h-3" />
               Founder & Lead Developer
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight">
-              Architecting the{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-600 bg-clip-text text-transparent relative">
-                Future of Freelancing
-                <motion.span
-                  className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.8, duration: 0.8 }}
-                />
-              </span>
+            <h1 className="text-5xl md:text-8xl font-black text-zinc-950 mb-8 leading-[0.9] tracking-tighter">
+              Crafting <br />
+              <span className="text-blue-600 italic">Simplicity</span> <br />
+              at Scale.
             </h1>
 
-            <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
-              I'm <span className="text-white font-semibold">Hiren Masaliya</span>. Founder of <span className="text-blue-400 font-semibold">Aptro</span>. I bridge technical complexity and business growth, creating ecosystems that empower entrepreneurs.
+            <p className="text-xl text-zinc-600 leading-relaxed max-w-xl mb-10">
+              I’m <span className="text-zinc-950 font-semibold underline decoration-blue-500/20">Hiren Masaliya</span>. 
+              As the founder of <span className="text-zinc-950 font-medium">Aptro</span>, I build technical ecosystems that help 
+              modern entrepreneurs focus on growth, not overhead.
             </p>
 
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+            <div className="flex flex-wrap gap-4">
               <motion.a
                 href="/contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg flex items-center gap-2 transition-all hover:shadow-[0_0_30px_rgba(6,182,212,0.3)]"
+                whileHover={{ y: -2 }}
+                className="bg-zinc-950 text-white px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-blue-600 shadow-xl shadow-zinc-200"
               >
-                Let's Connect <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                Let's Connect <ArrowRight className="w-4 h-4" />
               </motion.a>
               <motion.a
                 href="/projects"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-zinc-900/80 backdrop-blur-sm border border-white/10 text-white px-8 py-4 rounded-2xl font-semibold text-lg flex items-center gap-2 hover:bg-zinc-800 transition-all"
+                whileHover={{ y: -2 }}
+                className="bg-white border border-zinc-200 text-zinc-950 px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-50 transition-all"
               >
-                View Projects
+                View Work
               </motion.a>
             </div>
           </motion.div>
 
           {/* Image Section */}
-          <motion.div variants={fadeInUp} className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-[2.5rem] blur-xl opacity-30 group-hover:opacity-60 transition duration-1000"></div>
-            <div className="relative w-72 h-72 md:w-96 md:h-96 bg-zinc-900 rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl">
-              <Image
+          <motion.div variants={fadeInUp} className="relative group lg:w-[450px]">
+            <div className="relative aspect-square bg-zinc-100 rounded-[3rem] overflow-hidden border border-zinc-100 shadow-2xl">
+               <Image
                 src="/images/hiro.png"
                 alt="Hiren Masaliya"
                 fill
-                className="object-cover transition duration-700 group-hover:scale-110"
+                className="object-cover transition duration-700 group-hover:scale-105"
               />
             </div>
 
-            {/* Floating Badge */}
+            {/* Floating Metric Badge */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="absolute -bottom-6 -left-6 bg-zinc-900/90 backdrop-blur-xl border border-white/10 p-6 rounded-2xl hidden md:block shadow-2xl"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6 }}
+              className="absolute -bottom-8 -left-8 bg-white p-8 rounded-3xl shadow-2xl border border-zinc-50 hidden md:block"
             >
-              <div className="flex items-center gap-3">
-                <Briefcase className="w-8 h-8 text-blue-400" />
-                <div>
-                  <p className="text-blue-400 font-bold text-2xl">1+ Years</p>
-                  <p className="text-gray-500 text-sm">Professional Experience</p>
-                </div>
-              </div>
+              <p className="text-4xl font-black text-zinc-950 tracking-tighter">1+</p>
+              <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Years Mastery</p>
             </motion.div>
           </motion.div>
         </motion.div>
 
-        {/* 2. EXPERTISE BENTO GRID */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-32"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">Core Expertise</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* 2. CORE EXPERTISE BENTO */}
+        <div className="mb-40">
+          <div className="flex justify-between items-end mb-16">
+            <h2 className="text-3xl font-black tracking-tight">Core Expertise</h2>
+            <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest">Philosophy & Skills</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
                 title: "Product Strategy",
-                icon: <Rocket className="w-8 h-8" />,
-                desc: "Translating business goals into scalable technical roadmaps and SaaS architecture.",
-                gradient: "from-blue-600 to-cyan-600",
+                icon: <Rocket className="w-6 h-6" />,
+                desc: "Scaling SaaS roadmaps from zero to production ready.",
+                color: "bg-blue-50 text-blue-600"
               },
               {
-                title: "Mobile & Web",
-                icon: <Globe className="w-8 h-8" />,
-                desc: "Cross-platform Flutter apps and high-performance Next.js web applications.",
-                gradient: "from-cyan-600 to-blue-600",
+                title: "App Engineering",
+                icon: <Smartphone className="w-6 h-6" />,
+                desc: "Fluid, native-feeling experiences built with Flutter.",
+                color: "bg-zinc-100 text-zinc-900"
               },
               {
-                title: "AI Integration",
-                icon: <Cpu className="w-8 h-8" />,
-                desc: "Leveraging LLMs to automate workflows and create intelligent user experiences.",
-                gradient: "from-purple-600 to-blue-600",
+                title: "Next.js Systems",
+                icon: <Globe className="w-6 h-6" />,
+                desc: "Highly-optimized web apps designed for the modern web.",
+                color: "bg-blue-600 text-white"
               },
             ].map((skill, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -8 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="group relative p-8 rounded-[2rem] bg-gradient-to-br from-zinc-900 to-black border border-white/10 hover:border-blue-500/30 overflow-hidden"
+                whileHover={{ y: -5 }}
+                className="p-10 rounded-[2.5rem] bg-white border border-zinc-100 hover:border-blue-200 transition-all shadow-sm hover:shadow-xl group"
               >
-                <div className={`absolute inset-0 bg-gradient-to-r ${skill.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-                <div className={`relative z-10 w-16 h-16 bg-gradient-to-r ${skill.gradient} rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg group-hover:scale-110 transition-transform`}>
+                <div className={`${skill.color} w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:rotate-6`}>
                   {skill.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-3">{skill.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{skill.desc}</p>
-                <div className="flex items-center text-blue-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                  Learn more <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
+                <h3 className="text-xl font-bold mb-4">{skill.title}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed">{skill.desc}</p>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* 3. THE APTRO STORY */}
+        {/* 3. THE VISION CARD (Aptro) */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-32 bg-gradient-to-br from-zinc-900/50 to-black rounded-[3rem] p-8 md:p-16 border border-white/10 relative overflow-hidden group"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mb-40 bg-zinc-950 rounded-[4rem] p-10 md:p-20 text-white relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 blur-[120px] group-hover:blur-[160px] transition-all duration-1000"></div>
-          <div className="relative z-10 max-w-3xl">
-            <div className="flex items-center gap-3 mb-6">
-              <Sparkles className="w-5 h-5 text-blue-400" />
-              <h2 className="text-blue-400 font-mono text-sm font-bold uppercase tracking-[0.2em]">Founder's Vision</h2>
+          <div className="relative z-10 flex flex-col md:flex-row gap-12 items-center">
+            <div className="flex-1">
+              <span className="text-blue-400 text-xs font-bold uppercase tracking-[0.3em] mb-6 block">Visionary Logic</span>
+              <h3 className="text-4xl md:text-6xl font-black mb-8 leading-tight tracking-tighter">
+                "Code is just a tool; <br /> <span className="text-zinc-500">Value is the product."</span>
+              </h3>
+              <p className="text-zinc-400 text-lg leading-relaxed max-w-2xl">
+                Aptro was founded on the belief that software should work for the human, not the other way around. 
+                I focus on eliminating friction for small business owners through invisible, powerful technology.
+              </p>
             </div>
-            <h3 className="text-4xl md:text-6xl font-bold mb-8 italic tracking-tight">"Efficiency is the ultimate form of sophistication."</h3>
-            <p className="text-gray-300 text-xl leading-relaxed mb-12">
-              Aptro was born from a simple observation: freelancers spend 40% of their time on tasks that don't make them money. I built Aptro to give that time back. Technology should be invisible — it should just work.
-            </p>
-            <div className="flex flex-wrap gap-12">
-              <div>
-                <p className="text-5xl font-black text-white bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">100%</p>
-                <p className="text-sm text-gray-500 uppercase tracking-wider mt-2">Independent</p>
+            <div className="w-full md:w-auto grid grid-cols-2 gap-8">
+              <div className="text-center p-8 bg-white/5 rounded-3xl border border-white/10">
+                <p className="text-4xl font-black">100%</p>
+                <p className="text-[10px] text-zinc-500 font-bold uppercase mt-2 tracking-widest">Independent</p>
               </div>
-              <div>
-                <p className="text-5xl font-black text-white bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Fast</p>
-                <p className="text-sm text-gray-500 uppercase tracking-wider mt-2">Iteration</p>
+              <div className="text-center p-8 bg-white/5 rounded-3xl border border-white/10">
+                <p className="text-4xl font-black">Fast</p>
+                <p className="text-[10px] text-zinc-500 font-bold uppercase mt-2 tracking-widest">Iteration</p>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* 4. TECH STACK */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-32 text-center"
-        >
-          <h2 className="text-gray-500 uppercase tracking-[0.2em] text-sm mb-12 font-bold">Powering my projects with</h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            {["Next.js", "Flutter", "TypeScript", "Node.js", "Firebase", "PostgreSQL", "Tailwind", "OpenAI"].map((tech, index) => (
-              <motion.span
-                key={tech}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.1, y: -2 }}
-                className="px-6 py-3 bg-zinc-900/50 border border-white/10 rounded-2xl text-lg font-medium text-gray-400 hover:text-blue-400 hover:border-blue-500/30 transition-all cursor-default"
-              >
-                {tech}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
+        {/* 4. TECH STACK (MINIMALIST) */}
+        <div className="mb-40 text-center">
+            <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.4em] mb-12">Built with Excellence</p>
+            <div className="flex flex-wrap justify-center gap-3">
+                {["Next.js", "Flutter", "TypeScript", "Node.js", "Firebase", "PostgreSQL", "Tailwind"].map((tech) => (
+                    <span key={tech} className="px-6 py-2 rounded-full border border-zinc-100 text-sm font-bold text-zinc-600 hover:text-blue-600 hover:border-blue-200 transition-all cursor-default">
+                        {tech}
+                    </span>
+                ))}
+            </div>
+        </div>
 
         {/* 5. CALL TO ACTION */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center py-24 relative bg-gradient-to-br from-zinc-900/50 to-black rounded-[4rem] border border-white/10 overflow-hidden"
+          initial={{ y: 50, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          className="text-center py-20 px-6 rounded-[4rem] bg-blue-50/50 border border-blue-100 relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.1),transparent_70%)]"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-blue-600/5 blur-[80px] rounded-full"></div>
           <div className="relative z-10">
-            <Rocket className="w-16 h-16 text-blue-400 mx-auto mb-8" />
-            <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
-              Ready to build <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">something real?</span>
+            <h2 className="text-4xl md:text-6xl font-black text-zinc-950 mb-8 tracking-tighter">
+              Ready to create <br /> the <span className="text-blue-600 underline decoration-blue-200">extraordinary?</span>
             </h2>
-            <p className="text-gray-400 text-xl mb-12 max-w-2xl mx-auto">
-              Let's transform your vision into a powerful, scalable digital solution.
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <motion.a
-                href="/contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-xl flex items-center gap-3 transition-all hover:shadow-[0_0_40px_rgba(6,182,212,0.4)]"
-              >
-                Start a Conversation <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </motion.a>
-              <motion.a
-                href="/projects"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-zinc-900/80 backdrop-blur-sm hover:bg-zinc-800 border border-white/10 text-white px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-2"
-              >
-                <Briefcase className="w-5 h-5" />
-                See My Work
-              </motion.a>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a href="/contact" className="bg-zinc-950 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-600 transition-all shadow-xl shadow-blue-100">
+                Start a Conversation
+              </a>
+              <a href="/projects" className="bg-white border border-zinc-200 text-zinc-950 px-12 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-zinc-50 transition-all">
+                See Portfolio
+              </a>
             </div>
           </div>
         </motion.div>
 
       </section>
+
+      {/* Simplified Footer Text */}
+      <footer className="mt-20 text-center">
+        <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+            © {new Date().getFullYear()} Hiren Masaliya — Design & Development
+        </p>
+      </footer>
     </main>
   );
 }

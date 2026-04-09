@@ -10,7 +10,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  // Remove trailing slash (important for Firebase hosting)
   const cleanPath = pathname.replace(/\/$/, "") || "/";
 
   useEffect(() => {
@@ -19,7 +18,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
@@ -33,45 +31,41 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled
-          ? "bg-black/70 backdrop-blur-xl border-b border-white/10 py-3"
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/80 backdrop-blur-md border-b border-zinc-100 py-3 shadow-sm"
           : "bg-transparent py-5"
-        }`}
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
-
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <motion.div
-            whileHover={{ rotate: 12, scale: 1.1 }}
-            className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center font-black text-white shadow-lg"
-          >
-            H
-          </motion.div>
-
-          <span className="text-white font-black text-lg sm:text-xl tracking-tight">
-            HIREN<span className="text-blue-500">.dev</span>
+      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        
+        {/* Typographic Logo */}
+        <Link href="/" className="group flex items-center gap-2">
+          <span className="text-zinc-950 font-black text-xl tracking-tighter">
+            HIREN<span className="text-blue-600">.</span>
+          </span>
+          <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest bg-zinc-100 text-zinc-500 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+            Dev
           </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-1 bg-white/5 p-1 rounded-full border border-white/10 backdrop-blur-md">
+        {/* Desktop Nav - Pill Style */}
+        <div className="hidden md:flex items-center space-x-1 bg-zinc-100/50 p-1 rounded-full border border-zinc-200/50 backdrop-blur-sm">
           {navLinks.map((link) => {
             const isActive = cleanPath === link.href;
             return (
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative px-5 py-2 text-xs font-bold uppercase tracking-widest transition-colors duration-300 ${isActive
-                    ? "text-white"
-                    : "text-zinc-400 hover:text-white"
-                  }`}
+                className={`relative px-6 py-2 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${
+                  isActive ? "text-zinc-950" : "text-zinc-500 hover:text-zinc-800"
+                }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="nav-active"
-                    className="absolute inset-0 bg-zinc-800 rounded-full -z-10"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute inset-0 bg-white shadow-sm rounded-full -z-10"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
                 {link.name}
@@ -80,83 +74,97 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Desktop Buttons */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center gap-4">
           <Link
             href="/founder"
-            className="border border-white text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300"
+            className="text-zinc-600 hover:text-zinc-950 text-xs font-bold uppercase tracking-widest transition-colors"
           >
             Founder
           </Link>
 
           <Link
             href="/pricing"
-            className="bg-white text-black px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all duration-300"
+            className="bg-zinc-950 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-blue-600 transition-all active:scale-95 shadow-lg shadow-zinc-200"
           >
             Hire Me
           </Link>
         </div>
 
-        {/* Mobile Button */}
+        {/* Improved Mobile Toggle */}
         <button
-          className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+          className="md:hidden w-8 h-8 flex flex-col items-end justify-center gap-1.5"
           onClick={() => setIsOpen(!isOpen)}
         >
           <motion.span
-            animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-            className="w-6 h-0.5 bg-white rounded-full"
+            animate={isOpen ? { rotate: 45, y: 6, width: "1.5rem" } : { rotate: 0, y: 0, width: "1.5rem" }}
+            className="h-0.5 bg-zinc-950 rounded-full"
           />
           <motion.span
-            animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-            className="w-6 h-0.5 bg-white rounded-full"
+            animate={isOpen ? { opacity: 0 } : { opacity: 1, width: "1rem" }}
+            className="h-0.5 bg-zinc-950 rounded-full"
           />
           <motion.span
-            animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-            className="w-6 h-0.5 bg-white rounded-full"
+            animate={isOpen ? { rotate: -45, y: -6, width: "1.5rem" } : { rotate: 0, y: 0, width: "0.75rem" }}
+            className="h-[2px] bg-zinc-950 rounded-full"
           />
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Full Screen White Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            className="absolute top-full left-0 w-full bg-zinc-950 border-t border-white/10 px-6 py-10 flex flex-col space-y-6 md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "100vh" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="fixed inset-0 top-0 left-0 w-full bg-white z-[60] flex flex-col pt-24 px-8 md:hidden"
           >
-            {navLinks.map((link) => {
-              const isActive = cleanPath === link.href;
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`text-3xl font-black ${isActive
-                      ? "text-blue-500"
-                      : "text-white/60 hover:text-white"
-                    }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
+            {/* Close Button Inside Menu */}
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="absolute top-6 right-6 text-xs font-bold uppercase tracking-widest text-zinc-400"
+            >
+              Close [×]
+            </button>
 
-            <div className="pt-6 flex flex-col gap-4">
-              <Link
-                href="/founder"
-                className="text-center border border-white text-white py-3 rounded-xl font-bold uppercase"
-              >
-                Founder
-              </Link>
+            <div className="flex flex-col space-y-8">
+              {navLinks.map((link, i) => {
+                const isActive = cleanPath === link.href;
+                return (
+                  <motion.div
+                    key={link.name}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <Link
+                      href={link.href}
+                      className={`text-5xl font-black tracking-tighter ${
+                        isActive ? "text-blue-600" : "text-zinc-900"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
 
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mt-auto mb-20 flex flex-col gap-4"
+            >
               <Link
                 href="/pricing"
-                className="text-center bg-blue-600 text-white py-3 rounded-xl font-bold uppercase"
+                className="w-full text-center bg-zinc-950 text-white py-5 rounded-2xl font-bold uppercase tracking-widest"
               >
-                Hire Me
+                Start a Project
               </Link>
-            </div>
+              <p className="text-center text-zinc-400 text-sm">hirenmasliya14@gmail.com</p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
