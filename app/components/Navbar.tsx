@@ -106,7 +106,7 @@ export default function Navbar() {
           />
           <motion.span
             animate={isOpen ? { rotate: -45, y: -6, width: "1.5rem" } : { rotate: 0, y: 0, width: "0.75rem" }}
-            className="h-[2px] bg-zinc-950 rounded-full"
+            className="h-0.5 bg-zinc-950 rounded-full"
           />
         </button>
       </div>
