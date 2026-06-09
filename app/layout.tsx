@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "./components/Navbar";
-import "@/app/globals.css";
+import '@/app/globals.css';
+import ConditionalNavbar from "./components/ConditionalNavbar";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hirenmasaliya1411.web.app"),
@@ -95,7 +96,7 @@ export default function RootLayout({
       </head>
 
       <body className="bg-black text-white antialiased">
-        <Navbar />
+        <ConditionalNavbar />
         <main>{children}</main>
       </body>
     </html>
