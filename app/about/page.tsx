@@ -3,102 +3,98 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Rocket, Cpu, Globe, Smartphone, Users, Layers, ArrowRight, Briefcase, Sparkles, Zap, CheckCircle2 } from "lucide-react";
+import { Rocket, Globe, Smartphone, ArrowUpRight, Sparkles } from "lucide-react";
+
+// Premium easing curve
+const customEase = [0.25, 1, 0.5, 1] as const;
 
 export default function About() {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 },
-  };
-
   const staggerContainer = {
     animate: { transition: { staggerChildren: 0.15 } },
   };
 
-  return (
-    <main className="bg-white text-zinc-900 min-h-screen pt-32 pb-16 selection:bg-blue-100 selection:text-blue-700">
-      
-      {/* Subtle Background Elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-[120px]"></div>
-      </div>
+  const fadeInUp = {
+    initial: { opacity: 0, y: 40 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase } },
+  };
 
-      <section className="max-w-6xl mx-auto px-6 relative z-10">
+  return (
+    <main className="bg-slate-50 text-slate-900 min-h-screen pt-40 pb-16 selection:bg-blue-200 selection:text-blue-900 font-sans overflow-hidden">
+      
+      {/* Background Soft Glow */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/10 blur-[150px] rounded-full pointer-events-none -z-10" />
+
+      <section className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
 
         {/* 1. HERO SECTION */}
         <motion.div
           initial="initial"
           animate="animate"
           variants={staggerContainer}
-          className="flex flex-col lg:flex-row items-center gap-16 mb-40"
+          className="flex flex-col lg:flex-row items-start gap-16 lg:gap-24 mb-32 md:mb-48"
         >
           {/* Text Section */}
-          <motion.div variants={fadeInUp} className="flex-1 text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-widest mb-8 border border-blue-100">
-              <Sparkles className="w-3 h-3" />
-              Founder & Lead Developer
+          <motion.div variants={fadeInUp} className="flex-1 text-left w-full">
+            <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-blue-100 rounded-full shadow-sm w-max mb-12">
+              <Sparkles className="w-4 h-4 text-blue-500" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-700">
+                Founder & Lead Developer
+              </span>
             </div>
 
-            <h1 className="text-5xl md:text-8xl font-black text-zinc-950 mb-8 leading-[0.9] tracking-tighter">
+            <h1 className="text-[12vw] md:text-[7.5rem] font-black text-slate-950 mb-12 leading-[0.85] tracking-tighter uppercase">
               Crafting <br />
-              <span className="text-blue-600 italic">Simplicity</span> <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Simplicity</span> <br />
               at Scale.
             </h1>
 
-            <p className="text-xl text-zinc-600 leading-relaxed max-w-xl mb-10">
-              I’m <span className="text-zinc-950 font-semibold underline decoration-blue-500/20">Hiren Masaliya</span>. 
-              As the founder of <span className="text-zinc-950 font-medium">Aptro</span>, I build technical ecosystems that help 
-              modern entrepreneurs focus on growth, not overhead.
-            </p>
+            <div className="grid md:grid-cols-12 gap-8 border-t border-slate-200 pt-12">
+              <div className="md:col-span-8">
+                <p className="text-lg md:text-xl text-slate-600 leading-relaxed font-medium">
+                  I’m <span className="text-slate-950 font-bold">Hiren Masaliya</span>. 
+                  As the founder of <span className="text-slate-950 font-bold">Aptro</span>, I build technical ecosystems that help 
+                  modern entrepreneurs focus on growth, not overhead.
+                </p>
+              </div>
 
-            <div className="flex flex-wrap gap-4">
-              <motion.a
-                href="/contact"
-                whileHover={{ y: -2 }}
-                className="bg-zinc-950 text-white px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-blue-600 shadow-xl shadow-zinc-200"
-              >
-                Let's Connect <ArrowRight className="w-4 h-4" />
-              </motion.a>
-              <motion.a
-                href="/projects"
-                whileHover={{ y: -2 }}
-                className="bg-white border border-zinc-200 text-zinc-950 px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-50 transition-all"
-              >
-                View Work
-              </motion.a>
+              <div className="md:col-span-4 flex flex-col gap-4">
+                <a href="/contact" className="group relative overflow-hidden bg-slate-950 text-white px-8 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-blue-600 hover:shadow-[0_8px_30px_rgb(37,99,235,0.3)] flex items-center justify-between">
+                  <span className="relative z-10">Let's Connect</span>
+                  <ArrowUpRight size={14} className="relative z-10 group-hover:rotate-45 transition-transform duration-300" />
+                </a>
+              </div>
             </div>
           </motion.div>
 
-          {/* Image Section */}
-          <motion.div variants={fadeInUp} className="relative group lg:w-[450px]">
-            <div className="relative aspect-square bg-zinc-100 rounded-[3rem] overflow-hidden border border-zinc-100 shadow-2xl">
+          {/* Image Section - Premium Treatment */}
+          <motion.div variants={fadeInUp} className="relative group w-full lg:w-[450px] shrink-0">
+            <div className="relative aspect-[4/5] bg-slate-100 overflow-hidden border border-slate-200 rounded-3xl shadow-2xl shadow-blue-900/10">
                <Image
                 src="/images/hiro.png"
                 alt="Hiren Masaliya"
                 fill
-                className="object-cover transition duration-700 group-hover:scale-105"
+                className="object-cover transition-all duration-1000 ease-[0.25,1,0.5,1] group-hover:scale-105"
               />
             </div>
 
-            {/* Floating Metric Badge */}
+            {/* Premium Floating Metric */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6 }}
-              className="absolute -bottom-8 -left-8 bg-white p-8 rounded-3xl shadow-2xl border border-zinc-50 hidden md:block"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6, duration: 0.8, ease: customEase }}
+              className="absolute -bottom-8 -left-8 bg-white p-8 border border-slate-100 shadow-xl shadow-slate-200/50 rounded-3xl hidden md:flex flex-col gap-2"
             >
-              <p className="text-4xl font-black text-zinc-950 tracking-tighter">1+</p>
-              <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Years Mastery</p>
+              <p className="text-5xl font-black text-slate-950 tracking-tighter">1+</p>
+              <p className="text-blue-600 text-[10px] font-bold uppercase tracking-[0.2em]">Years Mastery</p>
             </motion.div>
           </motion.div>
         </motion.div>
 
-        {/* 2. CORE EXPERTISE BENTO */}
-        <div className="mb-40">
-          <div className="flex justify-between items-end mb-16">
-            <h2 className="text-3xl font-black tracking-tight">Core Expertise</h2>
-            <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest">Philosophy & Skills</p>
+        {/* 2. CORE EXPERTISE - Premium Cards */}
+        <div className="mb-32 md:mb-48 border-t border-slate-200 pt-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase text-slate-950">Core <br/> Expertise</h2>
+            <p className="text-blue-600 text-[10px] font-bold uppercase tracking-[0.2em] md:pb-3">Philosophy & Skills</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -106,95 +102,102 @@ export default function About() {
               {
                 title: "Product Strategy",
                 icon: <Rocket className="w-6 h-6" />,
-                desc: "Scaling SaaS roadmaps from zero to production ready.",
-                color: "bg-blue-50 text-blue-600"
+                desc: "Scaling SaaS roadmaps from zero to production ready with precise execution."
               },
               {
                 title: "App Engineering",
                 icon: <Smartphone className="w-6 h-6" />,
-                desc: "Fluid, native-feeling experiences built with Flutter.",
-                color: "bg-zinc-100 text-zinc-900"
+                desc: "Fluid, native-feeling experiences built with Flutter and seamless API integration."
               },
               {
                 title: "Next.js Systems",
                 icon: <Globe className="w-6 h-6" />,
-                desc: "Highly-optimized web apps designed for the modern web.",
-                color: "bg-blue-600 text-white"
+                desc: "Highly-optimized, server-side rendered web applications designed for performance."
               },
             ].map((skill, i) => (
-              <motion.div
+              <div
                 key={i}
-                whileHover={{ y: -5 }}
-                className="p-10 rounded-[2.5rem] bg-white border border-zinc-100 hover:border-blue-200 transition-all shadow-sm hover:shadow-xl group"
+                className="p-10 md:p-12 bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 hover:border-blue-200 transition-all duration-500 group"
               >
-                <div className={`${skill.color} w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:rotate-6`}>
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 ease-[0.25,1,0.5,1]">
                   {skill.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-4">{skill.title}</h3>
-                <p className="text-zinc-500 text-sm leading-relaxed">{skill.desc}</p>
-              </motion.div>
+                <h3 className="text-xl font-black uppercase tracking-tight mb-4 text-slate-950">{skill.title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed font-medium">{skill.desc}</p>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* 3. THE VISION CARD (Aptro) */}
+        {/* 3. THE VISION CARD (Aptro) - Deep Navy Monolith */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="mb-40 bg-zinc-950 rounded-[4rem] p-10 md:p-20 text-white relative overflow-hidden"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: customEase }}
+          className="mb-32 md:mb-48 bg-slate-950 text-white rounded-[3rem] relative overflow-hidden p-10 md:p-24 shadow-2xl"
         >
-          <div className="relative z-10 flex flex-col md:flex-row gap-12 items-center">
+          {/* Subtle inner glow */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row gap-16 items-start">
             <div className="flex-1">
-              <span className="text-blue-400 text-xs font-bold uppercase tracking-[0.3em] mb-6 block">Visionary Logic</span>
-              <h3 className="text-4xl md:text-6xl font-black mb-8 leading-tight tracking-tighter">
-                "Code is just a tool; <br /> <span className="text-zinc-500">Value is the product."</span>
+              <span className="text-blue-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-8 block bg-blue-950/50 w-max px-4 py-2 rounded-full border border-blue-800/50">Visionary Logic</span>
+              <h3 className="text-4xl md:text-[4rem] font-black mb-10 leading-[0.9] tracking-tighter uppercase text-white">
+                "Code is just <br className="hidden md:block" /> a tool; <br /> 
+                <span className="text-slate-500">Value is the <br className="hidden md:block"/> product."</span>
               </h3>
-              <p className="text-zinc-400 text-lg leading-relaxed max-w-2xl">
+              <p className="text-slate-300 text-base md:text-lg leading-relaxed font-medium max-w-xl">
                 Aptro was founded on the belief that software should work for the human, not the other way around. 
                 I focus on eliminating friction for small business owners through invisible, powerful technology.
               </p>
             </div>
-            <div className="w-full md:w-auto grid grid-cols-2 gap-8">
-              <div className="text-center p-8 bg-white/5 rounded-3xl border border-white/10">
-                <p className="text-4xl font-black">100%</p>
-                <p className="text-[10px] text-zinc-500 font-bold uppercase mt-2 tracking-widest">Independent</p>
+            <div className="w-full md:w-auto flex flex-col sm:flex-row md:flex-col gap-6">
+              <div className="text-center p-10 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl flex flex-col justify-center min-w-[200px]">
+                <p className="text-5xl font-black text-white">100%</p>
+                <p className="text-[10px] text-blue-400 font-bold uppercase mt-3 tracking-[0.2em]">Independent</p>
               </div>
-              <div className="text-center p-8 bg-white/5 rounded-3xl border border-white/10">
-                <p className="text-4xl font-black">Fast</p>
-                <p className="text-[10px] text-zinc-500 font-bold uppercase mt-2 tracking-widest">Iteration</p>
+              <div className="text-center p-10 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl flex flex-col justify-center min-w-[200px]">
+                <p className="text-5xl font-black tracking-tighter text-white">Fast</p>
+                <p className="text-[10px] text-blue-400 font-bold uppercase mt-3 tracking-[0.2em]">Iteration</p>
               </div>
             </div>
           </div>
         </motion.div>
 
         {/* 4. TECH STACK (MINIMALIST) */}
-        <div className="mb-40 text-center">
-            <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.4em] mb-12">Built with Excellence</p>
-            <div className="flex flex-wrap justify-center gap-3">
+        <div className="mb-32 md:mb-48 text-center max-w-4xl mx-auto border-t border-slate-200 pt-16">
+            <p className="text-blue-600 text-[10px] font-bold uppercase tracking-[0.2em] mb-12">Arsenal</p>
+            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
                 {["Next.js", "Flutter", "TypeScript", "Node.js", "Firebase", "PostgreSQL", "Tailwind"].map((tech) => (
-                    <span key={tech} className="px-6 py-2 rounded-full border border-zinc-100 text-sm font-bold text-zinc-600 hover:text-blue-600 hover:border-blue-200 transition-all cursor-default">
+                    <span key={tech} className="px-6 py-3 bg-white border border-slate-200 rounded-full text-[11px] font-bold uppercase tracking-[0.1em] text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:shadow-sm hover:bg-blue-50 transition-all duration-300 cursor-default">
                         {tech}
                     </span>
                 ))}
             </div>
         </div>
 
-        {/* 5. CALL TO ACTION */}
+        {/* 5. CALL TO ACTION - Elevated Floating Card */}
         <motion.div
-          initial={{ y: 50, opacity: 0 }}
+          initial={{ y: 40, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          className="text-center py-20 px-6 rounded-[4rem] bg-blue-50/50 border border-blue-100 relative overflow-hidden"
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: customEase }}
+          className="text-center py-24 md:py-32 px-6 bg-white border border-slate-200 shadow-xl shadow-slate-200/50 rounded-[4rem] relative overflow-hidden"
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-blue-600/5 blur-[80px] rounded-full"></div>
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-6xl font-black text-zinc-950 mb-8 tracking-tighter">
-              Ready to create <br /> the <span className="text-blue-600 underline decoration-blue-200">extraordinary?</span>
+          {/* Subtle Accent */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-blue-500/10 blur-[100px] pointer-events-none" />
+
+          <div className="relative z-10 max-w-3xl mx-auto">
+            <h2 className="text-5xl md:text-7xl font-black text-slate-950 mb-12 tracking-tighter uppercase leading-[0.9]">
+              Ready to <br/> build <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">the</span> <br/> extraordinary?
             </h2>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a href="/contact" className="bg-zinc-950 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-600 transition-all shadow-xl shadow-blue-100">
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <a href="/contact" className="group bg-slate-950 text-white px-10 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 hover:shadow-[0_8px_30px_rgb(37,99,235,0.3)] transition-all duration-300 flex justify-center items-center gap-3">
                 Start a Conversation
+                <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform duration-300" />
               </a>
-              <a href="/projects" className="bg-white border border-zinc-200 text-zinc-950 px-12 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-zinc-50 transition-all">
+              <a href="/projects" className="bg-white border border-slate-200 text-slate-900 px-10 py-5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:border-blue-200 hover:bg-blue-50 transition-all duration-300 flex justify-center items-center">
                 See Portfolio
               </a>
             </div>
@@ -203,10 +206,10 @@ export default function About() {
 
       </section>
 
-      {/* Simplified Footer Text */}
-      <footer className="mt-20 text-center">
-        <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
-            © {new Date().getFullYear()} Hiren Masaliya — Design & Development
+      {/* Footer */}
+      <footer className="mt-20 text-center pb-8">
+        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">
+            © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat
         </p>
       </footer>
     </main>
