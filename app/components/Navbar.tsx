@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, Easing } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,106 +31,101 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
+  // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
+  // Multi-page routing array
   const navLinks = [
-    { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
+    { name: "Pricing", href: "/pricing" },
   ];
 
   // Premium easing curve for animations
-  const customEase : Easing = [0.25, 1, 0.5, 1];
+  const customEase: Easing = [0.25, 1, 0.5, 1];
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-white/80 backdrop-blur-xl border-b border-black/5 py-3"
-          : "bg-transparent py-6"
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b ${scrolled
+          ? "bg-white/90 backdrop-blur-xl border-[#222222]/10 py-4 shadow-sm"
+          : "bg-transparent border-[#222222]/10 py-6"
+        }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-8 flex justify-between items-center">
-        
-        {/* Stark Typographic Logo */}
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="text-black font-black text-xl tracking-tighter uppercase">
-            Hiren<span className="text-zinc-400">.</span>
-          </span>
-          <span className="hidden sm:inline-block px-2 py-0.5 border border-black/10 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] bg-transparent text-zinc-500 group-hover:text-black group-hover:border-black transition-all duration-300">
-            Dev
-          </span>
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
+
+        {/* Minimalist Logo */}
+        <Link href="/" className="text-xl font-bold tracking-tighter text-[#222222] z-[70] relative">
+          HM.
         </Link>
 
-        {/* Desktop Nav - High Contrast Pill Style */}
-        <div className="hidden md:flex items-center p-1.5 rounded-full border border-black/10 bg-white/50 backdrop-blur-md shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
+        {/* Desktop Nav - Clean Text Style */}
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium">
           {navLinks.map((link) => {
             const isActive = cleanPath === link.href;
             return (
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative px-6 py-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 z-10 ${
-                  isActive ? "text-white" : "text-zinc-500 hover:text-black"
-                }`}
+                className={`transition-colors duration-300 relative ${isActive ? "text-[#222222]" : "text-[#7B7B7B] hover:text-[#222222]"
+                  }`}
               >
+                {link.name}
+                {/* Optional underline indicator for active page */}
                 {isActive && (
                   <motion.div
-                    layoutId="nav-active"
-                    className="absolute inset-0 bg-black rounded-full -z-10"
+                    layoutId="desktop-active"
+                    className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#222222]"
                     transition={{ duration: 0.5, ease: customEase }}
                   />
                 )}
-                {link.name}
               </Link>
             );
           })}
         </div>
 
-        {/* Desktop Actions */}
+        {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-6">
           <Link
             href="/founder"
-            className="text-zinc-500 hover:text-black text-[10px] font-bold uppercase tracking-[0.2em] transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:bg-black after:transition-transform after:duration-500 after:ease-[0.25,1,0.5,1]"
+            className="text-sm font-medium border-b border-[#222222] text-[#222222] pb-0.5 transition-all hover:text-[#7B7B7B] hover:border-[#7B7B7B]"
           >
             Founder
           </Link>
 
           <Link
-            href="/pricing"
-            className="group relative overflow-hidden bg-black text-white px-7 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:shadow-[0_0_0_1px_black] hover:bg-white hover:text-black"
+            href="/contact"
+            className="text-sm font-medium border-b border-[#222222] text-[#222222] pb-0.5 flex items-center gap-1 transition-all hover:text-[#7B7B7B] hover:border-[#7B7B7B]"
           >
-            <span className="relative z-10">Hire Me</span>
+            Book A Call <ArrowUpRight size={14} />
           </Link>
         </div>
 
         {/* Minimalist Mobile Toggle */}
         <button
-          className="md:hidden w-8 h-8 flex flex-col items-end justify-center gap-1.5 z-[70] relative mix-blend-difference"
+          className="md:hidden w-8 h-8 flex flex-col items-end justify-center gap-1.5 z-[70] relative"
           onClick={() => setIsOpen(!isOpen)}
         >
           <motion.span
-            animate={isOpen ? { rotate: 45, y: 7, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
+            animate={isOpen ? { rotate: 45, y: 7, width: "100%", backgroundColor: "#FFFFFF" } : { rotate: 0, y: 0, width: "100%", backgroundColor: "#222222" }}
             transition={{ duration: 0.4, ease: customEase }}
-            className="h-[1.5px] bg-white rounded-full origin-center"
+            className="h-[1.5px] rounded-full origin-center"
           />
           <motion.span
-            animate={isOpen ? { opacity: 0 } : { opacity: 1, width: "70%" }}
+            animate={isOpen ? { opacity: 0 } : { opacity: 1, width: "70%", backgroundColor: "#222222" }}
             transition={{ duration: 0.4, ease: customEase }}
-            className="h-[1.5px] bg-white rounded-full"
+            className="h-[1.5px] rounded-full"
           />
           <motion.span
-            animate={isOpen ? { rotate: -45, y: -7, width: "100%" } : { rotate: 0, y: 0, width: "50%" }}
+            animate={isOpen ? { rotate: -45, y: -7, width: "100%", backgroundColor: "#FFFFFF" } : { rotate: 0, y: 0, width: "50%", backgroundColor: "#222222" }}
             transition={{ duration: 0.4, ease: customEase }}
-            className="h-[1.5px] bg-white rounded-full origin-center"
+            className="h-[1.5px] rounded-full origin-center"
           />
         </button>
       </div>
 
-      {/* Ultra-Stark Mobile Menu */}
+      {/* Elegant Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -137,9 +133,18 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 w-full h-screen bg-black z-[60] flex flex-col pt-32 px-8 md:hidden"
+            className="fixed inset-0 w-full h-screen bg-[#222222] z-[60] flex flex-col pt-32 px-8 md:hidden"
           >
             <div className="flex flex-col space-y-6 flex-grow">
+              {/* Added Home to mobile menu for easy navigation */}
+              <div className="overflow-hidden">
+                <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ duration: 0.5, delay: 0, ease: customEase }}>
+                  <Link href="/" className={`block text-4xl font-light tracking-tight ${cleanPath === "/" ? "text-[#FFFFFF]" : "text-[#7B7B7B] hover:text-[#FFFFFF]"}`}>
+                    Home
+                  </Link>
+                </motion.div>
+              </div>
+
               {navLinks.map((link, i) => {
                 const isActive = cleanPath === link.href;
                 return (
@@ -148,13 +153,12 @@ export default function Navbar() {
                       initial={{ y: "100%" }}
                       animate={{ y: 0 }}
                       exit={{ y: "100%" }}
-                      transition={{ duration: 0.5, delay: i * 0.1, ease: customEase }}
+                      transition={{ duration: 0.5, delay: (i + 1) * 0.1, ease: customEase }}
                     >
                       <Link
                         href={link.href}
-                        className={`block text-5xl md:text-7xl font-black tracking-tighter uppercase ${
-                          isActive ? "text-white" : "text-zinc-600 hover:text-zinc-300 transition-colors"
-                        }`}
+                        className={`block text-4xl font-light tracking-tight transition-colors ${isActive ? "text-[#FFFFFF]" : "text-[#7B7B7B] hover:text-[#FFFFFF]"
+                          }`}
                       >
                         {link.name}
                       </Link>
@@ -164,21 +168,18 @@ export default function Navbar() {
               })}
             </div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="pb-12 flex flex-col gap-6 border-t border-white/10 pt-8"
+              className="pb-12 flex flex-col gap-6 border-t border-[#FFFFFF]/10 pt-8"
             >
               <Link
-                href="/pricing"
-                className="w-full text-center bg-white text-black py-5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-transform active:scale-95"
+                href="/contact"
+                className="w-full text-center bg-[#FFFFFF] text-[#222222] py-4 rounded-full text-sm font-medium transition-transform active:scale-95 flex items-center justify-center gap-2"
               >
-                Start a Project
+                Book A Call <ArrowUpRight size={16} />
               </Link>
-              <p className="text-center text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em]">
-                hirenmasliya14@gmail.com
-              </p>
             </motion.div>
           </motion.div>
         )}
