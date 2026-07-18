@@ -1,18 +1,82 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Github, Linkedin, MessageSquare, ShieldCheck, Zap, ArrowRight } from 'lucide-react';
+import { ArrowUpRight, Github, Linkedin, MessageSquare, ShieldCheck, Zap, ArrowRight } from 'lucide-react'; 
+import { ref, push, serverTimestamp } from 'firebase/database';
+import { database } from '@/lib/firebase';
 
 const customEase = [0.25, 1, 0.5, 1] as const;
 
-export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
+// Define pricing tiers based on currency
+const budgetRanges = {
+  USD: ["Under $5,000", "$5,000 - $10,000", "$10,000 - $25,000", "$25,000+"],
+  INR: ["Under ₹50,000", "₹50,000 - ₹2,00,000", "₹2,00,000 - ₹5,00,000", "₹5,00,000+"],
+  EUR: ["Under €5,000", "€5,000 - €10,000", "€10,000 - €25,000", "€25,000+"],
+  GBP: ["Under £4,000", "£4,000 - £8,000", "£8,000 - £20,000", "£20,000+"]
+};
 
-  const handleSubmit = (e: React.FormEvent) => {
+export default function Contact() {
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    email: '', 
+    mobile: '',
+    company: '',
+    projectType: '',
+    budget: '',
+    message: '' 
+  });
+  
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [activeBudgets, setActiveBudgets] = useState(budgetRanges.USD); // Default to USD
+
+  // Auto-detect country and set currency on load
+  useEffect(() => {
+    const detectCurrency = async () => {
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        
+        if (data.currency === 'INR') setActiveBudgets(budgetRanges.INR);
+        else if (data.currency === 'EUR') setActiveBudgets(budgetRanges.EUR);
+        else if (data.currency === 'GBP') setActiveBudgets(budgetRanges.GBP);
+        else setActiveBudgets(budgetRanges.USD);
+      } catch (error) {
+        console.warn("Could not detect location, defaulting to USD.");
+        setActiveBudgets(budgetRanges.USD);
+      }
+    };
+
+    detectCurrency();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const inquiriesRef = ref(database, 'inquiries');
+      
+      await push(inquiriesRef, {
+        name: formData.name,
+        email: formData.email,
+        mobile: formData.mobile || 'N/A',
+        company: formData.company || 'N/A',
+        projectType: formData.projectType,
+        budget: formData.budget || 'Not specified',
+        message: formData.message,
+        timestamp: serverTimestamp(),
+      });
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', mobile: '', company: '', projectType: '', budget: '', message: '' });
+    } catch (error) {
+      console.error("Error writing to Firebase:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -47,7 +111,7 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 mb-32 md:mb-48 border-b border-[#222222]/10 pb-32">
           
-          {/* LEFT SIDE: INFO & SOCIALS - Editorial Layout */}
+          {/* LEFT SIDE: INFO & SOCIALS */}
           <div className="lg:col-span-5 flex flex-col justify-between">
             
             <div className="space-y-12 mb-16">
@@ -85,7 +149,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* RIGHT SIDE: CONTACT FORM - Stark UI */}
+          {/* RIGHT SIDE: CONTACT FORM */}
           <div className="lg:col-span-7">
             <div className="bg-[#FFFFFF] border border-[#222222]/10 p-10 md:p-16 h-full flex flex-col justify-center">
               <AnimatePresence mode="wait">
@@ -124,12 +188,15 @@ export default function Contact() {
                         <p className="text-sm font-medium text-[#7B7B7B]">Fill out the parameters below to establish context.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
-                      <div className="relative group/input mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 mt-4">
+                      {/* Name */}
+                      <div className="relative group/input">
                         <input 
                           required
                           type="text" 
                           id="name"
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           placeholder=" "
                           className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent rounded-none"
                         />
@@ -138,11 +205,14 @@ export default function Contact() {
                         </label>
                       </div>
                       
-                      <div className="relative group/input mt-4">
+                      {/* Email */}
+                      <div className="relative group/input">
                         <input 
                           required
                           type="email" 
                           id="email"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           placeholder=" "
                           className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent rounded-none"
                         />
@@ -150,13 +220,87 @@ export default function Contact() {
                             Work Email
                         </label>
                       </div>
+
+                      {/* Mobile */}
+                      <div className="relative group/input">
+                        <input 
+                          required
+                          type="tel" 
+                          id="mobile"
+                          value={formData.mobile}
+                          onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                          placeholder=" "
+                          className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent rounded-none"
+                        />
+                        <label htmlFor="mobile" className="absolute left-0 top-4 text-xs uppercase tracking-widest text-[#7B7B7B] transition-all peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px] peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-[#222222] peer-not-placeholder-shown:text-[10px]">
+                            Mobile Number
+                        </label>
+                      </div>
+
+                      {/* Company (Optional) */}
+                      <div className="relative group/input">
+                        <input 
+                          type="text" 
+                          id="company"
+                          value={formData.company}
+                          onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                          placeholder=" "
+                          className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent rounded-none"
+                        />
+                        <label htmlFor="company" className="absolute left-0 top-4 text-xs uppercase tracking-widest text-[#7B7B7B] transition-all peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px] peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-[#222222] peer-not-placeholder-shown:text-[10px]">
+                            Company (Optional)
+                        </label>
+                      </div>
+
+                      {/* Budget Range (Dropdown) */}
+                      <div className="relative group/input">
+                        <select 
+                          required
+                          id="budget"
+                          value={formData.budget}
+                          onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                          className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] appearance-none rounded-none cursor-pointer"
+                        >
+                          <option value="" disabled hidden></option>
+                          {activeBudgets.map((tier, idx) => (
+                            <option key={idx} value={tier}>{tier}</option>
+                          ))}
+                        </select>
+                        <label htmlFor="budget" className={`absolute left-0 transition-all text-[#7B7B7B] uppercase tracking-widest pointer-events-none ${formData.budget ? '-top-6 text-[#222222] text-[10px]' : 'top-4 text-xs peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px]'}`}>
+                            Budget Range
+                        </label>
+                      </div>
+
+                      {/* Project Type (Dropdown) */}
+                      <div className="relative group/input">
+                        <select 
+                          required
+                          id="projectType"
+                          value={formData.projectType}
+                          onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                          className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] appearance-none rounded-none cursor-pointer"
+                        >
+                          <option value="" disabled hidden></option>
+                          <option value="Web Application">Web App (React/Next)</option>
+                          <option value="Mobile Application">Mobile App (Flutter)</option>
+                          <option value="AI Integration">AI Integration</option>
+                          <option value="Full Stack System">Full-Stack System</option>
+                          <option value="Other">Other Consultation</option>
+                        </select>
+                        <label htmlFor="projectType" className={`absolute left-0 transition-all text-[#7B7B7B] uppercase tracking-widest pointer-events-none ${formData.projectType ? '-top-6 text-[#222222] text-[10px]' : 'top-4 text-xs peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px]'}`}>
+                            Primary Project Type
+                        </label>
+                      </div>
                     </div>
 
+                    {/* Brief */}
                     <div className="relative group/input mt-8">
                       <textarea 
                         required
                         id="brief"
-                        rows={5}
+                        rows={4}
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         placeholder=" "
                         className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent resize-none leading-relaxed rounded-none"
                       ></textarea>
@@ -166,8 +310,12 @@ export default function Contact() {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8">
-                        <button className="w-full sm:w-auto bg-[#222222] text-[#FFFFFF] font-medium text-sm px-10 py-5 hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center gap-3 group/btn">
-                          Initialize <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                        <button 
+                          disabled={isSubmitting}
+                          className="w-full sm:w-auto bg-[#222222] text-[#FFFFFF] font-medium text-sm px-10 py-5 hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center gap-3 group/btn disabled:opacity-50 disabled:hover:scale-100"
+                        >
+                          {isSubmitting ? 'Initializing...' : 'Initialize'} 
+                          <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                         </button>
                         <p className="text-[10px] text-[#7B7B7B] uppercase tracking-widest text-center sm:text-right">
                             Strictly Confidential
