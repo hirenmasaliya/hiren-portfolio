@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Zap, Rocket, Shield, Globe, X, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, Zap, Rocket, Shield, Globe, X, CheckCircle2, ArrowRight } from "lucide-react";
 import { ref, push, serverTimestamp } from 'firebase/database';
 import { database } from '@/lib/firebase';
 
@@ -14,9 +14,9 @@ const regionalData = {
         symbol: "$",
         plans: ["180", "480", "1,450"],
         addons: [
-            ["4+", "4+", "18+"],
-            ["35+", "25+", "120+"],
-            ["18+", "28+", "25+"]
+            ["45+", "45+", "180+"],
+            ["350+", "250+", "120+"],
+            ["180+", "280+", "250+"]
         ],
         budgets: ["Under $5,000", "$5,000 - $10,000", "$10,000 - $25,000", "$25,000+"]
     },
@@ -24,9 +24,9 @@ const regionalData = {
         symbol: "₹",
         plans: ["15,000", "40,000", "1,20,000"],
         addons: [
-            ["300+", "300+", "1,500+"],
-            ["3,000+", "2,000+", "10,000+"],
-            ["1,500+", "2,300+", "2,000+"]
+            ["3,000+", "3,000+", "15,000+"],
+            ["30,000+", "20,000+", "10,000+"],
+            ["15,000+", "23,000+", "20,000+"]
         ],
         budgets: ["Under ₹50,000", "₹50,000 - ₹2,00,000", "₹2,00,000 - ₹5,00,000", "₹5,00,000+"]
     },
@@ -34,9 +34,9 @@ const regionalData = {
         symbol: "€",
         plans: ["165", "440", "1,350"],
         addons: [
-            ["4+", "4+", "16+"],
-            ["32+", "22+", "110+"],
-            ["16+", "26+", "22+"]
+            ["40+", "40+", "160+"],
+            ["320+", "220+", "110+"],
+            ["160+", "260+", "220+"]
         ],
         budgets: ["Under €5,000", "€5,000 - €10,000", "€10,000 - €25,000", "€25,000+"]
     },
@@ -44,9 +44,9 @@ const regionalData = {
         symbol: "£",
         plans: ["140", "380", "1,150"],
         addons: [
-            ["3+", "3+", "14+"],
-            ["28+", "18+", "95+"],
-            ["14+", "22+", "18+"]
+            ["35+", "35+", "140+"],
+            ["280+", "180+", "95+"],
+            ["140+", "220+", "180+"]
         ],
         budgets: ["Under £4,000", "£4,000 - £8,000", "£8,000 - £20,000", "£20,000+"]
     }
@@ -58,23 +58,23 @@ type Currency = 'USD' | 'INR' | 'EUR' | 'GBP';
 const planMeta = [
     {
         name: "Starter",
-        desc: "Ideal for rapid validation, MVP deployment, and early-stage technical prototyping.",
-        icon: <Zap size={20} />,
-        features: ["3–5 Core Screens", "Standard UI Architecture", "Firebase Auth Integration", "Android APK Generation", "7 Days Priority Support"],
+        desc: "Perfect for testing a new idea or launching a simple, clean app quickly.",
+        icon: <Zap size={22} />,
+        features: ["3–5 Core App Screens", "Standard Clean Design", "Secure Login System", "Android App (APK)", "7 Days Free Support"],
         popular: false
     },
     {
         name: "Business",
-        desc: "Complete market-ready solution architected for growing startups and user acquisition.",
+        desc: "A fully featured, launch-ready app designed to help your business grow.",
         popular: true,
-        icon: <Rocket size={20} />,
-        features: ["6–12 Custom Screens", "Premium UI/UX Design System", "OAuth/Social Logins", "FCM Push Notifications", "15 Days Priority Support"],
+        icon: <Rocket size={22} />,
+        features: ["6–12 Custom Screens", "Premium User Interface", "Google/Apple Login", "Push Notifications", "15 Days Free Support"],
     },
     {
         name: "Advanced",
-        desc: "Enterprise-grade architecture for heavy-duty scaling and complex data operations.",
-        icon: <Shield size={20} />,
-        features: ["Unlimited App Screens", "Bespoke Design System", "Microservices Architecture", "Razorpay/Stripe Gateway", "30 Days Retainer Support"],
+        desc: "A powerful, highly scalable custom system for large or fast-growing businesses.",
+        icon: <Shield size={22} />,
+        features: ["Unlimited Screens", "100% Custom Design", "Complex Cloud Setup", "Online Payments Setup", "30 Days Priority Support"],
         popular: false
     },
 ];
@@ -83,25 +83,25 @@ const addOnCategoriesMeta = [
     {
         title: "Quick Fixes",
         items: [
-            { name: "Bug Resolution", desc: "Crashes, logical errors, or API failure debugging." },
-            { name: "UI Refinement", desc: "Color palettes, spacing, and strict layout fixes." },
-            { name: "Responsive Fix", desc: "Mobile-friendly optimization across all viewports." },
+            { name: "Bug Fixes", desc: "Fixing crashes, errors, or broken features in your existing app." },
+            { name: "Design Polish", desc: "Updating colors, spacing, and making your app look modern." },
+            { name: "Mobile Optimization", desc: "Ensuring your website looks perfect on all mobile phone sizes." },
         ]
     },
     {
-        title: "Feature Boost",
+        title: "Extra Features",
         items: [
-            { name: "Payment Gateway", desc: "Razorpay, Stripe, or direct UPI integrations." },
-            { name: "Social Auth", desc: "Google, Apple, or GitHub secure OAuth login." },
-            { name: "Admin Console", desc: "Secure web dashboard for direct data manipulation." },
+            { name: "Payment Gateway", desc: "Add Razorpay, Stripe, or UPI to accept payments easily." },
+            { name: "Social Login", desc: "Let users sign in instantly with Google, Apple, or GitHub." },
+            { name: "Admin Dashboard", desc: "A private web page to manage your app's users and data." },
         ]
     },
     {
-        title: "Deployment",
+        title: "App Launch",
         items: [
-            { name: "Play Store", desc: "Google Console submission and review management." },
-            { name: "App Store", desc: "iOS Certificates, Provisioning, and Xcode uploads." },
-            { name: "SEO Audit", desc: "Technical structural audit for Google ranking algorithms." },
+            { name: "Play Store Upload", desc: "Managing the upload and review process for Android apps." },
+            { name: "App Store Upload", desc: "Handling Apple certificates and submitting your iOS app." },
+            { name: "SEO Setup", desc: "Improving your website's code so it ranks better on Google." },
         ]
     }
 ];
@@ -156,7 +156,7 @@ export default function Pricing() {
         setIsSubmitting(true);
 
         try {
-            // 1. Save to Firebase Realtime Database
+            // Save to Firebase Realtime Database
             const inquiriesRef = ref(database, 'pricing_inquiries');
             await push(inquiriesRef, {
                 serviceName: selectedService?.name,
@@ -172,7 +172,7 @@ export default function Pricing() {
                 timestamp: serverTimestamp(),
             });
 
-            // 2. Show Success State
+            // Show Success State
             setIsSuccess(true);
         } catch (error) {
             console.error("Error saving to Firebase:", error);
@@ -183,12 +183,12 @@ export default function Pricing() {
     };
 
     return (
-        <main className="bg-[#F8F8F8] text-[#222222] min-h-screen pt-32 pb-16 selection:bg-[#222222] selection:text-[#FFFFFF] font-sans overflow-x-hidden relative">
+        <main className="bg-[#FAFAFA] text-[#111111] min-h-screen pt-32 pb-16 selection:bg-[#111111] selection:text-[#FFFFFF] font-sans overflow-x-hidden relative">
             
-            <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
 
                 {/* --- HEADER --- */}
-                <div className="mb-24 md:mb-32 text-left border-b border-[#222222]/10 pb-16">
+                <div className="mb-20 md:mb-28 text-left border-b border-gray-200 pb-16">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -196,24 +196,24 @@ export default function Pricing() {
                         className="flex flex-col md:flex-row md:items-end justify-between gap-8"
                     >
                         <div>
-                            <div className="flex items-center gap-2 mb-8">
-                                <div className="w-2 h-2 bg-[#222222] rounded-full"></div>
-                                <span className="text-[#7B7B7B] text-xs uppercase tracking-widest font-medium">
-                                    Investment Strategy
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="w-2 h-2 bg-[#111111] rounded-full"></div>
+                                <span className="text-gray-500 text-xs uppercase tracking-widest font-semibold">
+                                    Simple Pricing
                                 </span>
                             </div>
-                            <h1 className="text-[12vw] md:text-[8rem] font-light tracking-tighter leading-[0.85] text-[#222222]">
-                                Clear Rates. <br /> <span className="text-[#7B7B7B] italic">Global Scale.</span>
+                            <h1 className="text-5xl md:text-[6rem] lg:text-[7rem] font-light tracking-tight leading-[1] text-[#111111]">
+                                Clear Rates. <br /> <span className="font-medium text-gray-400 italic">No Surprises.</span>
                             </h1>
                         </div>
-                        <p className="text-[#7B7B7B] text-lg max-w-sm font-medium pb-2 md:pb-4 leading-relaxed">
-                            Transparent financial structuring for high-performance engineering and architectural solutions.
+                        <p className="text-gray-500 text-lg md:text-xl max-w-sm font-light pb-2 md:pb-4 leading-relaxed">
+                            Honest, straightforward pricing for high-quality apps and websites. Pick a plan that fits your needs.
                         </p>
                     </motion.div>
                 </div>
 
                 {/* --- MAIN PLANS --- */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-32 md:mb-48">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-32 md:mb-40">
                     {planMeta.map((plan, i) => (
                         <motion.div
                             key={plan.name}
@@ -221,42 +221,42 @@ export default function Pricing() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1, duration: 0.6, ease: customEase }}
-                            className={`relative flex flex-col p-10 md:p-12 transition-all duration-500 group border ${
+                            className={`relative flex flex-col p-8 md:p-10 transition-all duration-500 group rounded-[2rem] border ${
                                 plan.popular 
-                                ? 'bg-[#222222] text-[#FFFFFF] border-[#222222] md:-translate-y-4' 
-                                : 'bg-[#FFFFFF] text-[#222222] border-[#222222]/10 hover:border-[#222222]/30'
+                                ? 'bg-[#111111] text-[#FFFFFF] border-[#111111] shadow-2xl md:-translate-y-4' 
+                                : 'bg-[#FFFFFF] text-[#111111] border-gray-200 hover:shadow-xl hover:border-gray-300'
                             }`}
                         >
                             {plan.popular && (
-                                <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#FFFFFF] text-[#222222] text-[10px] font-medium uppercase tracking-widest px-4 py-2 border border-[#222222]/10 shadow-sm">
-                                    Recommended
+                                <div className="absolute -top-4 right-8 bg-white text-[#111111] text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-md">
+                                    Most Popular
                                 </div>
                             )}
                             
-                            <div className="flex justify-between items-start mb-10">
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-500 group-hover:scale-110 ${
-                                    plan.popular ? 'bg-[#FFFFFF]/10 text-[#FFFFFF]' : 'bg-[#F8F8F8] text-[#222222]'
+                            <div className="flex justify-between items-start mb-8">
+                                <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-500 group-hover:scale-110 ${
+                                    plan.popular ? 'bg-white/10 text-white' : 'bg-gray-50 text-[#111111]'
                                 }`}>
                                     {plan.icon}
                                 </div>
                             </div>
                             
-                            <h3 className="text-3xl font-medium tracking-tight mb-4">{plan.name}</h3>
-                            <p className={`text-sm leading-relaxed mb-10 min-h-[60px] ${plan.popular ? 'text-[#F8F8F8]/70' : 'text-[#7B7B7B]'}`}>
+                            <h3 className="text-3xl font-medium tracking-tight mb-3">{plan.name}</h3>
+                            <p className={`text-base font-light leading-relaxed mb-8 min-h-[70px] ${plan.popular ? 'text-gray-300' : 'text-gray-500'}`}>
                                 {plan.desc}
                             </p>
                             
-                            <div className={`mb-10 border-b pb-10 ${plan.popular ? 'border-[#FFFFFF]/10' : 'border-[#222222]/10'}`}>
-                                <span className={`block text-[10px] uppercase tracking-widest mb-4 ${plan.popular ? 'text-[#7B7B7B]' : 'text-[#7B7B7B]'}`}>Starting Baseline</span>
-                                <div className="text-5xl md:text-6xl font-light tracking-tighter">
+                            <div className={`mb-10 border-b pb-8 ${plan.popular ? 'border-white/10' : 'border-gray-100'}`}>
+                                <span className={`block text-[10px] uppercase tracking-widest font-semibold mb-2 ${plan.popular ? 'text-gray-400' : 'text-gray-400'}`}>Starting At</span>
+                                <div className="text-5xl md:text-6xl font-light tracking-tight">
                                     {activeData.symbol}{activeData.plans[i]}
                                 </div>
                             </div>
                             
-                            <ul className="space-y-4 mb-12 flex-1">
+                            <ul className="space-y-4 mb-10 flex-1">
                                 {plan.features.map(f => (
-                                    <li key={f} className={`flex items-center gap-4 text-xs font-medium tracking-wide ${plan.popular ? 'text-[#FFFFFF]' : 'text-[#222222]'}`}>
-                                        <div className={`w-1.5 h-1.5 rounded-full ${plan.popular ? 'bg-[#FFFFFF]' : 'bg-[#222222]'}`}></div>
+                                    <li key={f} className={`flex items-center gap-3 text-sm font-medium ${plan.popular ? 'text-white' : 'text-[#111111]'}`}>
+                                        <CheckCircle2 size={18} className={plan.popular ? 'text-green-400' : 'text-green-500'} />
                                         {f}
                                     </li>
                                 ))}
@@ -264,55 +264,48 @@ export default function Pricing() {
                             
                             <button
                                 onClick={() => handleSelectService(`${plan.name} Plan`, `${activeData.symbol}${activeData.plans[i]}`, 'Plan')}
-                                className={`w-full py-4 flex items-center justify-center gap-3 text-sm font-medium transition-all duration-300 group/btn border ${
+                                className={`w-full py-4 flex items-center justify-center gap-3 rounded-full text-sm font-medium transition-all duration-300 group/btn border ${
                                     plan.popular 
-                                    ? 'bg-[#FFFFFF] text-[#222222] border-[#FFFFFF] hover:bg-transparent hover:text-[#FFFFFF]' 
-                                    : 'bg-transparent text-[#222222] border-[#222222] hover:bg-[#222222] hover:text-[#FFFFFF]'
+                                    ? 'bg-white text-[#111111] border-white hover:bg-gray-100' 
+                                    : 'bg-transparent text-[#111111] border-gray-300 hover:bg-[#111111] hover:text-white hover:border-[#111111]'
                                 }`}
                             >
-                                <span>Initiate {plan.name}</span>
-                                <ArrowUpRight size={16} className="group-hover/btn:rotate-45 transition-transform" />
+                                <span>Choose {plan.name}</span>
+                                <ArrowUpRight size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                             </button>
                         </motion.div>
                     ))}
                 </div>
 
                 {/* --- ADD-ONS SECTION --- */}
-                <div className="bg-[#FFFFFF] border border-[#222222]/10 p-10 md:p-16 lg:p-24 relative overflow-hidden">
+                <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-16 lg:p-20 shadow-sm relative overflow-hidden">
                     
-                    <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16 border-b border-[#222222]/10 pb-16 relative z-10">
+                    <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16 border-b border-gray-100 pb-12 relative z-10">
                         <div className="max-w-xl">
-                            <h2 className="text-4xl md:text-6xl font-light tracking-tight mb-6 leading-[1.1] text-[#222222]">
-                                Modular <br/> <span className="text-[#7B7B7B] italic">Extensions.</span>
+                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4 leading-[1.2] text-[#111111]">
+                                Extra <span className="font-medium">Services.</span>
                             </h2>
-                            <p className="text-[#7B7B7B] text-base font-medium leading-relaxed">
-                                Specific, high-precision technical solutions designed to resolve granular operational needs without requiring full-scale restructuring.
+                            <p className="text-gray-500 text-base font-light leading-relaxed">
+                                Need something specific? You can add these services to any plan above, or request them completely on their own.
                             </p>
                         </div>
                         
-                        <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 w-full lg:w-auto mt-4">
+                        <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 w-full lg:w-auto mt-4 bg-gray-50 p-2 rounded-2xl">
                             {addOnCategoriesMeta.map((cat, i) => (
                                 <button
                                     key={i}
                                     onClick={() => setActiveTab(i)}
-                                    className={`pb-3 text-xs uppercase tracking-widest transition-colors duration-300 relative font-medium ${
-                                        activeTab === i ? "text-[#222222]" : "text-[#7B7B7B] hover:text-[#222222]"
+                                    className={`px-6 py-3 text-sm rounded-xl transition-all duration-300 relative font-medium ${
+                                        activeTab === i ? "bg-white text-[#111111] shadow-sm" : "text-gray-500 hover:text-[#111111]"
                                     }`}
                                 >
                                     {cat.title}
-                                    {activeTab === i && (
-                                        <motion.div
-                                            layoutId="activeTab"
-                                            transition={{ duration: 0.5, ease: customEase }}
-                                            className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#222222]"
-                                        />
-                                    )}
                                 </button>
                             ))}
                         </div>
                     </div>
 
-                    <div className="min-h-[220px] relative z-10">
+                    <div className="min-h-[240px] relative z-10">
                         <AnimatePresence mode="wait">
                             <motion.div 
                                 key={activeTab}
@@ -329,18 +322,18 @@ export default function Pricing() {
                                         <div
                                             key={item.name}
                                             onClick={() => handleSelectService(item.name, dynamicPrice, 'Add-on')}
-                                            className="group p-8 md:p-10 bg-[#F8F8F8] border border-[#222222]/5 hover:border-[#222222]/20 hover:bg-[#FFFFFF] transition-all duration-500 cursor-pointer flex flex-col"
+                                            className="group p-8 bg-[#FAFAFA] rounded-3xl border border-gray-100 hover:border-gray-300 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
                                         >
-                                            <div className="flex justify-between items-start mb-12">
-                                                <span className="text-[10px] font-medium text-[#222222] uppercase tracking-widest border border-[#222222]/10 bg-[#FFFFFF] rounded-full px-4 py-2 group-hover:border-[#222222] transition-colors duration-500">
+                                            <div className="flex justify-between items-start mb-8">
+                                                <span className="text-xs font-semibold text-[#111111] uppercase tracking-widest border border-gray-200 bg-white rounded-full px-4 py-2 group-hover:border-gray-400 transition-colors duration-300">
                                                     {dynamicPrice}
                                                 </span>
-                                                <div className="w-10 h-10 rounded-full flex items-center justify-center text-[#7B7B7B] group-hover:text-[#222222] transition-colors duration-500">
-                                                    <ArrowUpRight size={16} className="group-hover:rotate-45 transition-all duration-500" />
+                                                <div className="w-10 h-10 rounded-full bg-white border border-gray-100 flex items-center justify-center text-gray-400 group-hover:bg-[#111111] group-hover:border-[#111111] group-hover:text-white transition-all duration-300">
+                                                    <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                                                 </div>
                                             </div>
-                                            <h4 className="text-xl font-medium text-[#222222] mb-4 tracking-tight">{item.name}</h4>
-                                            <p className="text-[#7B7B7B] text-sm leading-relaxed mt-auto">{item.desc}</p>
+                                            <h4 className="text-xl font-medium text-[#111111] mb-2 tracking-tight">{item.name}</h4>
+                                            <p className="text-gray-500 font-light text-sm leading-relaxed mt-auto">{item.desc}</p>
                                         </div>
                                     )
                                 })}
@@ -349,41 +342,29 @@ export default function Pricing() {
                     </div>
 
                     {/* --- FOOTER CTA --- */}
-                    <div className="mt-20 pt-16 border-t border-[#222222]/10 flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
-                        <div className="flex flex-col items-center md:items-start gap-8 w-full md:w-auto">
-                            <div className="flex items-center gap-6">
-                                <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[#F8F8F8] text-[#222222]">
-                                    <Globe size={20} />
-                                </div>
-                                <div>
-                                    <div className="flex items-center gap-3 mb-1.5">
-                                        <span className="h-2 w-2 rounded-full bg-[#222222] animate-pulse"></span>
-                                        <p className="text-[10px] font-medium text-[#222222] uppercase tracking-widest">Live Operations Active</p>
-                                    </div>
-                                    <p className="text-[10px] text-[#7B7B7B] uppercase tracking-widest">Global Architecture Support</p>
-                                </div>
-                            </div>
+                    <div className="mt-20 pt-12 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+                        <div className="flex flex-col items-center md:items-start gap-6 w-full md:w-auto">
                             <div className="max-w-sm text-center md:text-left">
-                                <h4 className="text-2xl font-light text-[#222222] tracking-tight mb-4">Custom Architecture?</h4>
-                                <p className="text-sm text-[#7B7B7B] leading-relaxed">
-                                    Required for complex systems, legacy migrations, or long-term retainer agreements.
+                                <h4 className="text-2xl font-medium text-[#111111] tracking-tight mb-2">Need Ongoing Help?</h4>
+                                <p className="text-base text-gray-500 font-light leading-relaxed">
+                                    Hire me on a monthly retainer to keep your apps updated, secure, and running smoothly.
                                 </p>
                             </div>
                         </div>
 
                         <button
-                            onClick={() => handleSelectService('Custom Retainer', 'Custom Price', 'Custom Architecture')}
-                            className="w-full md:w-auto bg-[#222222] text-[#FFFFFF] px-10 py-5 text-sm font-medium hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-3 group/cta"
+                            onClick={() => handleSelectService('Monthly Support', 'Custom Price', 'Retainer')}
+                            className="w-full md:w-auto bg-[#111111] rounded-full text-white px-8 py-4 text-sm font-medium hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-3 group/cta"
                         >
-                            Discuss Retainer <ArrowUpRight size={16} className="group-hover/cta:rotate-45 transition-transform duration-300" />
+                            Let's Talk <ArrowRight size={18} className="group-hover/cta:translate-x-1 transition-transform duration-300" />
                         </button>
                     </div>
                 </div>
 
                 {/* --- TECH MARQUEE --- */}
-                <div className="mt-32 md:mt-48 overflow-hidden relative border-y border-[#222222]/10 py-12">
-                    <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#F8F8F8] to-transparent z-10" />
-                    <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#F8F8F8] to-transparent z-10" />
+                <div className="mt-24 md:mt-32 overflow-hidden relative border-y border-gray-200 py-10">
+                    <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#FAFAFA] to-transparent z-10" />
+                    <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#FAFAFA] to-transparent z-10" />
                     
                     <motion.div
                         animate={{ x: ["0%", "-50%"] }}
@@ -392,12 +373,12 @@ export default function Pricing() {
                     >
                         {[
                             "Flutter", "Next.js", "Firebase", "PostgreSQL",
-                            "Tailwind", "TypeScript", "Node.js", "Stripe", "Supabase"
+                            "Tailwind CSS", "TypeScript", "Node.js", "Stripe", "Supabase"
                         ].concat([
                             "Flutter", "Next.js", "Firebase", "PostgreSQL",
-                            "Tailwind", "TypeScript", "Node.js", "Stripe", "Supabase"
+                            "Tailwind CSS", "TypeScript", "Node.js", "Stripe", "Supabase"
                         ]).map((tech, i) => (
-                            <span key={i} className="text-2xl md:text-4xl font-light text-[#222222]/10 uppercase tracking-widest hover:text-[#222222]/80 transition-colors duration-500 cursor-default">
+                            <span key={i} className="text-2xl md:text-4xl font-medium text-gray-200 uppercase tracking-widest cursor-default">
                                 {tech}
                             </span>
                         ))}
@@ -405,34 +386,34 @@ export default function Pricing() {
                 </div>
             </div>
 
-            <footer className="mt-24 text-center border-t border-[#222222]/10 pt-12 pb-8 mx-6 md:mx-12">
-                <p className="text-[10px] text-[#7B7B7B] uppercase tracking-widest">
-                    © {new Date().getFullYear()} Hiren Masaliya — Rate Card
+            <footer className="mt-20 text-center border-t border-gray-200 pt-10 pb-8 mx-6 md:mx-12">
+                <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-widest">
+                    © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat
                 </p>
             </footer>
 
-            {/* --- INQUIRY MODAL (MATCHING CONTACT FORM) --- */}
+            {/* --- INQUIRY MODAL (CLEAN UX) --- */}
             <AnimatePresence>
                 {selectedService && (
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#F8F8F8]/90 backdrop-blur-sm"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-sm"
                     >
                         <motion.div 
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             transition={{ duration: 0.4, ease: customEase }}
-                            className="bg-[#FFFFFF] w-full max-w-4xl border border-[#222222]/10 shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
+                            className="bg-white w-full max-w-3xl rounded-[2rem] shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
                         >
                             {/* Modal Header */}
-                            <div className="flex justify-between items-center p-6 md:p-10 border-b border-[#222222]/10 shrink-0">
-                                <h3 className="text-2xl font-light tracking-tight text-[#222222]">
-                                    Complete Inquiry
+                            <div className="flex justify-between items-center p-6 md:px-10 md:py-8 border-b border-gray-100 shrink-0 bg-[#FAFAFA]">
+                                <h3 className="text-2xl font-medium tracking-tight text-[#111111]">
+                                    Request Details
                                 </h3>
-                                <button onClick={handleCloseModal} className="text-[#7B7B7B] hover:text-[#222222] transition-colors p-2 hover:bg-[#F8F8F8] rounded-full">
+                                <button onClick={handleCloseModal} className="text-gray-400 hover:text-[#111111] transition-colors p-2 hover:bg-gray-200 rounded-full">
                                     <X size={24} />
                                 </button>
                             </div>
@@ -441,145 +422,119 @@ export default function Pricing() {
                             <div className="p-6 md:p-10 overflow-y-auto">
                                 {isSuccess ? (
                                     <div className="text-center py-16">
-                                        <div className="w-16 h-16 bg-[#F8F8F8] text-[#222222] rounded-full flex items-center justify-center mx-auto mb-8">
-                                            <CheckCircle2 size={24} />
+                                        <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-100">
+                                            <CheckCircle2 size={32} />
                                         </div>
-                                        <h4 className="text-3xl font-light mb-4">Request Logged.</h4>
-                                        <p className="text-[#7B7B7B] mb-12">I have received your inquiry for the {selectedService.name}. I will contact you shortly.</p>
+                                        <h4 className="text-3xl font-medium mb-4 text-[#111111]">Request Sent.</h4>
+                                        <p className="text-gray-500 mb-10 font-light max-w-sm mx-auto">Thank you for your interest in the <strong className="font-medium">{selectedService.name}</strong>. I will get back to you within 24 hours.</p>
                                         <button 
                                             onClick={handleCloseModal}
-                                            className="text-[10px] font-medium uppercase tracking-widest border border-[#222222] bg-transparent text-[#222222] px-8 py-4 hover:bg-[#222222] hover:text-[#FFFFFF] transition-colors"
+                                            className="text-sm font-semibold rounded-full border border-gray-200 bg-white text-[#111111] px-8 py-3 hover:bg-gray-50 transition-colors shadow-sm"
                                         >
-                                            Return to Pricing
+                                            Close Window
                                         </button>
                                     </div>
                                 ) : (
-                                    <form onSubmit={handleSubmit} className="space-y-10">
+                                    <form onSubmit={handleSubmit} className="space-y-8">
                                         
                                         {/* --- LOCKED SERVICE DETAILS --- */}
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 bg-[#F8F8F8] p-6 border border-[#222222]/5">
-                                            <div className="relative group/input">
-                                                <input 
-                                                    readOnly type="text" id="locked-service" 
-                                                    value={selectedService.name} 
-                                                    className="peer w-full bg-transparent border-b border-[#222222]/10 py-4 focus:outline-none text-[#7B7B7B] cursor-not-allowed rounded-none font-medium"
-                                                />
-                                                <label htmlFor="locked-service" className="absolute left-0 -top-6 text-[#222222] text-[10px] uppercase tracking-widest">
-                                                    Selected {selectedService.type}
-                                                </label>
+                                        <div className="flex flex-col md:flex-row gap-4 bg-blue-50/50 p-5 rounded-2xl border border-blue-100">
+                                            <div className="flex-1">
+                                                <span className="text-xs uppercase tracking-widest font-semibold text-blue-500 mb-1 block">You Selected</span>
+                                                <p className="text-[#111111] font-medium text-lg">{selectedService.name}</p>
                                             </div>
-                                            
-                                            <div className="relative group/input">
-                                                <input 
-                                                    readOnly type="text" id="locked-price" 
-                                                    value={selectedService.price} 
-                                                    className="peer w-full bg-transparent border-b border-[#222222]/10 py-4 focus:outline-none text-[#7B7B7B] cursor-not-allowed rounded-none font-medium"
-                                                />
-                                                <label htmlFor="locked-price" className="absolute left-0 -top-6 text-[#222222] text-[10px] uppercase tracking-widest">
-                                                    Base Price
-                                                </label>
+                                            <div className="flex-1 md:text-right">
+                                                <span className="text-xs uppercase tracking-widest font-semibold text-blue-500 mb-1 block">Starting Price</span>
+                                                <p className="text-[#111111] font-medium text-lg">{selectedService.price}</p>
                                             </div>
                                         </div>
 
-                                        {/* --- USER DETAILS --- */}
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 mt-4">
-                                            <div className="relative group/input">
+                                        {/* --- USER DETAILS (Modern Fixed Labels) --- */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="modal-name" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Full Name</label>
                                                 <input 
-                                                    required type="text" id="modal-name" placeholder=" "
+                                                    required type="text" id="modal-name"
                                                     value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                    className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent rounded-none"
+                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111]"
                                                 />
-                                                <label htmlFor="modal-name" className="absolute left-0 top-4 text-xs uppercase tracking-widest text-[#7B7B7B] transition-all peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px] peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-[#222222] peer-not-placeholder-shown:text-[10px]">
-                                                    Full Name
-                                                </label>
                                             </div>
                                             
-                                            <div className="relative group/input">
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="modal-email" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Email Address</label>
                                                 <input 
-                                                    required type="email" id="modal-email" placeholder=" "
+                                                    required type="email" id="modal-email"
                                                     value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                    className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent rounded-none"
+                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111]"
                                                 />
-                                                <label htmlFor="modal-email" className="absolute left-0 top-4 text-xs uppercase tracking-widest text-[#7B7B7B] transition-all peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px] peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-[#222222] peer-not-placeholder-shown:text-[10px]">
-                                                    Work Email
-                                                </label>
                                             </div>
 
-                                            <div className="relative group/input">
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="modal-mobile" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Phone Number</label>
                                                 <input 
-                                                    required type="tel" id="modal-mobile" placeholder=" "
+                                                    required type="tel" id="modal-mobile"
                                                     value={formData.mobile} onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                                                    className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent rounded-none"
+                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111]"
                                                 />
-                                                <label htmlFor="modal-mobile" className="absolute left-0 top-4 text-xs uppercase tracking-widest text-[#7B7B7B] transition-all peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px] peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-[#222222] peer-not-placeholder-shown:text-[10px]">
-                                                    Mobile Number
-                                                </label>
                                             </div>
 
-                                            <div className="relative group/input">
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="modal-company" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Company (Optional)</label>
                                                 <input 
-                                                    type="text" id="modal-company" placeholder=" "
+                                                    type="text" id="modal-company"
                                                     value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                                    className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent rounded-none"
+                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111]"
                                                 />
-                                                <label htmlFor="modal-company" className="absolute left-0 top-4 text-xs uppercase tracking-widest text-[#7B7B7B] transition-all peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px] peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-[#222222] peer-not-placeholder-shown:text-[10px]">
-                                                    Company (Optional)
-                                                </label>
                                             </div>
 
-                                            <div className="relative group/input">
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="modal-budget" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Your Budget</label>
                                                 <select 
                                                     required id="modal-budget"
                                                     value={formData.budget} onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                                                    className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] appearance-none rounded-none cursor-pointer"
+                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111] cursor-pointer"
                                                 >
-                                                    <option value="" disabled hidden></option>
+                                                    <option value="" disabled hidden>Select a budget...</option>
                                                     {activeData.budgets.map((tier, idx) => (
                                                         <option key={idx} value={tier}>{tier}</option>
                                                     ))}
                                                 </select>
-                                                <label htmlFor="modal-budget" className={`absolute left-0 transition-all text-[#7B7B7B] uppercase tracking-widest pointer-events-none ${formData.budget ? '-top-6 text-[#222222] text-[10px]' : 'top-4 text-xs peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px]'}`}>
-                                                    Budget Range
-                                                </label>
                                             </div>
 
-                                            <div className="relative group/input">
+                                            <div className="flex flex-col gap-2">
+                                                <label htmlFor="modal-projectType" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Project Type</label>
                                                 <select 
                                                     required id="modal-projectType"
                                                     value={formData.projectType} onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                                                    className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] appearance-none rounded-none cursor-pointer"
+                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111] cursor-pointer"
                                                 >
-                                                    <option value="" disabled hidden></option>
-                                                    <option value="Web Application">Web App (React/Next)</option>
+                                                    <option value="" disabled hidden>Select a type...</option>
                                                     <option value="Mobile Application">Mobile App (Flutter)</option>
-                                                    <option value="AI Integration">AI Integration</option>
+                                                    <option value="Web Application">Website / Web App</option>
                                                     <option value="Full Stack System">Full-Stack System</option>
-                                                    <option value="Other">Other Consultation</option>
+                                                    <option value="Other">Just need advice</option>
                                                 </select>
-                                                <label htmlFor="modal-projectType" className={`absolute left-0 transition-all text-[#7B7B7B] uppercase tracking-widest pointer-events-none ${formData.projectType ? '-top-6 text-[#222222] text-[10px]' : 'top-4 text-xs peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px]'}`}>
-                                                    Primary Project Type
-                                                </label>
                                             </div>
                                         </div>
 
-                                        <div className="relative group/input">
+                                        <div className="flex flex-col gap-2 pt-2">
+                                            <label htmlFor="modal-brief" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Tell me about your idea</label>
                                             <textarea 
-                                                required id="modal-brief" rows={3} placeholder=" "
+                                                required id="modal-brief" rows={3}
                                                 value={formData.brief} onChange={(e) => setFormData({ ...formData, brief: e.target.value })}
-                                                className="peer w-full bg-transparent border-b border-[#222222]/20 py-4 focus:outline-none focus:border-[#222222] transition-colors font-medium text-[#222222] placeholder-transparent resize-none leading-relaxed rounded-none"
+                                                placeholder="What are you trying to build?"
+                                                className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-4 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111] resize-none leading-relaxed"
                                             ></textarea>
-                                            <label htmlFor="modal-brief" className="absolute left-0 top-4 text-xs uppercase tracking-widest text-[#7B7B7B] transition-all peer-focus:-top-6 peer-focus:text-[#222222] peer-focus:text-[10px] peer-not-placeholder-shown:-top-6 peer-not-placeholder-shown:text-[#222222] peer-not-placeholder-shown:text-[10px]">
-                                                Project Details & Scope
-                                            </label>
                                         </div>
 
-                                        <div className="pt-4">
+                                        <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-gray-100 mt-4 pt-6">
                                             <button 
                                                 disabled={isSubmitting}
-                                                className="w-full bg-[#222222] text-[#FFFFFF] font-medium text-sm px-10 py-5 hover:bg-[#222222]/90 transition-colors duration-300 disabled:opacity-50 flex justify-center items-center gap-2"
+                                                className="w-full md:w-auto bg-[#111111] rounded-full text-white font-medium text-sm px-10 py-4 hover:bg-gray-800 transition-colors duration-300 disabled:opacity-50 flex justify-center items-center gap-2"
                                             >
-                                                {isSubmitting ? 'Transmitting...' : `Submit Request`}
+                                                {isSubmitting ? 'Sending...' : `Send Request`}
                                             </button>
+                                            <p className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">Your details are safe with me.</p>
                                         </div>
                                     </form>
                                 )}

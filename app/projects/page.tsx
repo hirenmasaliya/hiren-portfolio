@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Smartphone, ArrowUpRight, Github, Code2, Cpu, GitBranch, ArrowRight } from "lucide-react";
+import { Smartphone, ArrowUpRight, Github, Code2, Cpu, Rocket, ArrowRight, Sparkles } from "lucide-react";
 
 const customEase = [0.25, 1, 0.5, 1] as const;
 
@@ -15,14 +15,12 @@ export default function Projects() {
             id: "01",
             title: "Aptro Platform",
             category: "SaaS",
-            description: "A comprehensive ecosystem for entrepreneurs to automate invoicing, client onboarding, and project tracking.",
+            description: "An all-in-one app for small business owners to easily manage billing, inventory, and daily operations.",
             tech: ["Flutter", "Firebase", "Razorpay"],
-            role: "Founder & Lead Engineer",
+            role: "Founder & Lead Developer",
             year: "2025 — Present",
-            metric: "Live Business Ecosystem",
-            link: "https://aptrooms.web.app/",
-            github: "",
-            image: "/images/projects/aptro-website.png",
+            link: "https://aptro.vercel.app/",
+            image: "/images/projects/aptro.png",
             mobileApp: true,
             playStore: "https://play.google.com/store/apps/details?id=com.hirenmasaliya.aptro",
             featured: true
@@ -31,13 +29,11 @@ export default function Projects() {
             id: "02",
             title: "Clothiva Elite",
             category: "Web App",
-            description: "A premium e-commerce experience architected for the modern fashion industry. Features a high-conversion UI and performance-optimized foundation.",
+            description: "A premium online clothing store designed for fast loading times and a smooth, modern shopping experience.",
             tech: ["Next.js", "TypeScript", "Razorpay"],
-            role: "Full-Stack Architect",
+            role: "Full-Stack Developer",
             year: "2026",
-            metric: "High-Conversion UI",
             link: "https://clothivaelite.vercel.app/",
-            github: "", 
             image: "/images/projects/clothiva-thumbnail.png", 
             mobileApp: false,
             featured: true 
@@ -46,13 +42,11 @@ export default function Projects() {
             id: "03",
             title: "Buildart Industries",
             category: "Web App",
-            description: "High-performance corporate platform with service showcases and real-time contact management built for scale.",
+            description: "A fast corporate website built to help the business showcase services and connect with clients easily.",
             tech: ["React.js", "Tailwind", "Firebase"],
-            role: "Frontend Engineer",
+            role: "Frontend Developer",
             year: "2026",
-            metric: "Performance Optimized",
             link: "https://buildartind.com",
-            github: "",
             image: "/images/projects/buildart-website.png",
             mobileApp: false
         },
@@ -60,13 +54,11 @@ export default function Projects() {
             id: "04",
             title: "Dira Infratech",
             category: "Web App",
-            description: "A precision-engineered static site focusing on performance and modern UI for infrastructure services.",
+            description: "A clean, fast-loading website built for an infrastructure company to display their work and services.",
             tech: ["HTML", "CSS", "JavaScript"],
             role: "Lead Developer",
             year: "2026",
-            metric: "Zero-Latency Delivery",
             link: "https://www.dirainfratech.com/",
-            github: "",
             image: "/images/projects/dira-website.png",
             mobileApp: false
         },
@@ -86,12 +78,12 @@ export default function Projects() {
     const filteredProjects = filter === "All" ? projects : projects.filter(p => p.category === filter);
 
     return (
-        <main className="bg-[#F8F8F8] text-[#222222] min-h-screen pt-32 pb-16 selection:bg-[#222222] selection:text-[#FFFFFF] font-sans overflow-hidden">
+        <main className="bg-[#FAFAFA] text-[#111111] min-h-screen pt-32 pb-16 selection:bg-[#111111] selection:text-white font-sans overflow-hidden">
             
             <section className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
 
                 {/* HEADER SECTION */}
-                <div className="mb-24 md:mb-32 text-left border-b border-[#222222]/10 pb-16">
+                <div className="mb-16 md:mb-24 text-left">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -99,125 +91,114 @@ export default function Projects() {
                         className="flex flex-col md:flex-row md:items-end justify-between gap-8"
                     >
                         <div>
-                            <div className="flex items-center gap-2 mb-8">
-                                <div className="w-2 h-2 bg-[#222222] rounded-full"></div>
-                                <span className="text-[#7B7B7B] text-xs uppercase tracking-widest font-medium">
-                                    Selected Portfolio
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-2 h-2 bg-[#111111] rounded-full"></div>
+                                <span className="text-gray-500 text-xs uppercase tracking-widest font-semibold">
+                                    Selected Work
                                 </span>
                             </div>
-                            <h1 className="text-[12vw] md:text-[8rem] font-light tracking-tighter leading-[0.85] text-[#222222]">
-                                Digital <br /> <span className="text-[#7B7B7B] italic">Products.</span>
+                            <h1 className="text-5xl md:text-[6rem] lg:text-[7rem] font-light tracking-tight leading-[1] text-[#111111]">
+                                Recent <span className="font-medium text-gray-400 italic">Projects.</span>
                             </h1>
                         </div>
-                        <p className="text-[#7B7B7B] text-lg max-w-sm font-medium pb-2 md:pb-4 leading-relaxed">
-                            Building high-performance digital products at the intersection of stark business logic and human experience.
+                        <p className="text-gray-500 text-lg md:text-xl max-w-sm font-light pb-2 leading-relaxed">
+                            Building fast, reliable apps and websites that solve real business problems and look great doing it.
                         </p>
                     </motion.div>
                 </div>
 
-                {/* FILTER TABS */}
-                <div className="flex justify-start mb-16 md:mb-20 sticky top-20 z-20 bg-[#F8F8F8]/90 backdrop-blur-md py-6 border-b border-[#222222]/5">
-                    <div className="flex flex-wrap gap-8 md:gap-12">
+                {/* FILTER TABS (Modern Pill Design) */}
+                <div className="flex justify-start mb-12 md:mb-16 sticky top-20 z-30 py-4 bg-[#FAFAFA]/90 backdrop-blur-md">
+                    <div className="flex flex-wrap gap-4">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
                                 onClick={() => setFilter(cat)}
-                                className={`pb-2 text-xs uppercase tracking-widest transition-colors duration-300 relative flex items-start gap-1 font-medium ${
-                                    filter === cat ? "text-[#222222]" : "text-[#7B7B7B] hover:text-[#222222]"
+                                className={`px-6 py-3 rounded-full text-sm transition-all duration-300 flex items-center gap-2 font-medium border ${
+                                    filter === cat 
+                                    ? "bg-[#111111] text-white border-[#111111] shadow-md" 
+                                    : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-[#111111]"
                                 }`}
                             >
                                 {cat}
-                                <span className="text-[9px] opacity-60 relative -top-1 font-light">{categoryCounts[cat]}</span>
-                                {filter === cat && (
-                                    <motion.div
-                                        layoutId="activeFilter"
-                                        transition={{ duration: 0.5, ease: customEase }}
-                                        className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#222222]"
-                                    />
-                                )}
+                                <span className={`text-[11px] px-2 py-0.5 rounded-full ${
+                                    filter === cat ? "bg-white/20" : "bg-gray-100 text-gray-500"
+                                }`}>
+                                    {categoryCounts[cat]}
+                                </span>
                             </button>
                         ))}
                     </div>
                 </div>
 
-                {/* PROJECTS GRID - Minimalist Layout */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-12 md:gap-16 mb-32 md:mb-48">
+                {/* PROJECTS GRID - Premium Card Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 mb-32 md:mb-30">
                     <AnimatePresence mode="popLayout">
                         {filteredProjects.map((project) => (
                             <motion.div
                                 layout
                                 key={project.title}
-                                initial={{ opacity: 0, scale: 0.98, y: 20 }}
+                                initial={{ opacity: 0, scale: 0.95, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.98, y: 20 }}
+                                exit={{ opacity: 0, scale: 0.95, y: 20 }}
                                 transition={{ duration: 0.5, ease: customEase }}
-                                className="group flex flex-col cursor-pointer"
+                                className="group flex flex-col bg-white rounded-[2rem] border border-gray-100 p-6 md:p-4 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-500 cursor-pointer"
                             >
                                 {/* Image Container */}
-                                <div className="relative aspect-[4/3] overflow-hidden bg-[#E5E5E5] rounded-2xl mb-8 transition-all duration-700">
-                                    <div className="absolute top-6 right-6 z-10">
-                                        <motion.span 
-                                            initial={{ y: -10, opacity: 0 }} 
-                                            whileInView={{ y: 0, opacity: 1 }} 
-                                            transition={{ duration: 0.6, ease: customEase, delay: 0.2 }}
-                                            className="block text-[#222222] text-sm font-medium"
-                                        >
-                                            {project.id}
-                                        </motion.span>
-                                    </div>
+                                <div className="relative aspect-[3/2] overflow-hidden bg-gray-100 rounded-[1.5rem] mb-8">
                                     <Image
                                         src={project.image}
                                         alt={project.title}
                                         fill
-                                        className="object-cover transition-transform duration-1000 ease-[0.25,1,0.5,1] group-hover:scale-105"
+                                        className="transition-transform duration-700 ease-out group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 bg-[#222222]/5 mix-blend-multiply pointer-events-none"></div>
+                                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 pointer-events-none"></div>
                                     
                                     {project.featured && (
-                                        <div className="absolute top-6 left-6 bg-[#FFFFFF] px-4 py-2 text-[10px] font-medium uppercase tracking-widest text-[#222222] rounded-full shadow-sm">
-                                            Featured
+                                        <div className="absolute top-5 left-5 bg-white/95 backdrop-blur-sm px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-[#111111] rounded-full shadow-sm flex items-center gap-2">
+                                            <Sparkles size={12} /> Featured
                                         </div>
                                     )}
                                 </div>
 
                                 {/* Content */}
                                 <div className="flex flex-col flex-1">
-                                    <div className="flex justify-between items-start mb-3">
-                                        <span className="text-[10px] text-[#7B7B7B] uppercase tracking-widest">
+                                    <div className="flex justify-between items-center mb-4">
+                                        <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
                                             {project.category}
                                         </span>
-                                        {project.mobileApp && <Smartphone size={16} className="text-[#222222]" />}
+                                        {project.mobileApp && <Smartphone size={18} className="text-gray-400" />}
                                     </div>
 
-                                    <h2 className="text-2xl font-medium mb-4 tracking-tight text-[#222222]">
+                                    <h2 className="text-3xl font-medium mb-3 tracking-tight text-[#111111] group-hover:text-blue-600 transition-colors">
                                         {project.title}
                                     </h2>
 
-                                    <p className="text-[#7B7B7B] text-sm leading-relaxed mb-6 font-medium line-clamp-3">
+                                    <p className="text-gray-500 text-base font-light leading-relaxed mb-8 line-clamp-3">
                                         {project.description}
                                     </p>
 
                                     {/* Tech Tags */}
                                     <div className="flex flex-wrap gap-2 mb-8">
                                         {project.tech.map((t) => (
-                                            <span key={t} className="text-[10px] uppercase tracking-widest text-[#7B7B7B] px-3 py-1.5 rounded-full border border-[#222222]/10 group-hover:border-[#222222]/30 transition-colors">
+                                            <span key={t} className="text-[11px] font-medium uppercase tracking-wider text-gray-500 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
                                                 {t}
                                             </span>
                                         ))}
                                     </div>
 
                                     {/* Link Actions */}
-                                    <div className="flex items-center gap-6 mt-auto border-t border-[#222222]/10 pt-6">
+                                    <div className="flex items-center gap-6 mt-auto border-t border-gray-100 pt-6">
                                         <a
                                             href={project.link}
-                                            className="text-sm font-medium text-[#222222] flex items-center gap-2 border-b border-[#222222] pb-0.5 hover:text-[#7B7B7B] hover:border-[#7B7B7B] transition-colors"
+                                            className="text-sm font-semibold text-[#111111] flex items-center gap-2 hover:text-blue-600 transition-colors"
                                         >
-                                            View Project <ArrowUpRight size={14} />
+                                            View Project <ArrowUpRight size={16} />
                                         </a>
                                         {project.playStore && (
                                             <a
                                                 href={project.playStore}
-                                                className="text-sm font-medium text-[#7B7B7B] flex items-center gap-2 hover:text-[#222222] transition-colors"
+                                                className="text-sm font-medium text-gray-400 flex items-center gap-2 hover:text-[#111111] transition-colors"
                                             >
                                                 Play Store
                                             </a>
@@ -230,64 +211,64 @@ export default function Projects() {
                 </div>
 
                 {/* THE APPROACH SECTION */}
-                <div className="mb-32 md:mb-48 border-t border-[#222222]/10 pt-24">
+                <div className="mb-32 md:mb-40 border-t border-gray-200 pt-20">
                     <div className="flex flex-col md:flex-row justify-between items-start mb-16 gap-8">
-                        <h2 className="text-4xl md:text-6xl font-light tracking-tight text-[#222222] leading-[1.1]">
-                            Development <br/> <span className="text-[#7B7B7B] italic">Methodology.</span>
+                        <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111] leading-[1.2]">
+                            How I <br/> <span className="font-medium">Build.</span>
                         </h2>
-                        <p className="text-[#7B7B7B] text-base font-medium max-w-md leading-relaxed">
-                            Scaling an idea requires more than just code. It requires a disciplined approach to architecture, performance, and user psychology.
+                        <p className="text-gray-500 text-base font-light max-w-md leading-relaxed">
+                            A great app requires more than just code. It needs a clear plan, smooth design, and a solid foundation to handle growth.
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                         {[
-                            { step: "01", title: "Architecture", icon: <Code2 size={20}/>, desc: "Defining strict database models, API structures, and state management before writing visual code." },
-                            { step: "02", title: "Execution", icon: <Cpu size={20}/>, desc: "Building modular, type-safe components. Ensuring cross-platform fluidity using modern frameworks." },
-                            { step: "03", title: "Scale", icon: <ArrowUpRight size={20}/>, desc: "Implementing edge-caching, optimizing bundle sizes, and preparing the infrastructure for acquisition." }
+                            { step: "01", title: "1. Plan", icon: <Code2 size={22}/>, desc: "We figure out the database, features, and design before writing any code." },
+                            { step: "02", title: "2. Build", icon: <Cpu size={22}/>, desc: "I write clean, fast code using modern tools to make sure the app works perfectly on all devices." },
+                            { step: "03", title: "3. Launch", icon: <Rocket size={22}/>, desc: "I test everything and optimize the app so it loads quickly and is ready for real users." }
                         ].map((item, i) => (
-                            <div key={i} className="bg-[#FFFFFF] p-10 md:p-12 border border-[#222222]/5 hover:border-[#222222]/20 transition-all duration-500 group flex flex-col">
-                                <div className="flex justify-between items-center mb-12">
-                                    <span className="text-[10px] uppercase tracking-widest text-[#7B7B7B]">{item.step}</span>
-                                    <div className="w-12 h-12 rounded-full bg-[#F8F8F8] text-[#222222] flex items-center justify-center group-hover:bg-[#222222] group-hover:text-[#FFFFFF] transition-colors duration-500">
+                            <div key={i} className="bg-white rounded-[2rem] p-8 md:p-10 border border-gray-100 hover:shadow-xl hover:shadow-gray-100 transition-all duration-500 group flex flex-col">
+                                <div className="flex justify-between items-center mb-10">
+                                    <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">{item.step}</span>
+                                    <div className="w-14 h-14 rounded-full bg-gray-50 text-[#111111] flex items-center justify-center group-hover:bg-[#111111] group-hover:text-white transition-colors duration-500 shadow-sm">
                                         {item.icon}
                                     </div>
                                 </div>
-                                <h3 className="text-xl font-medium tracking-tight mb-4 text-[#222222]">{item.title}</h3>
-                                <p className="text-sm text-[#7B7B7B] leading-relaxed">{item.desc}</p>
+                                <h3 className="text-2xl font-medium tracking-tight mb-3 text-[#111111]">{item.title}</h3>
+                                <p className="text-gray-500 font-light leading-relaxed">{item.desc}</p>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* EXPERIMENTAL LABS - Stark Dark Section */}
-                <div className="bg-[#222222] text-[#FFFFFF] p-10 md:p-24 relative overflow-hidden">
-                    <div className="flex flex-col md:flex-row justify-between items-start mb-20 gap-12 border-b border-[#FFFFFF]/10 pb-16 relative z-10">
+                {/* EXPERIMENTAL LABS - Rounded Dark Section */}
+                <div className="bg-[#111111] rounded-[2rem] md:rounded-[3rem] text-white p-10 md:p-20 relative overflow-hidden shadow-2xl">
+                    <div className="flex flex-col md:flex-row justify-between items-start mb-16 gap-10 border-b border-white/10 pb-16 relative z-10">
                         <div className="max-w-xl">
-                            <span className="text-[#7B7B7B] text-[10px] uppercase tracking-widest mb-8 block">Archive</span>
-                            <h2 className="text-4xl md:text-6xl font-light tracking-tight mb-8 leading-[1.1]">
-                                Experimental <br /> <span className="text-[#7B7B7B] italic">Labs.</span>
+                            <span className="text-gray-400 font-semibold text-xs uppercase tracking-widest mb-6 block">Open Source</span>
+                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-6 leading-[1.2]">
+                                Code <br /> <span className="font-medium">Playground.</span>
                             </h2>
-                            <p className="text-[#F8F8F8]/70 text-lg font-medium leading-relaxed">
-                                Where I break things to learn how they work. Open-source utilities, architectural patterns, and UI systems.
+                            <p className="text-gray-400 text-base font-light leading-relaxed">
+                                Where I test new ideas, learn new tools, and build free resources to share with other developers.
                             </p>
                         </div>
-                        <a href="https://github.com/hirenmasaliya" target="_blank" className="flex items-center gap-3 px-8 py-4 bg-[#FFFFFF] text-[#222222] text-sm font-medium hover:scale-105 transition-transform duration-300">
-                            <Github size={16} />
-                            GitHub Archive
+                        <a href="https://github.com/hirenmasaliya" target="_blank" className="flex items-center gap-3 px-8 py-4 bg-white rounded-full text-[#111111] text-sm font-semibold hover:scale-105 hover:shadow-lg transition-all duration-300">
+                            <Github size={18} />
+                            View GitHub
                         </a>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                         {[
-                            { name: "Boilerplate", desc: "Performance-tuned Next.js startup foundation.", tech: "Next.js" },
-                            { name: "Auth Hook", desc: "Reactive state and authentication management.", tech: "TypeScript" },
-                            { name: "UI System", desc: "Strict atomic design system for internal tools.", tech: "Tailwind" },
+                            { name: "Starter Kit", desc: "A fast, ready-to-use template for starting new Next.js websites.", tech: "Next.js" },
+                            { name: "Login System", desc: "A secure and reusable way to handle user logins and accounts.", tech: "TypeScript" },
+                            { name: "UI Components", desc: "A collection of beautiful, ready-to-use buttons and cards.", tech: "Tailwind CSS" },
                         ].map((lab, i) => (
-                            <div key={i} className="p-8 md:p-10 border border-[#FFFFFF]/10 hover:border-[#FFFFFF]/30 transition-all duration-500 flex flex-col group">
-                                <h3 className="text-2xl font-light tracking-tight mb-4 text-[#FFFFFF] group-hover:translate-x-2 transition-transform duration-300">{lab.name}</h3>
-                                <p className="text-sm text-[#7B7B7B] leading-relaxed mb-10 flex-1">{lab.desc}</p>
-                                <span className="text-[10px] uppercase tracking-widest text-[#7B7B7B] border border-[#FFFFFF]/10 px-4 py-2 w-max">
+                            <div key={i} className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex flex-col group">
+                                <h3 className="text-xl font-medium tracking-tight mb-3 text-white group-hover:translate-x-1 transition-transform duration-300">{lab.name}</h3>
+                                <p className="text-sm font-light text-gray-400 leading-relaxed mb-8 flex-1">{lab.desc}</p>
+                                <span className="text-[11px] font-medium uppercase tracking-widest text-gray-300 border border-white/20 bg-white/5 rounded-lg px-3 py-1.5 w-max">
                                     {lab.tech}
                                 </span>
                             </div>
@@ -295,8 +276,8 @@ export default function Projects() {
                     </div>
                 </div>
 
-                <footer className="mt-24 text-center border-t border-[#222222]/10 pt-12 pb-8">
-                    <p className="text-[10px] text-[#7B7B7B] uppercase tracking-widest">
+                <footer className="mt-20 text-center border-t border-gray-200 pt-10 pb-8">
+                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest">
                         © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat
                     </p>
                 </footer>
