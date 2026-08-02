@@ -3,62 +3,61 @@ import '@/app/globals.css';
 import ConditionalNavbar from "./components/ConditionalNavbar";
 
 export const metadata: Metadata = {
-  // 1. Critical Fix: metadataBase must end without a trailing slash for relative URLs to resolve perfectly
   metadataBase: new URL("https://hirenmasaliya1411.web.app"),
 
   title: {
-    default: "Hiren Masaliya – Professional Flutter & Web Developer",
+    default: "Hiren Masaliya | Expert Flutter & Next.js Developer",
     template: "%s | Hiren Masaliya",
   },
 
   description:
-    "Official portfolio of Hiren Masaliya, professional Flutter & Full-Stack Web Developer and Founder of Aptro. Delivering high-performance mobile apps and premium business software systems.",
+    "Hire Hiren Masaliya, a freelance Full-Stack Web and Flutter Developer based in India. Creator of Aptro. Specializing in custom mobile apps, Next.js websites, and scalable SaaS solutions.",
 
   keywords: [
     "Hiren Masaliya",
-    "Flutter Developer India",
-    "Next.js Developer India",
-    "Full Stack Freelance Developer",
+    "Freelance Flutter Developer India",
+    "Next.js Developer Gujarat",
+    "React Web Developer",
+    "Firebase Expert",
+    "Tailwind CSS Developer",
+    "SaaS App Developer",
     "Aptro Founder",
-    "Aptro App",
-    "Order Management System Developer",
-    "Payroll Management Software Development",
-    "Hire Flutter Developer"
+    "Custom Business Software",
+    "Mobile App Developer Jetpur",
+    "Hire Full Stack Developer India"
   ],
 
   authors: [{ name: "Hiren Masaliya", url: "https://hirenmasaliya1411.web.app" }],
   creator: "Hiren Masaliya",
   publisher: "Hiren Masaliya",
 
-  // 2. Strict Canonical Match: Next.js standardizes root targets with a trailing slash
   alternates: {
     canonical: "https://hirenmasaliya1411.web.app/",
   },
 
   openGraph: {
-    title: "Hiren Masaliya – Flutter & Web Developer",
+    title: "Hiren Masaliya | Expert Flutter & Next.js Developer",
     description:
-      "Official portfolio of Hiren Masaliya. Discover high-quality full-stack applications, Flutter mobile apps, and enterprise software by the founder of Aptro.",
+      "Explore the portfolio of Hiren Masaliya. High-performance Next.js websites, Flutter mobile apps, and custom SaaS platforms built for modern businesses.",
     url: "https://hirenmasaliya1411.web.app/",
     siteName: "Hiren Masaliya Portfolio",
     locale: "en_IN",
     type: "website",
-    // 3. Essential for modern Rich Snippets & social shares
     images: [
       {
-        url: "/og-image.jpg", // Place a 1200x630px branding image in your /public folder
+        url: "/og-image.jpg", 
         width: 1200,
         height: 630,
-        alt: "Hiren Masaliya – Flutter & Web Developer Portfolio Image",
+        alt: "Hiren Masaliya – Custom App & Web Development",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Hiren Masaliya – Developer Portfolio & Aptro Founder",
+    title: "Hiren Masaliya | Expert Flutter & Next.js Developer",
     description:
-      "Professional Flutter Developer and Web Developer building customized mobile apps and enterprise software solutions.",
+      "Looking for a reliable developer? I build custom mobile apps and enterprise web platforms using Flutter and Next.js.",
     images: ["/og-image.jpg"],
   },
 
@@ -81,28 +80,37 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   
-  // 4. Enhanced Structured Data: Merging Person & Brand (Aptro) creates an interconnected entity for Google's Knowledge Graph
+  // Enhanced Structured Data targeting Professional Services and Location
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Person",
+        "@type": ["Person", "ProfessionalService"],
         "@id": "https://hirenmasaliya1411.web.app/#person",
         "name": "Hiren Masaliya",
         "url": "https://hirenmasaliya1411.web.app/",
+        "image": "https://hirenmasaliya1411.web.app/og-image.jpg",
         "jobTitle": "Full-Stack Web & Flutter Developer",
-        "description": "Freelance Software Developer specializing in Next.js, Flutter, and cross-platform business applications.",
+        "description": "Freelance Software Developer specializing in Next.js, Flutter, React, and scalable business applications.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Jetpur",
+          "addressRegion": "Gujarat",
+          "addressCountry": "IN"
+        },
+        "priceRange": "$$",
         "sameAs": [
           "https://www.linkedin.com/in/hiren-masaliya/",
           "https://github.com/hirenmasaliya",
           "https://www.instagram.com/hirenmasaliya14"
         ],
         "knowsAbout": [
-          "Flutter Development",
-          "Next.js Development",
-          "Full-Stack Web Development",
-          "Firebase",
-          "Mobile Application Architecture"
+          "Flutter App Development",
+          "Next.js Web Development",
+          "React.js",
+          "Firebase Integration",
+          "SaaS Architecture",
+          "Custom Software Solutions"
         ]
       },
       {
@@ -119,7 +127,7 @@ export default function RootLayout({
         "@type": "WebSite",
         "@id": "https://hirenmasaliya1411.web.app/#website",
         "url": "https://hirenmasaliya1411.web.app/",
-        "name": "Hiren Masaliya Portfolio",
+        "name": "Hiren Masaliya - App & Web Development",
         "publisher": {
           "@id": "https://hirenmasaliya1411.web.app/#person"
         }
@@ -137,7 +145,6 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         <meta name="application-name" content="Hiren Masaliya Portfolio" />
         
-        {/* Injecting clean, nested Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
