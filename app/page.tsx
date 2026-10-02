@@ -1,32 +1,80 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import React from 'react';
-import { 
-  ArrowUpRight, 
-  ArrowRight, 
-  Code2, 
-  Smartphone, 
-  Database, 
+import React, { useState, useEffect } from 'react';
+import {
+  ArrowUpRight,
+  ArrowRight,
+  Code2,
+  Smartphone,
+  Database,
   Palette,
   Sparkles,
   CheckCircle2,
-  Briefcase
+  Briefcase,
+  Play,
+  MapPin,
+  Calendar,
+  Copy
 } from 'lucide-react';
 
 const customEase = [0.25, 1, 0.5, 1] as const;
 
 export default function HomeContent() {
+  // --- Typing Effect State & Logic ---
+  const words = ["Flutter", "Next.js", "React", "Full-Stack"];
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+  const [isCopied, setIsCopied] = useState(false);
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      handleType();
+    }, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [text, isDeleting]);
+
+  const handleType = () => {
+    const i = loopNum % words.length;
+    const fullText = words[i];
+
+    setText(
+      isDeleting
+        ? fullText.substring(0, text.length - 1)
+        : fullText.substring(0, text.length + 1)
+    );
+
+    setTypingSpeed(isDeleting ? 40 : 120);
+
+    if (!isDeleting && text === fullText) {
+      setTypingSpeed(2500); // Pause time when word is fully typed
+      setIsDeleting(true);
+    } else if (isDeleting && text === "") {
+      setIsDeleting(false);
+      setLoopNum(loopNum + 1);
+      setTypingSpeed(500); // Pause before typing next word
+    }
+  };
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("hirenmasliya14@gmail.com");
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+  // -----------------------------------
+
   const containerVars = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 }
     }
   };
 
   const itemVars = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase } }
   };
 
@@ -38,92 +86,123 @@ export default function HomeContent() {
   return (
     <main className="bg-[#FAFAFA] text-[#111111] min-h-screen font-sans overflow-x-hidden selection:bg-[#111111] selection:text-white">
 
-      {/* 1. HERO SECTION - SEO Optimized H1 & Intro */}
-      <section className="relative pt-32 md:pt-24 pb-20 px-6 md:px-12 max-w-[1600px] mx-auto overflow-hidden min-h-[95vh] flex items-center">
-        <div className="absolute top-10 left-1/4 w-[600px] h-[600px] bg-gray-200/40 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+      {/* 1. HERO SECTION - UI/UX Upgraded */}
+      <section className="relative pt-32 md:pt-28 pb-20 px-6 md:px-12 max-w-[1600px] mx-auto overflow-hidden min-h-[95vh] flex items-center">
+        {/* Background Enhancements */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] -z-20"></div>
+        <div className="absolute top-10 left-1/4 w-[600px] h-[600px] bg-blue-100/40 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+        <div className="absolute bottom-10 right-1/4 w-[500px] h-[500px] bg-purple-100/40 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
 
         <motion.div
           initial="hidden"
           animate="visible"
           variants={containerVars}
-          className="grid md:grid-cols-12 gap-12 lg:gap-8 items-center w-full"
+          className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full"
         >
-          <div className="md:col-span-7 flex flex-col relative z-10">
-            
-            <motion.div variants={itemVars} className="mb-8 inline-flex">
-              <div className="flex items-center gap-3 px-4 py-2.5 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-default">
+          <div className="lg:col-span-7 flex flex-col relative z-10">
+
+            <motion.div variants={itemVars} className="mb-6 inline-flex">
+              <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 shadow-sm hover:shadow-md transition-all cursor-default">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-gray-700">Available for freelance projects</span>
+                <span className="text-[11px] font-bold uppercase tracking-widest text-gray-700">Accepting New Projects</span>
               </div>
             </motion.div>
 
-            {/* SEO Keyword Heavy H1 */}
-            <motion.h1 variants={itemVars} className="text-5xl md:text-7xl lg:text-[5.5rem] font-light tracking-tight leading-[1.1] text-[#111111] mb-6">
-              Freelance <span className="font-medium">Flutter</span> & <br className="hidden lg:block" />
-              <span className="font-medium">Next.js</span> Developer.
+            {/* Upgraded Typing Effect H1 - Fixed height issues and added gradient */}
+            <motion.h1 variants={itemVars} className="text-5xl md:text-7xl lg:text-[5.5rem] font-light tracking-tight leading-[1.1] text-[#111111] mb-6 min-h-[160px] md:min-h-[180px] lg:min-h-[200px]">
+              Building modern <br />
+              <span className="font-semibold bg-gradient-to-r from-blue-800 to-blue-500 bg-clip-text text-transparent">
+                {text || "\u00A0"}
+              </span>
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                className="font-thin text-[#111111] -ml-2"
+              >
+                |
+              </motion.span> <br />
+              applications.
             </motion.h1>
 
-            {/* Location & Services Intro for Local SEO */}
-            <motion.p variants={itemVars} className="text-gray-600 text-lg md:text-xl font-light max-w-2xl leading-relaxed mb-10">
-              Hi, I'm <strong className="font-medium text-[#111111]">Hiren Masaliya</strong>, a full-stack software developer based in Gujarat, India. I specialize in building custom cross-platform mobile apps and scalable SaaS web platforms to help businesses grow globally.
+            {/* Improved UX Copywriting */}
+            <motion.p variants={itemVars} className="text-gray-500 text-lg md:text-xl font-light max-w-2xl leading-relaxed mb-10">
+              Hi, I'm <strong className="font-medium text-[#111111]">Hiren Masaliya</strong>, a full-stack developer based in Gujarat. I transform complex ideas into elegant, user-centric mobile and web experiences that drive real business growth.
             </motion.p>
 
             <motion.div variants={itemVars} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6">
-              <a href="#contact" className="group flex items-center justify-center gap-3 bg-[#111111] text-white px-8 py-4 rounded-full text-sm font-medium hover:bg-gray-800 hover:shadow-xl hover:shadow-black/10 transition-all duration-300">
-                Hire Me
+              <a href="#contact" className="group flex items-center justify-center gap-3 bg-[#111111] text-white px-8 py-4 rounded-full text-sm font-semibold hover:bg-gray-800 hover:shadow-xl hover:shadow-gray-900/20 hover:-translate-y-1 transition-all duration-300">
+                Start a Project
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </a>
-              <a href="#portfolio" className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full text-sm font-medium border border-gray-300 hover:border-[#111111] hover:bg-white transition-all duration-300">
-                View My Portfolio
+              <a href="#portfolio" className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full text-sm font-semibold bg-white border border-gray-200 text-[#111111] hover:border-[#111111] hover:shadow-md transition-all duration-300">
+                <Play size={16} className="fill-current text-[#111111]" />
+                Explore My Work
               </a>
             </motion.div>
           </div>
 
-          <motion.div variants={itemVars} className="md:col-span-5 relative h-[450px] md:h-[700px] w-full mt-10 md:mt-0">
-            <div className="w-full h-full bg-[#E5E5E5] rounded-[2rem] md:rounded-[4rem] overflow-hidden relative group shadow-2xl shadow-black/5">
-              <img
-                src="/images/hero.png" 
-                alt="Hiren Masaliya - Full Stack Mobile and Web Developer"
-                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out"
-              />
-              <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 pointer-events-none"></div>
-            </div>
-
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-              className="absolute -right-2 md:-right-8 top-12 md:top-24 bg-white/90 backdrop-blur-md border border-white p-5 rounded-2xl shadow-xl shadow-black/5 max-w-[180px]"
+          {/* Upgraded Image Section with Floating Animation and Glassmorphism */}
+          <motion.div
+            variants={itemVars}
+            className="lg:col-span-5 relative h-[450px] md:h-[650px] w-full mt-10 lg:mt-0"
+          >
+            {/* Gentle float animation for the main image wrapper */}
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              className="w-full h-full relative z-10"
             >
-              <div className="flex items-center gap-3 mb-1">
-                <CheckCircle2 size={24} className="text-green-500" />
-                <h4 className="text-2xl font-bold tracking-tight">100%</h4>
+              <div className="w-full h-full bg-[#E5E5E5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden relative group shadow-2xl shadow-black/10 border-4 border-white">
+                <img
+                  src="/images/hero.png" // Ensure this path is correct
+                  alt="Hiren Masaliya - Full Stack Mobile and Web Developer"
+                  className="w-full h-full object-cover object-center scale-105 group-hover:scale-110 transition-transform duration-1000 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
               </div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mt-1">Client Satisfaction</p>
-            </motion.div>
 
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="absolute -left-2 md:-left-12 bottom-12 md:bottom-24 bg-[#111111]/95 backdrop-blur-md border border-gray-800 p-5 rounded-2xl shadow-xl shadow-black/10 max-w-[200px]"
-            >
-              <div className="flex items-center gap-3 mb-1">
-                <Briefcase size={22} className="text-white" />
-                <h4 className="text-2xl font-bold tracking-tight text-white">5+</h4>
-              </div>
-              <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mt-1">Apps Deployed</p>
+              {/* Floating Stat 1 - Glassmorphism UI */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.2, duration: 0.6, type: "spring" }}
+                className="absolute -right-2 md:-right-8 top-16 md:top-24 bg-white/70 backdrop-blur-lg border border-white/60 p-5 rounded-3xl shadow-xl shadow-gray-200/50 max-w-[180px] z-20"
+              >
+                <div className="flex items-center gap-3 mb-1">
+                  <div className="bg-green-100 p-2 rounded-full">
+                    <CheckCircle2 size={20} className="text-green-600" />
+                  </div>
+                  <h4 className="text-2xl font-bold tracking-tight text-[#111111]">100%</h4>
+                </div>
+                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-2 pl-1">Client Satisfaction</p>
+              </motion.div>
+
+              {/* Floating Stat 2 - Glassmorphism UI */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.4, duration: 0.6, type: "spring" }}
+                className="absolute -left-2 md:-left-12 bottom-16 md:bottom-24 bg-[#111111]/80 backdrop-blur-lg border border-gray-700 p-5 rounded-3xl shadow-2xl shadow-black/20 max-w-[200px] z-20"
+              >
+                <div className="flex items-center gap-3 mb-1">
+                  <div className="bg-white/10 p-2 rounded-full">
+                    <Briefcase size={20} className="text-white" />
+                  </div>
+                  <h4 className="text-2xl font-bold tracking-tight text-white">5+</h4>
+                </div>
+                <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mt-2 pl-1">Apps Deployed</p>
+              </motion.div>
             </motion.div>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* 2. ABOUT ME & SKILLS - SEO Optimized H2 */}
+      {/* 2. ABOUT ME & SKILLS */}
       <section id="about" className="py-32 px-6 md:px-12 bg-white relative">
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -131,10 +210,10 @@ export default function HomeContent() {
           className="max-w-[1600px] mx-auto grid lg:grid-cols-2 gap-16 lg:gap-24 items-center"
         >
           <motion.div variants={scrollRevealVars} className="flex flex-col gap-8 max-w-xl">
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">Custom App & <br/> Web Development</h2>
+            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#111111]">Custom App & <br /> Web Development</h2>
             <p className="text-gray-600 text-lg leading-relaxed font-light">
-              I specialize in creating smooth, high-performance mobile applications with <strong className="font-medium text-[#111111]">Flutter</strong> and lightning-fast SEO-friendly websites with <strong className="font-medium text-[#111111]">Next.js and React</strong>. 
-              <br/><br/>
+              I specialize in creating smooth, high-performance mobile applications with <strong className="font-medium text-[#111111]">Flutter</strong> and lightning-fast SEO-friendly websites with <strong className="font-medium text-[#111111]">Next.js and React</strong>.
+              <br /><br />
               Whether you need a full SaaS architecture built on Firebase or a clean UI/UX redesign, I deliver end-to-end solutions that solve real technical challenges.
             </p>
           </motion.div>
@@ -144,7 +223,7 @@ export default function HomeContent() {
               <h3 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#111111] mb-3">Fast</h3>
               <p className="text-gray-500 text-sm md:text-base leading-relaxed">Engineered for low latency and high user retention.</p>
             </motion.div>
-            
+
             <motion.div variants={scrollRevealVars} className="bg-[#111111] text-white rounded-3xl p-8 flex flex-col justify-center hover:shadow-lg transition-all duration-300">
               <p className="text-white/60 font-medium mb-6 text-sm uppercase tracking-wider">Core Tech Stack</p>
               <div className="grid grid-cols-2 gap-5">
@@ -169,7 +248,7 @@ export default function HomeContent() {
 
       {/* 3. EXPERIENCE SECTION */}
       <section className="py-32 px-6 md:px-12 bg-[#FAFAFA]">
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -188,13 +267,16 @@ export default function HomeContent() {
 
           <div className="flex flex-col">
             {[
-              { company: "Aptro", location: "Jetpur, India", role: "Founder & Lead Developer", date: "Oct 2025 - Present", tags: ["Flutter", "SaaS Architecture"] },
-              { company: "Freelance", location: "Remote / Global", role: "Full-Stack Developer", date: "Jan 2026 - Present", tags: ["Next.js", "React"] },
-              { company: "Wallzer", location: "Jetpur, India", role: "Founder", date: "May 2025 - Jul 2025", tags: ["UI/UX Design", "Production"] }
+              { company: "Aptro (Order & Billing App)", location: "Jetpur, India", role: "Founder & Lead Developer", date: "Oct 2025 - Present", tags: ["Flutter", "SaaS Architecture", "Firebase", "Razorpay", "REST APIs", "Android"] },
+              { company: "Buildart Industries", location: "Rajkot (Remote)", role: "Self-Employed", date: "Jan 2026 - Present", tags: ["Next.js", "React"] },
+              { company: "50% Save More. Pollute Less.", location: "Ahmedabad, Gujarat, India (Remote)", role: "Self-Employed", date: "Jan 2026", tags: ["Flutter", "Firebase", "Android", "iOS", "REST APIs"] },
+              { company: "DIRA Infratech Pvt Ltd", location: "Ahmedabad, Gujarat, India (Remote)", role: "Self-Employed", date: "Aug 2025 – Sep 2025", tags: ["PHP"] },
+              { company: "Wallzer", location: "Jetpur, India", role: "Founder", date: "May 2025 - Jul 2025", tags: ["UI/UX Design", "Production"] },
+              { company: "PHP Web Developer (Freelance)", location: "Ahmedabad, Gujarat, India (Remote)", role: "Self-Employed", date: "Apr 2025 – May 2025", tags: ["PHP"] },
             ].map((job, i) => (
-              <motion.div 
-                variants={scrollRevealVars} 
-                key={i} 
+              <motion.div
+                variants={scrollRevealVars}
+                key={i}
                 className="group flex flex-col md:flex-row md:items-center justify-between py-8 border-b border-gray-200 hover:bg-white hover:px-6 -mx-6 px-6 transition-all duration-300 rounded-2xl cursor-default"
               >
                 <div className="md:w-1/3 mb-3 md:mb-0">
@@ -219,7 +301,7 @@ export default function HomeContent() {
 
       {/* 4. CALL TO ACTION BANNER */}
       <section className="px-6 md:px-12 py-16 bg-[#FAFAFA]">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -232,7 +314,7 @@ export default function HomeContent() {
             Need a reliable developer? <br /> Let's build your software.
           </h2>
           <a href="#contact" className="group bg-white text-[#111111] px-8 py-4 rounded-full text-sm font-semibold hover:scale-105 transition-all duration-300 relative z-10 flex items-center gap-3 shadow-lg">
-            Get a Free Technical Consultation 
+            Get a Free Technical Consultation
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </a>
         </motion.div>
@@ -240,7 +322,7 @@ export default function HomeContent() {
 
       {/* 5. PORTFOLIO / WORKS */}
       <section id="portfolio" className="py-32 px-6 md:px-12 bg-white">
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -259,20 +341,20 @@ export default function HomeContent() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {[
-              { 
-                title: "Aptro", 
+              {
+                title: "Aptro",
                 desc: "SaaS Business Management App",
                 image: "/images/projects/aptro-website.png",
                 link: "https://aptrooms.web.app/"
               },
-              { 
-                title: "Clothiva Elite", 
+              {
+                title: "Clothiva Elite",
                 desc: "Next.js E-Commerce Platform",
                 image: "/images/projects/clothiva-thumbnail.png",
                 link: "https://clothivaelite.vercel.app/"
               },
-              { 
-                title: "Buildart Industries", 
+              {
+                title: "Buildart Industries",
                 desc: "React Corporate Website",
                 image: "/images/projects/buildart-website.png",
                 link: "https://buildartind.com"
@@ -280,9 +362,9 @@ export default function HomeContent() {
             ].map((work, i) => (
               <motion.div variants={scrollRevealVars} key={i} className="group cursor-pointer">
                 <a href={work.link} target="_blank" rel="noreferrer" className="block aspect-[3/2] bg-gray-100 border border-gray-100 rounded-3xl mb-5 relative overflow-hidden flex items-center justify-center transition-all duration-500 hover:shadow-xl hover:shadow-gray-200/50">
-                  <img 
-                    src={work.image} 
-                    alt={`${work.title} - ${work.desc}`} 
+                  <img
+                    src={work.image}
+                    alt={`${work.title} - ${work.desc}`}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                   <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 pointer-events-none"></div>
@@ -290,7 +372,7 @@ export default function HomeContent() {
                     <ArrowUpRight size={22} className="text-[#111111]" />
                   </div>
                 </a>
-                
+
                 <div className="px-2">
                   <h3 className="text-xl font-semibold text-[#111111] mb-1 group-hover:text-blue-600 transition-colors">
                     <a href={work.link} target="_blank" rel="noreferrer">{work.title}</a>
@@ -310,31 +392,98 @@ export default function HomeContent() {
       </section>
 
       {/* 6. FOOTER */}
-      <footer id="contact" className="bg-[#111111] pt-28 pb-10 px-6 md:px-12 text-center rounded-t-[2.5rem] md:rounded-t-[4rem]">
-        <div className="max-w-4xl mx-auto relative z-10">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6">
-            Ready to start?
+      {/* 6. FOOTER - UI/UX Upgraded */}
+      <footer id="contact" className="bg-[#111111] pt-32 pb-10 px-6 md:px-12 rounded-t-[2.5rem] md:rounded-t-[4rem] relative overflow-hidden">
+        {/* Subtle Background Elements */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/[0.03] rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div className="max-w-5xl mx-auto relative z-10 text-center mb-24 md:mb-32">
+
+          {/* Availability Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-xs font-medium text-gray-300 uppercase tracking-widest">Available for new projects</span>
+          </div>
+
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white mb-6">
+            Let's build something <br className="hidden md:block" />
+            <span className="font-medium">extraordinary.</span>
           </h2>
-          <p className="text-gray-400 text-lg font-light mb-16 max-w-xl mx-auto">
-            Send me an email if you need a reliable developer for your next web or mobile project.
+
+          <p className="text-gray-400 text-lg md:text-xl font-light mb-16 max-w-2xl mx-auto leading-relaxed">
+            Whether you need a scalable SaaS platform or a seamless mobile experience, I'm ready to turn your vision into reality.
           </p>
 
-          <a
-            href="mailto:hirenmasliya14@gmail.com"
-            className="inline-block text-3xl md:text-5xl font-light text-white hover:text-gray-300 transition-colors mb-28 relative group break-all md:break-normal px-4"
-          >
-            hirenmasliya14@gmail.com
-            <span className="absolute -bottom-2 left-0 w-full h-[1px] bg-white/20 group-hover:bg-white transition-colors duration-300 hidden md:block"></span>
-          </a>
+          {/* Interactive Contact Actions */}
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center gap-4 bg-white/5 p-2 rounded-full border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors duration-300">
+              <a
+                href="mailto:hirenmasliya14@gmail.com"
+                className="text-xl md:text-3xl font-light text-white px-6 py-3 hover:text-gray-300 transition-colors break-all sm:break-normal"
+              >
+                hirenmasliya14@gmail.com
+              </a>
+              <button
+                onClick={handleCopyEmail}
+                className="flex items-center justify-center gap-2 bg-white text-[#111111] px-6 py-4 rounded-full text-sm font-semibold hover:scale-105 transition-all duration-300 w-full sm:w-auto shadow-lg"
+              >
+                {isCopied ? (
+                  <>
+                    <CheckCircle2 size={18} className="text-green-600" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy size={18} />
+                    Copy Email
+                  </>
+                )}
+              </button>
+            </div>
+
+            <p className="text-gray-500 text-sm font-light italic">or</p>
+
+            <a
+              href="#" // Add your Calendly or WhatsApp link here
+              className="group flex items-center gap-2 text-gray-300 hover:text-white transition-colors text-sm font-medium border-b border-gray-700 hover:border-white pb-1"
+            >
+              <Calendar size={16} className="group-hover:-translate-y-0.5 transition-transform" />
+              Schedule a quick discovery call
+            </a>
+          </div>
         </div>
 
-        <div className="max-w-[1600px] mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-gray-500 text-sm font-medium">
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
-            <a href="#" className="hover:text-white transition-colors">GitHub</a>
-            <a href="#" className="hover:text-white transition-colors">Twitter</a>
+        {/* Bottom Bar - Improved Layout */}
+        <div className="max-w-[1600px] mx-auto border-t border-white/10 pt-8 flex flex-col lg:flex-row justify-between items-center gap-8 relative z-10">
+
+          {/* Location details */}
+          <div className="flex items-center gap-2 text-gray-500 text-sm font-medium order-2 lg:order-1">
+            <MapPin size={16} />
+            <p>Based in Jetpur, Gujarat, India</p>
           </div>
-          <p>© {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat</p>
+
+          {/* Social Links with Hover Underline effect */}
+          <div className="flex gap-8 order-1 lg:order-2">
+            {['LinkedIn', 'GitHub', 'Twitter'].map((social) => (
+              <a
+                key={social}
+                href="#"
+                className="text-gray-400 text-sm font-medium hover:text-white relative group transition-colors"
+              >
+                {social}
+                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            ))}
+          </div>
+
+          {/* Copyright */}
+          <div className="text-gray-600 text-sm font-medium order-3">
+            <p>© {new Date().getFullYear()} Hiren Masaliya.</p>
+          </div>
         </div>
       </footer>
 

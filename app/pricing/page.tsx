@@ -2,7 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Zap, Rocket, Shield, Globe, X, CheckCircle2, ArrowRight } from "lucide-react";
+import { 
+    ArrowUpRight, Zap, Rocket, Shield, X, CheckCircle2, 
+    ArrowRight, MessageSquare, PenTool, Code2, ShieldCheck, 
+    Clock, ChevronDown, HelpCircle, Layers
+} from "lucide-react";
 import { ref, push, serverTimestamp } from 'firebase/database';
 import { database } from '@/lib/firebase';
 
@@ -22,11 +26,11 @@ const regionalData = {
     },
     INR: {
         symbol: "₹",
-        plans: ["15,000", "40,000", "1,20,000"],
+        plans: ["25,000", "40,000", "1,20,000"],
         addons: [
-            ["3,000+", "3,000+", "15,000+"],
-            ["30,000+", "20,000+", "10,000+"],
-            ["15,000+", "23,000+", "20,000+"]
+            ["2,000+", "2,400+", "15,000+"],
+            ["3,000+", "2,500+", "10,000+"],
+            ["2,500+", "3,200+", "2,000+"]
         ],
         budgets: ["Under ₹50,000", "₹50,000 - ₹2,00,000", "₹2,00,000 - ₹5,00,000", "₹5,00,000+"]
     },
@@ -54,7 +58,7 @@ const regionalData = {
 
 type Currency = 'USD' | 'INR' | 'EUR' | 'GBP';
 
-// --- Static Plan Meta ---
+// --- Page Data ---
 const planMeta = [
     {
         name: "Starter",
@@ -106,9 +110,24 @@ const addOnCategoriesMeta = [
     }
 ];
 
+const processSteps = [
+    { title: "Discovery & Strategy", desc: "We map out your requirements, target audience, and business goals to choose the perfect tech stack.", icon: <MessageSquare size={20} /> },
+    { title: "UI/UX Design", desc: "I create modern, user-friendly wireframes and visual designs so you can see your app before it's built.", icon: <PenTool size={20} /> },
+    { title: "Development", desc: "Writing clean, scalable code using Next.js or Flutter, with regular updates and milestone deliveries.", icon: <Code2 size={20} /> },
+    { title: "Testing & Launch", desc: "Rigorous bug testing followed by deployment to web servers, Google Play, and the Apple App Store.", icon: <Rocket size={20} /> }
+];
+
+const faqs = [
+    { q: "Are there any hidden fees or monthly charges?", a: "No. The prices listed are one-time costs for development. Third-party costs (like server hosting, domain names, or Apple/Google Developer account fees) are separate, but I will guide you on the cheapest and best options." },
+    { q: "Who owns the source code after launch?", a: "You do. Once the final milestone payment is completed, full intellectual property rights and the complete source code are transferred directly to you." },
+    { q: "How do payments work?", a: "I typically work on a structured milestone basis: 30% upfront to start, 40% after design & core development, and the final 30% upon successful launch." },
+    { q: "What if my project doesn't fit these exact plans?", a: "No problem! The plans are general guidelines. If you need a completely custom SaaS or unique features, we will discuss it on a call and I will provide a tailored quote." }
+];
+
 export default function Pricing() {
     const [currency, setCurrency] = useState<Currency>('USD');
     const [activeTab, setActiveTab] = useState(0);
+    const [openFaq, setOpenFaq] = useState<number | null>(0);
     
     // Modal & Form State
     const [selectedService, setSelectedService] = useState<{ name: string, price: string, type: string } | null>(null);
@@ -142,9 +161,8 @@ export default function Pricing() {
         setIsSuccess(false);
         
         let defaultProjectType = '';
-        if (type === 'Plan') {
-            defaultProjectType = 'Full Stack System';
-        }
+        if (type === 'Plan') defaultProjectType = 'Full Stack System';
+        else if (type === 'Add-on') defaultProjectType = 'Mobile Application';
         
         setFormData({ name: '', email: '', mobile: '', company: '', projectType: defaultProjectType, budget: '', brief: '' });
     };
@@ -156,7 +174,6 @@ export default function Pricing() {
         setIsSubmitting(true);
 
         try {
-            // Save to Firebase Realtime Database
             const inquiriesRef = ref(database, 'pricing_inquiries');
             await push(inquiriesRef, {
                 serviceName: selectedService?.name,
@@ -171,8 +188,6 @@ export default function Pricing() {
                 brief: formData.brief,
                 timestamp: serverTimestamp(),
             });
-
-            // Show Success State
             setIsSuccess(true);
         } catch (error) {
             console.error("Error saving to Firebase:", error);
@@ -199,7 +214,7 @@ export default function Pricing() {
                             <div className="flex items-center gap-3 mb-8">
                                 <div className="w-2 h-2 bg-[#111111] rounded-full"></div>
                                 <span className="text-gray-500 text-xs uppercase tracking-widest font-semibold">
-                                    Simple Pricing
+                                    Investment & Pricing
                                 </span>
                             </div>
                             <h1 className="text-5xl md:text-[6rem] lg:text-[7rem] font-light tracking-tight leading-[1] text-[#111111]">
@@ -207,13 +222,13 @@ export default function Pricing() {
                             </h1>
                         </div>
                         <p className="text-gray-500 text-lg md:text-xl max-w-sm font-light pb-2 md:pb-4 leading-relaxed">
-                            Honest, straightforward pricing for high-quality apps and websites. Pick a plan that fits your needs.
+                            Honest, straightforward pricing for high-quality apps and websites. No hidden fees, just great software.
                         </p>
                     </motion.div>
                 </div>
 
                 {/* --- MAIN PLANS --- */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-32 md:mb-40">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-32">
                     {planMeta.map((plan, i) => (
                         <motion.div
                             key={plan.name}
@@ -277,16 +292,63 @@ export default function Pricing() {
                     ))}
                 </div>
 
+                {/* --- VALUE PROPOSITION --- */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
+                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200">
+                        <ShieldCheck size={28} className="text-[#111111] mb-6" />
+                        <h4 className="text-xl font-medium mb-3">100% Code Ownership</h4>
+                        <p className="text-gray-500 font-light text-sm leading-relaxed">Once the project is complete and paid for, the intellectual property and source code belong entirely to you.</p>
+                    </div>
+                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200">
+                        <Clock size={28} className="text-[#111111] mb-6" />
+                        <h4 className="text-xl font-medium mb-3">On-Time Delivery</h4>
+                        <p className="text-gray-500 font-light text-sm leading-relaxed">I value your time. We set clear milestones and deadlines on day one, ensuring your product launches right on schedule.</p>
+                    </div>
+                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200">
+                        <Layers size={28} className="text-[#111111] mb-6" />
+                        <h4 className="text-xl font-medium mb-3">Modern Tech Stack</h4>
+                        <p className="text-gray-500 font-light text-sm leading-relaxed">Built using Next.js, React, Flutter, and Firebase. Your app will be fast, secure, and ready to scale.</p>
+                    </div>
+                </div>
+
+                {/* --- HOW IT WORKS (PROCESS) --- */}
+                <div className="mb-32 md:mb-40">
+                    <div className="text-center mb-16 max-w-2xl mx-auto">
+                        <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4 text-[#111111]">
+                            How It <span className="font-medium">Works.</span>
+                        </h2>
+                        <p className="text-gray-500 font-light text-base md:text-lg">A simple, transparent process from our first hello to your successful launch.</p>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+                        {/* Connecting Line (Desktop only) */}
+                        <div className="hidden md:block absolute top-10 left-12 right-12 h-[1px] bg-gray-200 z-0"></div>
+                        
+                        {processSteps.map((step, idx) => (
+                            <div key={idx} className="relative z-10 flex flex-col items-center text-center group">
+                                <div className="w-20 h-20 bg-white border-2 border-gray-100 rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:border-[#111111] group-hover:shadow-md transition-all duration-300">
+                                    <div className="text-gray-400 group-hover:text-[#111111] transition-colors">
+                                        {step.icon}
+                                    </div>
+                                </div>
+                                <span className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">Step 0{idx + 1}</span>
+                                <h4 className="text-xl font-medium mb-3 text-[#111111]">{step.title}</h4>
+                                <p className="text-gray-500 font-light text-sm leading-relaxed px-4">{step.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 {/* --- ADD-ONS SECTION --- */}
-                <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-16 lg:p-20 shadow-sm relative overflow-hidden">
+                <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-16 lg:p-20 shadow-sm relative overflow-hidden mb-32">
                     
                     <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16 border-b border-gray-100 pb-12 relative z-10">
                         <div className="max-w-xl">
                             <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4 leading-[1.2] text-[#111111]">
-                                Extra <span className="font-medium">Services.</span>
+                                Standalone <span className="font-medium">Services.</span>
                             </h2>
                             <p className="text-gray-500 text-base font-light leading-relaxed">
-                                Need something specific? You can add these services to any plan above, or request them completely on their own.
+                                Need quick fixes, maintenance, or individual enhancements for an existing project? 
                             </p>
                         </div>
                         
@@ -340,29 +402,54 @@ export default function Pricing() {
                             </motion.div>
                         </AnimatePresence>
                     </div>
+                </div>
 
-                    {/* --- FOOTER CTA --- */}
-                    <div className="mt-20 pt-12 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
-                        <div className="flex flex-col items-center md:items-start gap-6 w-full md:w-auto">
-                            <div className="max-w-sm text-center md:text-left">
-                                <h4 className="text-2xl font-medium text-[#111111] tracking-tight mb-2">Need Ongoing Help?</h4>
-                                <p className="text-base text-gray-500 font-light leading-relaxed">
-                                    Hire me on a monthly retainer to keep your apps updated, secure, and running smoothly.
-                                </p>
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={() => handleSelectService('Monthly Support', 'Custom Price', 'Retainer')}
-                            className="w-full md:w-auto bg-[#111111] rounded-full text-white px-8 py-4 text-sm font-medium hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-3 group/cta"
-                        >
-                            Let's Talk <ArrowRight size={18} className="group-hover/cta:translate-x-1 transition-transform duration-300" />
-                        </button>
+                {/* --- FAQ SECTION --- */}
+                <div className="max-w-3xl mx-auto mb-32">
+                    <div className="text-center mb-12">
+                        <HelpCircle size={32} className="mx-auto text-gray-300 mb-4" />
+                        <h2 className="text-3xl md:text-4xl font-light tracking-tight text-[#111111]">
+                            Common Questions
+                        </h2>
+                    </div>
+                    
+                    <div className="space-y-4">
+                        {faqs.map((faq, idx) => {
+                            const isOpen = openFaq === idx;
+                            return (
+                                <div 
+                                    key={idx} 
+                                    className={`border rounded-2xl overflow-hidden transition-colors duration-300 ${isOpen ? 'bg-white border-[#111111] shadow-sm' : 'bg-transparent border-gray-200 hover:border-gray-300'}`}
+                                >
+                                    <button 
+                                        onClick={() => setOpenFaq(isOpen ? null : idx)}
+                                        className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                                    >
+                                        <span className={`font-medium ${isOpen ? 'text-[#111111]' : 'text-gray-700'}`}>{faq.q}</span>
+                                        <ChevronDown size={18} className={`text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#111111]' : ''}`} />
+                                    </button>
+                                    <AnimatePresence>
+                                        {isOpen && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: "auto", opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                <div className="px-6 pb-6 text-sm text-gray-500 font-light leading-relaxed border-t border-gray-100 pt-4">
+                                                    {faq.a}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
 
                 {/* --- TECH MARQUEE --- */}
-                <div className="mt-24 md:mt-32 overflow-hidden relative border-y border-gray-200 py-10">
+                <div className="overflow-hidden relative border-y border-gray-200 py-10">
                     <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#FAFAFA] to-transparent z-10" />
                     <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#FAFAFA] to-transparent z-10" />
                     
@@ -373,10 +460,10 @@ export default function Pricing() {
                     >
                         {[
                             "Flutter", "Next.js", "Firebase", "PostgreSQL",
-                            "Tailwind CSS", "TypeScript", "Node.js", "Stripe", "Supabase"
+                            "Tailwind CSS", "TypeScript", "Node.js", "Stripe", "Supabase", "React.js", "PHP"
                         ].concat([
                             "Flutter", "Next.js", "Firebase", "PostgreSQL",
-                            "Tailwind CSS", "TypeScript", "Node.js", "Stripe", "Supabase"
+                            "Tailwind CSS", "TypeScript", "Node.js", "Stripe", "Supabase", "React.js", "PHP"
                         ]).map((tech, i) => (
                             <span key={i} className="text-2xl md:text-4xl font-medium text-gray-200 uppercase tracking-widest cursor-default">
                                 {tech}
@@ -386,7 +473,7 @@ export default function Pricing() {
                 </div>
             </div>
 
-            <footer className="mt-20 text-center border-t border-gray-200 pt-10 pb-8 mx-6 md:mx-12">
+            <footer className="mt-20 text-center pt-10 pb-8 mx-6 md:mx-12">
                 <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-widest">
                     © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat
                 </p>
@@ -444,12 +531,12 @@ export default function Pricing() {
                                                 <p className="text-[#111111] font-medium text-lg">{selectedService.name}</p>
                                             </div>
                                             <div className="flex-1 md:text-right">
-                                                <span className="text-xs uppercase tracking-widest font-semibold text-blue-500 mb-1 block">Starting Price</span>
+                                                <span className="text-xs uppercase tracking-widest font-semibold text-blue-500 mb-1 block">Estimated Price</span>
                                                 <p className="text-[#111111] font-medium text-lg">{selectedService.price}</p>
                                             </div>
                                         </div>
 
-                                        {/* --- USER DETAILS (Modern Fixed Labels) --- */}
+                                        {/* --- USER DETAILS --- */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="flex flex-col gap-2">
                                                 <label htmlFor="modal-name" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Full Name</label>
@@ -518,9 +605,9 @@ export default function Pricing() {
                                         </div>
 
                                         <div className="flex flex-col gap-2 pt-2">
-                                            <label htmlFor="modal-brief" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Tell me about your idea</label>
+                                            <label htmlFor="modal-brief" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Project Details</label>
                                             <textarea 
-                                                required id="modal-brief" rows={3}
+                                                required id="modal-brief" rows={4}
                                                 value={formData.brief} onChange={(e) => setFormData({ ...formData, brief: e.target.value })}
                                                 placeholder="What are you trying to build?"
                                                 className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-4 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111] resize-none leading-relaxed"
