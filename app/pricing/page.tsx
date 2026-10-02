@@ -4,11 +4,11 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
     ArrowUpRight, Zap, Rocket, Shield, X, CheckCircle2, 
-    ArrowRight, MessageSquare, PenTool, Code2, ShieldCheck, 
-    Clock, ChevronDown, HelpCircle, Layers
+    MessageSquare, PenTool, Code2, ShieldCheck, 
+    Clock, ChevronDown, HelpCircle, Layers, Smartphone
 } from "lucide-react";
 import { ref, push, serverTimestamp } from 'firebase/database';
-import { database } from '@/lib/firebase';
+import { database } from '@/lib/firebase'; // Ensure your firebase config path is correct
 
 const customEase = [0.25, 1, 0.5, 1] as const;
 
@@ -58,27 +58,27 @@ const regionalData = {
 
 type Currency = 'USD' | 'INR' | 'EUR' | 'GBP';
 
-// --- Page Data ---
+// --- Plain English Page Data ---
 const planMeta = [
     {
-        name: "Starter",
-        desc: "Perfect for testing a new idea or launching a simple, clean app quickly.",
-        icon: <Zap size={22} />,
-        features: ["3–5 Core App Screens", "Standard Clean Design", "Secure Login System", "Android App (APK)", "7 Days Free Support"],
+        name: "Basic App",
+        desc: "Great for testing a new idea or building a simple, clean app quickly.",
+        icon: <Zap size={24} />,
+        features: ["3 to 5 App Pages", "Simple, Clean Look", "Secure Email Login", "Android Version Ready", "7 Days Free Help"],
         popular: false
     },
     {
-        name: "Business",
-        desc: "A fully featured, launch-ready app designed to help your business grow.",
+        name: "Pro Business",
+        desc: "A complete, ready-to-launch app designed to help your business grow.",
         popular: true,
-        icon: <Rocket size={22} />,
-        features: ["6–12 Custom Screens", "Premium User Interface", "Google/Apple Login", "Push Notifications", "15 Days Free Support"],
+        icon: <Rocket size={24} />,
+        features: ["6 to 12 Custom Pages", "Premium Beautiful Design", "Google & Apple Login", "Push Notifications", "15 Days Free Help"],
     },
     {
-        name: "Advanced",
-        desc: "A powerful, highly scalable custom system for large or fast-growing businesses.",
-        icon: <Shield size={22} />,
-        features: ["Unlimited Screens", "100% Custom Design", "Complex Cloud Setup", "Online Payments Setup", "30 Days Priority Support"],
+        name: "Custom System",
+        desc: "A powerful, large-scale app built from scratch for big ideas.",
+        icon: <Shield size={24} />,
+        features: ["Unlimited App Pages", "100% Unique Design", "Fast Cloud Servers", "Secure Online Payments", "30 Days Free Help"],
         popular: false
     },
 ];
@@ -87,41 +87,41 @@ const addOnCategoriesMeta = [
     {
         title: "Quick Fixes",
         items: [
-            { name: "Bug Fixes", desc: "Fixing crashes, errors, or broken features in your existing app." },
-            { name: "Design Polish", desc: "Updating colors, spacing, and making your app look modern." },
-            { name: "Mobile Optimization", desc: "Ensuring your website looks perfect on all mobile phone sizes." },
+            { name: "Fix Errors", desc: "I will find and fix crashes or broken buttons in your current app." },
+            { name: "Design Update", desc: "Making your old app or website look fresh, modern, and beautiful." },
+            { name: "Phone Friendly", desc: "Fixing your website so it looks perfect on mobile phone screens." },
         ]
     },
     {
-        title: "Extra Features",
+        title: "Add Features",
         items: [
-            { name: "Payment Gateway", desc: "Add Razorpay, Stripe, or UPI to accept payments easily." },
-            { name: "Social Login", desc: "Let users sign in instantly with Google, Apple, or GitHub." },
-            { name: "Admin Dashboard", desc: "A private web page to manage your app's users and data." },
+            { name: "Online Payments", desc: "Add secure payment methods so customers can buy from you easily." },
+            { name: "Quick Login", desc: "Let users log in instantly using their Google or Apple accounts." },
+            { name: "Admin Panel", desc: "A private webpage where you can manage your customers and data." },
         ]
     },
     {
-        title: "App Launch",
+        title: "Publishing",
         items: [
-            { name: "Play Store Upload", desc: "Managing the upload and review process for Android apps." },
-            { name: "App Store Upload", desc: "Handling Apple certificates and submitting your iOS app." },
-            { name: "SEO Setup", desc: "Improving your website's code so it ranks better on Google." },
+            { name: "Google Play Store", desc: "I will handle the confusing process of putting your app on Android." },
+            { name: "Apple App Store", desc: "I will manage Apple's strict rules to get your iPhone app approved." },
+            { name: "Get Found on Google", desc: "I will improve your website so it shows up higher in Google searches." },
         ]
     }
 ];
 
 const processSteps = [
-    { title: "Discovery & Strategy", desc: "We map out your requirements, target audience, and business goals to choose the perfect tech stack.", icon: <MessageSquare size={20} /> },
-    { title: "UI/UX Design", desc: "I create modern, user-friendly wireframes and visual designs so you can see your app before it's built.", icon: <PenTool size={20} /> },
-    { title: "Development", desc: "Writing clean, scalable code using Next.js or Flutter, with regular updates and milestone deliveries.", icon: <Code2 size={20} /> },
-    { title: "Testing & Launch", desc: "Rigorous bug testing followed by deployment to web servers, Google Play, and the Apple App Store.", icon: <Rocket size={20} /> }
+    { title: "1. The Plan", desc: "We get on a call to talk about your idea, who will use it, and what features you actually need.", icon: <MessageSquare size={24} /> },
+    { title: "2. The Design", desc: "I draw out the screens so you can see exactly what the app will look like before I write any code.", icon: <PenTool size={24} /> },
+    { title: "3. The Build", desc: "I start building the app. I will show you updates along the way so you know exactly what is happening.", icon: <Code2 size={24} /> },
+    { title: "4. The Launch", desc: "We test the app to make sure there are no errors, and then I help you publish it to the world.", icon: <Rocket size={24} /> }
 ];
 
 const faqs = [
-    { q: "Are there any hidden fees or monthly charges?", a: "No. The prices listed are one-time costs for development. Third-party costs (like server hosting, domain names, or Apple/Google Developer account fees) are separate, but I will guide you on the cheapest and best options." },
-    { q: "Who owns the source code after launch?", a: "You do. Once the final milestone payment is completed, full intellectual property rights and the complete source code are transferred directly to you." },
-    { q: "How do payments work?", a: "I typically work on a structured milestone basis: 30% upfront to start, 40% after design & core development, and the final 30% upon successful launch." },
-    { q: "What if my project doesn't fit these exact plans?", a: "No problem! The plans are general guidelines. If you need a completely custom SaaS or unique features, we will discuss it on a call and I will provide a tailored quote." }
+    { q: "Are there any hidden fees or monthly charges?", a: "No! The prices I give you are one-time costs to build the app. You will only have to pay for your own third-party accounts (like paying Apple $99/year to have an app on their store, or paying for a website domain name), but I will guide you to the cheapest options." },
+    { q: "Who owns the app after you build it?", a: "You do. 100%. Once you make the final payment, all the files, code, and rights belong completely to you. I don't own any piece of your business." },
+    { q: "How do I pay you?", a: "We break it into safe steps. Usually, you pay 30% to start the project, 40% after you approve the designs and I finish building the main parts, and the final 30% only when the app is finished and ready to launch." },
+    { q: "What if my idea doesn't fit these packages?", a: "No problem at all! The packages above are just examples. If you need something completely different, send me a message. We will chat, and I will give you a custom price based exactly on what you need." }
 ];
 
 export default function Pricing() {
@@ -161,8 +161,8 @@ export default function Pricing() {
         setIsSuccess(false);
         
         let defaultProjectType = '';
-        if (type === 'Plan') defaultProjectType = 'Full Stack System';
-        else if (type === 'Add-on') defaultProjectType = 'Mobile Application';
+        if (type === 'Plan') defaultProjectType = 'Full System';
+        else if (type === 'Add-on') defaultProjectType = 'Mobile App';
         
         setFormData({ name: '', email: '', mobile: '', company: '', projectType: defaultProjectType, budget: '', brief: '' });
     };
@@ -198,7 +198,7 @@ export default function Pricing() {
     };
 
     return (
-        <main className="bg-[#FAFAFA] text-[#111111] min-h-screen pt-32 pb-16 selection:bg-[#111111] selection:text-[#FFFFFF] font-sans overflow-x-hidden relative">
+        <main className="bg-[#FAFAFA] text-gray-900 min-h-screen pt-32 pb-16 selection:bg-blue-600 selection:text-white font-sans overflow-x-hidden relative">
             
             <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
 
@@ -211,17 +211,20 @@ export default function Pricing() {
                         className="flex flex-col md:flex-row md:items-end justify-between gap-8"
                     >
                         <div>
-                            <div className="flex items-center gap-3 mb-8">
-                                <div className="w-2 h-2 bg-[#111111] rounded-full"></div>
-                                <span className="text-gray-500 text-xs uppercase tracking-widest font-semibold">
-                                    Investment & Pricing
+                            <div className="flex items-center gap-3 mb-8 bg-white w-max px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                                <span className="text-gray-600 text-xs uppercase tracking-widest font-bold">
+                                    Simple Pricing
                                 </span>
                             </div>
-                            <h1 className="text-5xl md:text-[6rem] lg:text-[7rem] font-light tracking-tight leading-[1] text-[#111111]">
-                                Clear Rates. <br /> <span className="font-medium text-gray-400 italic">No Surprises.</span>
+                            <h1 className="text-5xl md:text-[6rem] lg:text-[7rem] font-bold tracking-tight leading-[1] text-gray-900">
+                                Clear Prices. <br className="hidden md:block" /> 
+                                <span className="font-light italic text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">
+                                    No Surprises.
+                                </span>
                             </h1>
                         </div>
-                        <p className="text-gray-500 text-lg md:text-xl max-w-sm font-light pb-2 md:pb-4 leading-relaxed">
+                        <p className="text-gray-600 text-lg md:text-xl max-w-sm font-normal pb-2 md:pb-4 leading-relaxed">
                             Honest, straightforward pricing for high-quality apps and websites. No hidden fees, just great software.
                         </p>
                     </motion.div>
@@ -236,33 +239,33 @@ export default function Pricing() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1, duration: 0.6, ease: customEase }}
-                            className={`relative flex flex-col p-8 md:p-10 transition-all duration-500 group rounded-[2rem] border ${
+                            className={`relative flex flex-col p-8 md:p-10 transition-all duration-500 group rounded-[2.5rem] border ${
                                 plan.popular 
-                                ? 'bg-[#111111] text-[#FFFFFF] border-[#111111] shadow-2xl md:-translate-y-4' 
-                                : 'bg-[#FFFFFF] text-[#111111] border-gray-200 hover:shadow-xl hover:border-gray-300'
+                                ? 'bg-slate-900 text-white border-slate-900 shadow-2xl shadow-blue-900/20 md:-translate-y-4' 
+                                : 'bg-white text-gray-900 border-gray-200 hover:shadow-xl hover:shadow-gray-200/50 hover:border-gray-300'
                             }`}
                         >
                             {plan.popular && (
-                                <div className="absolute -top-4 right-8 bg-white text-[#111111] text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-md">
+                                <div className="absolute -top-4 right-8 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full shadow-md">
                                     Most Popular
                                 </div>
                             )}
                             
                             <div className="flex justify-between items-start mb-8">
-                                <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-500 group-hover:scale-110 ${
-                                    plan.popular ? 'bg-white/10 text-white' : 'bg-gray-50 text-[#111111]'
+                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:scale-110 shadow-sm ${
+                                    plan.popular ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-600'
                                 }`}>
                                     {plan.icon}
                                 </div>
                             </div>
                             
-                            <h3 className="text-3xl font-medium tracking-tight mb-3">{plan.name}</h3>
-                            <p className={`text-base font-light leading-relaxed mb-8 min-h-[70px] ${plan.popular ? 'text-gray-300' : 'text-gray-500'}`}>
+                            <h3 className="text-3xl font-bold tracking-tight mb-3">{plan.name}</h3>
+                            <p className={`text-base font-normal leading-relaxed mb-8 min-h-[70px] ${plan.popular ? 'text-gray-300' : 'text-gray-600'}`}>
                                 {plan.desc}
                             </p>
                             
-                            <div className={`mb-10 border-b pb-8 ${plan.popular ? 'border-white/10' : 'border-gray-100'}`}>
-                                <span className={`block text-[10px] uppercase tracking-widest font-semibold mb-2 ${plan.popular ? 'text-gray-400' : 'text-gray-400'}`}>Starting At</span>
+                            <div className={`mb-10 border-b pb-8 ${plan.popular ? 'border-slate-700' : 'border-gray-100'}`}>
+                                <span className={`block text-[11px] uppercase tracking-widest font-bold mb-2 ${plan.popular ? 'text-blue-400' : 'text-gray-400'}`}>Starts At</span>
                                 <div className="text-5xl md:text-6xl font-light tracking-tight">
                                     {activeData.symbol}{activeData.plans[i]}
                                 </div>
@@ -270,8 +273,8 @@ export default function Pricing() {
                             
                             <ul className="space-y-4 mb-10 flex-1">
                                 {plan.features.map(f => (
-                                    <li key={f} className={`flex items-center gap-3 text-sm font-medium ${plan.popular ? 'text-white' : 'text-[#111111]'}`}>
-                                        <CheckCircle2 size={18} className={plan.popular ? 'text-green-400' : 'text-green-500'} />
+                                    <li key={f} className={`flex items-center gap-3 text-sm font-medium ${plan.popular ? 'text-gray-200' : 'text-gray-700'}`}>
+                                        <CheckCircle2 size={20} className={plan.popular ? 'text-blue-400' : 'text-green-500'} />
                                         {f}
                                     </li>
                                 ))}
@@ -279,10 +282,10 @@ export default function Pricing() {
                             
                             <button
                                 onClick={() => handleSelectService(`${plan.name} Plan`, `${activeData.symbol}${activeData.plans[i]}`, 'Plan')}
-                                className={`w-full py-4 flex items-center justify-center gap-3 rounded-full text-sm font-medium transition-all duration-300 group/btn border ${
+                                className={`w-full py-4 flex items-center justify-center gap-3 rounded-full text-sm font-bold transition-all duration-300 active:scale-95 group/btn border ${
                                     plan.popular 
-                                    ? 'bg-white text-[#111111] border-white hover:bg-gray-100' 
-                                    : 'bg-transparent text-[#111111] border-gray-300 hover:bg-[#111111] hover:text-white hover:border-[#111111]'
+                                    ? 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-900/20' 
+                                    : 'bg-transparent text-gray-900 border-gray-300 hover:bg-gray-50 hover:border-gray-400'
                                 }`}
                             >
                                 <span>Choose {plan.name}</span>
@@ -294,71 +297,70 @@ export default function Pricing() {
 
                 {/* --- VALUE PROPOSITION --- */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
-                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200">
-                        <ShieldCheck size={28} className="text-[#111111] mb-6" />
-                        <h4 className="text-xl font-medium mb-3">100% Code Ownership</h4>
-                        <p className="text-gray-500 font-light text-sm leading-relaxed">Once the project is complete and paid for, the intellectual property and source code belong entirely to you.</p>
+                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                        <ShieldCheck size={32} className="text-blue-600 mb-6" />
+                        <h4 className="text-xl font-bold mb-3 text-gray-900">You Own Everything</h4>
+                        <p className="text-gray-600 font-normal text-sm leading-relaxed">Once the project is finished and paid for, the code and the app belong entirely to you. No strings attached.</p>
                     </div>
-                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200">
-                        <Clock size={28} className="text-[#111111] mb-6" />
-                        <h4 className="text-xl font-medium mb-3">On-Time Delivery</h4>
-                        <p className="text-gray-500 font-light text-sm leading-relaxed">I value your time. We set clear milestones and deadlines on day one, ensuring your product launches right on schedule.</p>
+                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                        <Clock size={32} className="text-blue-600 mb-6" />
+                        <h4 className="text-xl font-bold mb-3 text-gray-900">Always On Time</h4>
+                        <p className="text-gray-600 font-normal text-sm leading-relaxed">I respect your time. We set clear deadlines on day one, so you know exactly when your app will be ready.</p>
                     </div>
-                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200">
-                        <Layers size={28} className="text-[#111111] mb-6" />
-                        <h4 className="text-xl font-medium mb-3">Modern Tech Stack</h4>
-                        <p className="text-gray-500 font-light text-sm leading-relaxed">Built using Next.js, React, Flutter, and Firebase. Your app will be fast, secure, and ready to scale.</p>
+                    <div className="p-8 rounded-[2rem] bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                        <Layers size={32} className="text-blue-600 mb-6" />
+                        <h4 className="text-xl font-bold mb-3 text-gray-900">Built to Last</h4>
+                        <p className="text-gray-600 font-normal text-sm leading-relaxed">I use the best modern tools. Your app will be fast, secure, and won't break when your business grows.</p>
                     </div>
                 </div>
 
                 {/* --- HOW IT WORKS (PROCESS) --- */}
                 <div className="mb-32 md:mb-40">
                     <div className="text-center mb-16 max-w-2xl mx-auto">
-                        <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4 text-[#111111]">
-                            How It <span className="font-medium">Works.</span>
+                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-gray-900">
+                            How We <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">Work Together.</span>
                         </h2>
-                        <p className="text-gray-500 font-light text-base md:text-lg">A simple, transparent process from our first hello to your successful launch.</p>
+                        <p className="text-gray-600 font-normal text-base md:text-lg">A simple, stress-free process from our first hello to your big launch.</p>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
                         {/* Connecting Line (Desktop only) */}
-                        <div className="hidden md:block absolute top-10 left-12 right-12 h-[1px] bg-gray-200 z-0"></div>
+                        <div className="hidden md:block absolute top-10 left-12 right-12 h-[2px] bg-gray-100 z-0"></div>
                         
                         {processSteps.map((step, idx) => (
                             <div key={idx} className="relative z-10 flex flex-col items-center text-center group">
-                                <div className="w-20 h-20 bg-white border-2 border-gray-100 rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:border-[#111111] group-hover:shadow-md transition-all duration-300">
-                                    <div className="text-gray-400 group-hover:text-[#111111] transition-colors">
+                                <div className="w-20 h-20 bg-white border-2 border-gray-100 rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:border-blue-600 group-hover:shadow-md transition-all duration-300">
+                                    <div className="text-gray-400 group-hover:text-blue-600 transition-colors">
                                         {step.icon}
                                     </div>
                                 </div>
-                                <span className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">Step 0{idx + 1}</span>
-                                <h4 className="text-xl font-medium mb-3 text-[#111111]">{step.title}</h4>
-                                <p className="text-gray-500 font-light text-sm leading-relaxed px-4">{step.desc}</p>
+                                <h4 className="text-xl font-bold mb-3 text-gray-900">{step.title}</h4>
+                                <p className="text-gray-600 font-normal text-sm leading-relaxed px-4">{step.desc}</p>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* --- ADD-ONS SECTION --- */}
-                <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-16 lg:p-20 shadow-sm relative overflow-hidden mb-32">
+                <div className="bg-white border border-gray-200 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-16 shadow-xl shadow-gray-200/40 relative overflow-hidden mb-32">
                     
                     <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-16 border-b border-gray-100 pb-12 relative z-10">
                         <div className="max-w-xl">
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4 leading-[1.2] text-[#111111]">
-                                Standalone <span className="font-medium">Services.</span>
+                            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 leading-[1.2] text-gray-900">
+                                Need <span className="text-blue-600">Something Small?</span>
                             </h2>
-                            <p className="text-gray-500 text-base font-light leading-relaxed">
-                                Need quick fixes, maintenance, or individual enhancements for an existing project? 
+                            <p className="text-gray-600 text-base font-normal leading-relaxed">
+                                Don't need a whole new app? I also do small fixes, add new features, and help publish existing apps.
                             </p>
                         </div>
                         
-                        <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 w-full lg:w-auto mt-4 bg-gray-50 p-2 rounded-2xl">
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full lg:w-auto mt-4 bg-gray-50 p-2 rounded-2xl border border-gray-200">
                             {addOnCategoriesMeta.map((cat, i) => (
                                 <button
                                     key={i}
                                     onClick={() => setActiveTab(i)}
-                                    className={`px-6 py-3 text-sm rounded-xl transition-all duration-300 relative font-medium ${
-                                        activeTab === i ? "bg-white text-[#111111] shadow-sm" : "text-gray-500 hover:text-[#111111]"
+                                    className={`px-6 py-3 text-sm rounded-xl transition-all duration-300 relative font-bold ${
+                                        activeTab === i ? "bg-white text-blue-600 shadow-sm border border-gray-200" : "text-gray-500 hover:text-gray-900"
                                     }`}
                                 >
                                     {cat.title}
@@ -384,18 +386,18 @@ export default function Pricing() {
                                         <div
                                             key={item.name}
                                             onClick={() => handleSelectService(item.name, dynamicPrice, 'Add-on')}
-                                            className="group p-8 bg-[#FAFAFA] rounded-3xl border border-gray-100 hover:border-gray-300 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
+                                            className="group p-8 bg-gray-50 rounded-3xl border border-gray-100 hover:bg-white hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 cursor-pointer flex flex-col active:scale-[0.98]"
                                         >
                                             <div className="flex justify-between items-start mb-8">
-                                                <span className="text-xs font-semibold text-[#111111] uppercase tracking-widest border border-gray-200 bg-white rounded-full px-4 py-2 group-hover:border-gray-400 transition-colors duration-300">
+                                                <span className="text-xs font-bold text-gray-900 uppercase tracking-widest border border-gray-200 bg-white rounded-full px-4 py-2 group-hover:border-blue-300 group-hover:text-blue-600 transition-colors duration-300 shadow-sm">
                                                     {dynamicPrice}
                                                 </span>
-                                                <div className="w-10 h-10 rounded-full bg-white border border-gray-100 flex items-center justify-center text-gray-400 group-hover:bg-[#111111] group-hover:border-[#111111] group-hover:text-white transition-all duration-300">
+                                                <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-blue-600 group-hover:border-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
                                                     <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                                                 </div>
                                             </div>
-                                            <h4 className="text-xl font-medium text-[#111111] mb-2 tracking-tight">{item.name}</h4>
-                                            <p className="text-gray-500 font-light text-sm leading-relaxed mt-auto">{item.desc}</p>
+                                            <h4 className="text-xl font-bold text-gray-900 mb-3 tracking-tight">{item.name}</h4>
+                                            <p className="text-gray-600 font-normal text-sm leading-relaxed mt-auto">{item.desc}</p>
                                         </div>
                                     )
                                 })}
@@ -407,8 +409,8 @@ export default function Pricing() {
                 {/* --- FAQ SECTION --- */}
                 <div className="max-w-3xl mx-auto mb-32">
                     <div className="text-center mb-12">
-                        <HelpCircle size={32} className="mx-auto text-gray-300 mb-4" />
-                        <h2 className="text-3xl md:text-4xl font-light tracking-tight text-[#111111]">
+                        <HelpCircle size={40} className="mx-auto text-blue-600 mb-6" />
+                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
                             Common Questions
                         </h2>
                     </div>
@@ -419,14 +421,14 @@ export default function Pricing() {
                             return (
                                 <div 
                                     key={idx} 
-                                    className={`border rounded-2xl overflow-hidden transition-colors duration-300 ${isOpen ? 'bg-white border-[#111111] shadow-sm' : 'bg-transparent border-gray-200 hover:border-gray-300'}`}
+                                    className={`border rounded-2xl overflow-hidden transition-all duration-300 ${isOpen ? 'bg-white border-blue-600 shadow-md' : 'bg-white border-gray-200 hover:border-gray-300'}`}
                                 >
                                     <button 
                                         onClick={() => setOpenFaq(isOpen ? null : idx)}
                                         className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
                                     >
-                                        <span className={`font-medium ${isOpen ? 'text-[#111111]' : 'text-gray-700'}`}>{faq.q}</span>
-                                        <ChevronDown size={18} className={`text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#111111]' : ''}`} />
+                                        <span className={`font-bold ${isOpen ? 'text-blue-600' : 'text-gray-800'}`}>{faq.q}</span>
+                                        <ChevronDown size={20} className={`text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-blue-600' : ''}`} />
                                     </button>
                                     <AnimatePresence>
                                         {isOpen && (
@@ -436,7 +438,7 @@ export default function Pricing() {
                                                 exit={{ height: 0, opacity: 0 }}
                                                 transition={{ duration: 0.3 }}
                                             >
-                                                <div className="px-6 pb-6 text-sm text-gray-500 font-light leading-relaxed border-t border-gray-100 pt-4">
+                                                <div className="px-6 pb-6 text-sm text-gray-600 font-normal leading-relaxed border-t border-gray-100 pt-4">
                                                     {faq.a}
                                                 </div>
                                             </motion.div>
@@ -448,33 +450,11 @@ export default function Pricing() {
                     </div>
                 </div>
 
-                {/* --- TECH MARQUEE --- */}
-                <div className="overflow-hidden relative border-y border-gray-200 py-10">
-                    <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#FAFAFA] to-transparent z-10" />
-                    <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#FAFAFA] to-transparent z-10" />
-                    
-                    <motion.div
-                        animate={{ x: ["0%", "-50%"] }}
-                        transition={{ ease: "linear", duration: 40, repeat: Infinity }}
-                        className="flex gap-16 md:gap-24 whitespace-nowrap items-center"
-                    >
-                        {[
-                            "Flutter", "Next.js", "Firebase", "PostgreSQL",
-                            "Tailwind CSS", "TypeScript", "Node.js", "Stripe", "Supabase", "React.js", "PHP"
-                        ].concat([
-                            "Flutter", "Next.js", "Firebase", "PostgreSQL",
-                            "Tailwind CSS", "TypeScript", "Node.js", "Stripe", "Supabase", "React.js", "PHP"
-                        ]).map((tech, i) => (
-                            <span key={i} className="text-2xl md:text-4xl font-medium text-gray-200 uppercase tracking-widest cursor-default">
-                                {tech}
-                            </span>
-                        ))}
-                    </motion.div>
-                </div>
             </div>
 
-            <footer className="mt-20 text-center pt-10 pb-8 mx-6 md:mx-12">
-                <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-widest">
+            {/* Footer */}
+            <footer className="text-center pt-10 pb-8 mx-6 md:mx-12 border-t border-gray-200">
+                <p className="text-[11px] text-gray-500 font-bold uppercase tracking-widest">
                     © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat
                 </p>
             </footer>
@@ -486,7 +466,7 @@ export default function Pricing() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-sm"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md"
                     >
                         <motion.div 
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -496,11 +476,11 @@ export default function Pricing() {
                             className="bg-white w-full max-w-3xl rounded-[2rem] shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
                         >
                             {/* Modal Header */}
-                            <div className="flex justify-between items-center p-6 md:px-10 md:py-8 border-b border-gray-100 shrink-0 bg-[#FAFAFA]">
-                                <h3 className="text-2xl font-medium tracking-tight text-[#111111]">
-                                    Request Details
+                            <div className="flex justify-between items-center p-6 md:px-10 md:py-8 border-b border-gray-100 shrink-0 bg-gray-50">
+                                <h3 className="text-2xl font-bold tracking-tight text-gray-900">
+                                    Let's Get Started
                                 </h3>
-                                <button onClick={handleCloseModal} className="text-gray-400 hover:text-[#111111] transition-colors p-2 hover:bg-gray-200 rounded-full">
+                                <button onClick={handleCloseModal} className="text-gray-400 hover:text-red-500 transition-colors p-2 hover:bg-red-50 rounded-full">
                                     <X size={24} />
                                 </button>
                             </div>
@@ -509,14 +489,14 @@ export default function Pricing() {
                             <div className="p-6 md:p-10 overflow-y-auto">
                                 {isSuccess ? (
                                     <div className="text-center py-16">
-                                        <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-100">
-                                            <CheckCircle2 size={32} />
+                                        <div className="w-24 h-24 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-100 shadow-sm">
+                                            <CheckCircle2 size={40} />
                                         </div>
-                                        <h4 className="text-3xl font-medium mb-4 text-[#111111]">Request Sent.</h4>
-                                        <p className="text-gray-500 mb-10 font-light max-w-sm mx-auto">Thank you for your interest in the <strong className="font-medium">{selectedService.name}</strong>. I will get back to you within 24 hours.</p>
+                                        <h4 className="text-3xl font-bold mb-4 text-gray-900">Message Sent!</h4>
+                                        <p className="text-gray-600 mb-10 font-normal max-w-sm mx-auto">Thank you for your interest in the <strong className="font-bold">{selectedService.name}</strong>. I will email or call you within 24 hours.</p>
                                         <button 
                                             onClick={handleCloseModal}
-                                            className="text-sm font-semibold rounded-full border border-gray-200 bg-white text-[#111111] px-8 py-3 hover:bg-gray-50 transition-colors shadow-sm"
+                                            className="text-sm font-bold rounded-full border border-gray-200 bg-white text-gray-900 px-8 py-3 hover:bg-gray-50 transition-colors shadow-sm active:scale-95"
                                         >
                                             Close Window
                                         </button>
@@ -527,59 +507,59 @@ export default function Pricing() {
                                         {/* --- LOCKED SERVICE DETAILS --- */}
                                         <div className="flex flex-col md:flex-row gap-4 bg-blue-50/50 p-5 rounded-2xl border border-blue-100">
                                             <div className="flex-1">
-                                                <span className="text-xs uppercase tracking-widest font-semibold text-blue-500 mb-1 block">You Selected</span>
-                                                <p className="text-[#111111] font-medium text-lg">{selectedService.name}</p>
+                                                <span className="text-[10px] uppercase tracking-widest font-bold text-blue-500 mb-1 block">You Selected</span>
+                                                <p className="text-gray-900 font-bold text-lg">{selectedService.name}</p>
                                             </div>
                                             <div className="flex-1 md:text-right">
-                                                <span className="text-xs uppercase tracking-widest font-semibold text-blue-500 mb-1 block">Estimated Price</span>
-                                                <p className="text-[#111111] font-medium text-lg">{selectedService.price}</p>
+                                                <span className="text-[10px] uppercase tracking-widest font-bold text-blue-500 mb-1 block">Estimated Price</span>
+                                                <p className="text-gray-900 font-bold text-lg">{selectedService.price}</p>
                                             </div>
                                         </div>
 
                                         {/* --- USER DETAILS --- */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="flex flex-col gap-2">
-                                                <label htmlFor="modal-name" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Full Name</label>
+                                                <label htmlFor="modal-name" className="text-[11px] uppercase tracking-widest font-bold text-gray-500 pl-1">Full Name</label>
                                                 <input 
                                                     required type="text" id="modal-name"
                                                     value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111]"
+                                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-gray-900 font-medium"
                                                 />
                                             </div>
                                             
                                             <div className="flex flex-col gap-2">
-                                                <label htmlFor="modal-email" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Email Address</label>
+                                                <label htmlFor="modal-email" className="text-[11px] uppercase tracking-widest font-bold text-gray-500 pl-1">Email Address</label>
                                                 <input 
                                                     required type="email" id="modal-email"
                                                     value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111]"
+                                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-gray-900 font-medium"
                                                 />
                                             </div>
 
                                             <div className="flex flex-col gap-2">
-                                                <label htmlFor="modal-mobile" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Phone Number</label>
+                                                <label htmlFor="modal-mobile" className="text-[11px] uppercase tracking-widest font-bold text-gray-500 pl-1">Phone Number</label>
                                                 <input 
                                                     required type="tel" id="modal-mobile"
                                                     value={formData.mobile} onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111]"
+                                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-gray-900 font-medium"
                                                 />
                                             </div>
 
                                             <div className="flex flex-col gap-2">
-                                                <label htmlFor="modal-company" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Company (Optional)</label>
+                                                <label htmlFor="modal-company" className="text-[11px] uppercase tracking-widest font-bold text-gray-500 pl-1">Company Name (Optional)</label>
                                                 <input 
                                                     type="text" id="modal-company"
                                                     value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111]"
+                                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-gray-900 font-medium"
                                                 />
                                             </div>
 
                                             <div className="flex flex-col gap-2">
-                                                <label htmlFor="modal-budget" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Your Budget</label>
+                                                <label htmlFor="modal-budget" className="text-[11px] uppercase tracking-widest font-bold text-gray-500 pl-1">Your Budget</label>
                                                 <select 
                                                     required id="modal-budget"
                                                     value={formData.budget} onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111] cursor-pointer"
+                                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-gray-900 font-medium cursor-pointer"
                                                 >
                                                     <option value="" disabled hidden>Select a budget...</option>
                                                     {activeData.budgets.map((tier, idx) => (
@@ -589,39 +569,39 @@ export default function Pricing() {
                                             </div>
 
                                             <div className="flex flex-col gap-2">
-                                                <label htmlFor="modal-projectType" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Project Type</label>
+                                                <label htmlFor="modal-projectType" className="text-[11px] uppercase tracking-widest font-bold text-gray-500 pl-1">What do you need?</label>
                                                 <select 
                                                     required id="modal-projectType"
                                                     value={formData.projectType} onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                                                    className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111] cursor-pointer"
+                                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-gray-900 font-medium cursor-pointer"
                                                 >
-                                                    <option value="" disabled hidden>Select a type...</option>
-                                                    <option value="Mobile Application">Mobile App (Flutter)</option>
-                                                    <option value="Web Application">Website / Web App</option>
-                                                    <option value="Full Stack System">Full-Stack System</option>
-                                                    <option value="Other">Just need advice</option>
+                                                    <option value="" disabled hidden>Select an option...</option>
+                                                    <option value="Mobile App">Mobile App (iPhone & Android)</option>
+                                                    <option value="Website">Website or Online Store</option>
+                                                    <option value="Full System">App + Website together</option>
+                                                    <option value="Other">I just need advice</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div className="flex flex-col gap-2 pt-2">
-                                            <label htmlFor="modal-brief" className="text-xs uppercase tracking-widest font-semibold text-gray-500 pl-1">Project Details</label>
+                                            <label htmlFor="modal-brief" className="text-[11px] uppercase tracking-widest font-bold text-gray-500 pl-1">Tell me about your idea</label>
                                             <textarea 
                                                 required id="modal-brief" rows={4}
                                                 value={formData.brief} onChange={(e) => setFormData({ ...formData, brief: e.target.value })}
-                                                placeholder="What are you trying to build?"
-                                                className="w-full bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-4 focus:outline-none focus:border-[#111111] focus:ring-1 focus:ring-[#111111] transition-all text-[#111111] resize-none leading-relaxed"
+                                                placeholder="What are you trying to build? How can I help?"
+                                                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-gray-900 font-medium resize-none leading-relaxed"
                                             ></textarea>
                                         </div>
 
                                         <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-gray-100 mt-4 pt-6">
                                             <button 
                                                 disabled={isSubmitting}
-                                                className="w-full md:w-auto bg-[#111111] rounded-full text-white font-medium text-sm px-10 py-4 hover:bg-gray-800 transition-colors duration-300 disabled:opacity-50 flex justify-center items-center gap-2"
+                                                className="w-full md:w-auto bg-blue-600 rounded-full text-white font-bold text-sm px-10 py-4 hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all duration-300 active:scale-95 disabled:opacity-50 flex justify-center items-center gap-2"
                                             >
-                                                {isSubmitting ? 'Sending...' : `Send Request`}
+                                                {isSubmitting ? 'Sending Message...' : `Send Request`}
                                             </button>
-                                            <p className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">Your details are safe with me.</p>
+                                            <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold text-center md:text-left">Your details are completely safe and private.</p>
                                         </div>
                                     </form>
                                 )}
