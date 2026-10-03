@@ -3,14 +3,22 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Smartphone, ArrowUpRight, Github, Code2, Cpu, Rocket, Sparkles, Globe } from "lucide-react";
+import {
+    Smartphone,
+    ArrowRight,
+    Code,
+    Sparkles,
+    Languages,
+    Palette,
+    Terminal,
+    Rocket,
+} from "lucide-react";
 
-const customEase = [0.25, 1, 0.5, 1] as const;
+const materialEase = [0.2, 0, 0, 1] as const;
 
 export default function Projects() {
     const [filter, setFilter] = useState("All");
 
-    // Simplified categories for non-technical clients
     const projects = [
         {
             id: "01",
@@ -24,7 +32,7 @@ export default function Projects() {
             image: "/images/projects/aptro.png",
             mobileApp: true,
             playStore: "https://play.google.com/store/apps/details?id=com.hirenmasaliya.aptro",
-            featured: true
+            featured: true,
         },
         {
             id: "02",
@@ -35,9 +43,9 @@ export default function Projects() {
             role: "Full-Stack Developer",
             year: "2026",
             link: "https://clothivaelite.vercel.app/",
-            image: "/images/projects/clothiva-thumbnail.png", 
+            image: "/images/projects/clothiva-thumbnail.png",
             mobileApp: false,
-            featured: true 
+            featured: true,
         },
         {
             id: "03",
@@ -49,7 +57,7 @@ export default function Projects() {
             year: "2026",
             link: "https://buildartind.com",
             image: "/images/projects/buildart-website.png",
-            mobileApp: false
+            mobileApp: false,
         },
         {
             id: "04",
@@ -61,149 +69,160 @@ export default function Projects() {
             year: "2026",
             link: "https://www.dirainfratech.com/",
             image: "/images/projects/dira-website.png",
-            mobileApp: false
+            mobileApp: false,
         },
     ];
 
     const categories = ["All", "App", "Website"];
-    
+
     const categoryCounts = useMemo(() => {
         const counts: Record<string, number> = { All: projects.length };
-        categories.filter(c => c !== "All").forEach(cat => {
-            counts[cat] = projects.filter(p => p.category === cat).length;
+        categories.filter((c) => c !== "All").forEach((cat) => {
+            counts[cat] = projects.filter((p) => p.category === cat).length;
         });
         return counts;
     }, [projects, categories]);
 
-    const filteredProjects = filter === "All" ? projects : projects.filter(p => p.category === filter);
+    const filteredProjects = filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
     return (
-        <main className="bg-[#FAFAFA] text-gray-900 min-h-screen pt-32 pb-16 selection:bg-blue-600 selection:text-white font-sans overflow-hidden">
-            
-            <section className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
-
-                {/* HEADER SECTION */}
-                <div className="mb-16 md:mb-24 text-left">
+        <main className="bg-[#F8F9FA] text-[#1F1F1F] min-h-screen pt-24 md:pt-32 pb-16 selection:bg-[#D3E3FD] selection:text-[#041E49] font-sans">
+            <section className="max-w-[1200px] mx-auto px-4 md:px-8 relative z-10">
+                {/* HEADER SECTION - Material Display Typography */}
+                <div className="mb-12 md:mb-16">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: customEase }}
-                        className="flex flex-col md:flex-row md:items-end justify-between gap-8"
+                        transition={{ duration: 0.6, ease: materialEase }}
+                        className="max-w-3xl"
                     >
-                        <div>
-                            <div className="flex items-center gap-3 mb-6 bg-white w-max px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-                                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
-                                <span className="text-gray-600 text-xs uppercase tracking-widest font-bold">
-                                    Selected Work
-                                </span>
-                            </div>
-                            <h1 className="text-5xl md:text-[6rem] lg:text-[7rem] font-bold tracking-tight leading-[1] text-gray-900">
-                                Recent <br className="md:hidden" />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 font-light italic">Projects.</span>
-                            </h1>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E8DEF8] text-[#1D192B] rounded-full text-sm font-medium mb-6">
+                            <Code size={16} />
+                            <span>Selected Work</span>
                         </div>
-                        <p className="text-gray-600 text-lg md:text-xl max-w-sm font-normal pb-2 leading-relaxed">
+
+                        <h1 className="text-[45px] md:text-[57px] leading-[1.1] md:leading-[64px] font-normal tracking-[-0.25px] text-[#1F1F1F] mb-6">
+                            Recent Projects
+                        </h1>
+
+                        <p className="text-[18px] md:text-[20px] text-[#444746] font-normal leading-[32px] max-w-2xl">
                             Building fast, reliable apps and websites that solve real business problems and look great doing it.
                         </p>
                     </motion.div>
                 </div>
 
-                {/* FILTER TABS (Upgraded Pill Design) */}
-                <div className="flex justify-start mb-12 md:mb-16 sticky top-20 z-30 py-4 bg-[#FAFAFA]/90 backdrop-blur-md">
-                    <div className="flex flex-wrap gap-4 p-1.5 bg-white border border-gray-200 rounded-full shadow-sm">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => setFilter(cat)}
-                                className={`px-6 py-2.5 rounded-full text-sm transition-all duration-300 flex items-center gap-2 font-bold ${
-                                    filter === cat 
-                                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/20" 
-                                    : "bg-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                                }`}
-                            >
-                                {cat}
-                                <span className={`text-[11px] px-2 py-0.5 rounded-full transition-colors ${
-                                    filter === cat ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
-                                }`}>
-                                    {categoryCounts[cat]}
-                                </span>
-                            </button>
-                        ))}
+                {/* FILTER CHIPS - Material Design 3 Style */}
+                <div className="sticky top-[72px] z-30 py-4 bg-[#F8F9FA]/90 backdrop-blur-md border-b border-[#E0E2E0] mb-8 md:mb-12 -mx-4 px-4 md:mx-0 md:px-0">
+                    <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide items-center">
+                        {categories.map((cat) => {
+                            const isSelected = filter === cat;
+                            return (
+                                <button
+                                    key={cat}
+                                    onClick={() => setFilter(cat)}
+                                    className={`
+                                        flex items-center gap-2 h-8 px-4 rounded-lg text-sm font-medium transition-all shrink-0
+                                        ${
+                                            isSelected
+                                                ? "bg-[#C2E7FF] text-[#001D35] hover:bg-[#B1DDF6]" // Primary Container
+                                                : "bg-transparent border border-[#747775] text-[#444746] hover:bg-[#1F1F1F]/5" // Outlined Chip
+                                        }
+                                    `}
+                                >
+                                    {cat}
+                                    <span
+                                        className={`text-[12px] flex items-center justify-center w-5 h-5 rounded-full ${
+                                            isSelected ? "bg-[#001D35]/10 text-[#001D35]" : "bg-[#E1E3E1] text-[#444746]"
+                                        }`}
+                                    >
+                                        {categoryCounts[cat]}
+                                    </span>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
 
-                {/* PROJECTS GRID - Premium Card Layout */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+                {/* PROJECTS GRID - Material Outlined Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-24 md:mb-32">
                     <AnimatePresence mode="popLayout">
                         {filteredProjects.map((project) => (
                             <motion.div
                                 layout
                                 key={project.title}
-                                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                                initial={{ opacity: 0, scale: 0.98, y: 10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                                transition={{ duration: 0.5, ease: customEase }}
-                                className="group flex flex-col bg-white rounded-[2rem] border border-gray-100 p-5 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500"
+                                exit={{ opacity: 0, scale: 0.98, y: 10 }}
+                                transition={{ duration: 0.4, ease: materialEase }}
+                                className="group flex flex-col bg-[#FAFDFC] border border-[#747775] rounded-[24px] overflow-hidden hover:bg-[#F0F4F9] transition-colors duration-300"
                             >
                                 {/* Image Container */}
-                                <a href={project.link} target="_blank" rel="noreferrer" className="relative aspect-[3/2] overflow-hidden bg-gray-100 rounded-[1.5rem] mb-6 block">
+                                <div className="relative aspect-[16/9] bg-[#E1E3E1] overflow-hidden">
                                     <Image
                                         src={project.image}
                                         alt={project.title}
                                         fill
-                                        className="transition-transform duration-700 ease-out group-hover:scale-105 object-cover"
+                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).style.display = "none";
+                                        }}
                                     />
-                                    <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 pointer-events-none"></div>
-                                    
+                                    {/* Gradient overlay for text readability if needed */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+
                                     {project.featured && (
-                                        <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-900 rounded-full shadow-sm flex items-center gap-1.5">
-                                            <Sparkles size={12} className="text-blue-600" /> Featured
+                                        <div className="absolute top-4 left-4 bg-[#E8DEF8] text-[#1D192B] px-3 py-1 text-xs font-medium rounded-full flex items-center gap-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
+                                            <Sparkles size={14} /> Featured
                                         </div>
                                     )}
-                                </a>
+                                </div>
 
                                 {/* Content */}
-                                <div className="flex flex-col flex-1 px-2">
-                                    <div className="flex justify-between items-center mb-3">
-                                        <span className="text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">
+                                <div className="flex flex-col flex-1 p-6 md:p-8">
+                                    <div className="flex justify-between items-center mb-4 text-[#444746]">
+                                        <span className="text-[#0A56D1] text-xs font-medium tracking-wide uppercase">
                                             {project.category}
                                         </span>
-                                        {project.mobileApp ? <Smartphone size={18} className="text-gray-400" /> : <Globe size={18} className="text-gray-400" />}
+                                        {project.mobileApp ? <Smartphone size={20} /> : <Languages size={20} />}
                                     </div>
 
-                                    <h2 className="text-2xl font-bold mb-3 tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">
-                                        <a href={project.link} target="_blank" rel="noreferrer">{project.title}</a>
+                                    {/* Material Headline Small */}
+                                    <h2 className="text-[24px] leading-[32px] font-normal text-[#1F1F1F] mb-3 group-hover:text-[#0A56D1] transition-colors">
+                                        {project.title}
                                     </h2>
 
-                                    <p className="text-gray-600 text-sm font-normal leading-relaxed mb-6 line-clamp-3">
+                                    {/* Material Body Medium */}
+                                    <p className="text-[#444746] text-sm leading-relaxed mb-6 flex-1">
                                         {project.description}
                                     </p>
 
-                                    {/* Tech Tags */}
+                                    {/* Tech Tags - Material Assist Chips style */}
                                     <div className="flex flex-wrap gap-2 mb-8">
                                         {project.tech.map((t) => (
-                                            <span key={t} className="text-[11px] font-semibold uppercase tracking-wider text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">
+                                            <span key={t} className="text-[12px] font-medium text-[#444746] border border-[#747775] px-3 py-1 rounded-lg">
                                                 {t}
                                             </span>
                                         ))}
                                     </div>
 
                                     {/* Link Actions */}
-                                    <div className="flex items-center gap-6 mt-auto border-t border-gray-100 pt-5">
+                                    <div className="flex items-center gap-4 mt-auto">
+                                        {/* Material Text Button */}
                                         <a
                                             href={project.link}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="text-sm font-bold text-gray-900 flex items-center gap-2 hover:text-blue-600 transition-colors"
+                                            className="inline-flex items-center gap-2 text-[#0A56D1] hover:bg-[#0A56D1]/10 px-4 py-2 rounded-full text-sm font-medium transition-colors -ml-4"
                                         >
-                                            View Project <ArrowUpRight size={16} />
+                                            View Project <ArrowRight size={18} />
                                         </a>
+
                                         {project.playStore && (
                                             <a
                                                 href={project.playStore}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="text-sm font-semibold text-gray-500 flex items-center gap-2 hover:text-gray-900 transition-colors border-l border-gray-200 pl-6"
+                                                className="inline-flex items-center text-[#444746] hover:bg-[#1F1F1F]/5 px-4 py-2 rounded-full text-sm font-medium transition-colors"
                                             >
                                                 Play Store
                                             </a>
@@ -215,68 +234,69 @@ export default function Projects() {
                     </AnimatePresence>
                 </div>
 
-                {/* THE APPROACH SECTION */}
-                <div className="mb-32 md:mb-40 border-t border-gray-200 pt-20">
-                    <div className="flex flex-col md:flex-row justify-between items-start mb-16 gap-8">
-                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-[1.2]">
-                            How I <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">Build.</span>
+                {/* THE APPROACH SECTION - Material Tonal Surface */}
+                <div className="mb-24 md:mb-32 bg-[#EADDFF] rounded-[28px] p-8 md:p-12 text-[#21005D]">
+                    <div className="flex flex-col md:flex-row justify-between items-start mb-12 gap-6 border-b border-[#CAC4D0] pb-8">
+                        {/* Material Headline Medium */}
+                        <h2 className="text-[28px] md:text-[32px] leading-[36px] md:leading-[40px] font-normal max-w-sm">
+                            How I Build
                         </h2>
-                        <p className="text-gray-600 text-lg font-normal max-w-md leading-relaxed">
+                        <p className="text-[#4F378B] text-[18px] leading-[28px] max-w-md">
                             A great app requires more than just code. It needs a clear plan, smooth design, and a solid foundation to handle growth.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
-                            { step: "01", title: "Plan", icon: <Code2 size={24}/>, desc: "We figure out exactly what your business needs, plan the features, and design the look before writing any code." },
-                            { step: "02", title: "Build", icon: <Cpu size={24}/>, desc: "I write clean, secure code using modern tools to make sure the app works perfectly and safely on all devices." },
-                            { step: "03", title: "Launch", icon: <Rocket size={24}/>, desc: "I thoroughly test everything, optimize it for speed, and help you launch it to the public or the App Store." }
+                            { step: "01", title: "Plan", icon: <Palette size={28} />, desc: "We figure out exactly what your business needs, plan the features, and design the look before writing any code." },
+                            { step: "02", title: "Build", icon: <Terminal size={28} />, desc: "I write clean, secure code using modern tools to make sure the app works perfectly and safely on all devices." },
+                            { step: "03", title: "Launch", icon: <Rocket size={28} />, desc: "I thoroughly test everything, optimize it for speed, and help you launch it to the public or the App Store." },
                         ].map((item, i) => (
-                            <div key={i} className="bg-white rounded-[2rem] p-8 md:p-10 border border-gray-100 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 group flex flex-col">
-                                <div className="flex justify-between items-center mb-10">
-                                    <span className="text-xs font-bold uppercase tracking-widest text-gray-400">Step {item.step}</span>
-                                    <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-500 shadow-sm">
-                                        {item.icon}
-                                    </div>
+                            <div key={i} className="flex flex-col">
+                                <div className="w-12 h-12 rounded-full bg-[#6750A4] text-white flex items-center justify-center mb-6 shadow-md">
+                                    {item.icon}
                                 </div>
-                                <h3 className="text-2xl font-bold tracking-tight mb-4 text-gray-900">{item.title}</h3>
-                                <p className="text-gray-600 font-normal leading-relaxed">{item.desc}</p>
+                                <h3 className="text-[22px] leading-[28px] font-normal mb-3">{item.title}</h3>
+                                <p className="text-[#4F378B] text-sm leading-relaxed">{item.desc}</p>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* EXPERIMENTAL LABS - Deep Slate & Premium Feel */}
-                <div className="bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] text-white p-10 md:p-20 relative overflow-hidden shadow-2xl">
-                    {/* Subtle Background Glow */}
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-
-                    <div className="flex flex-col md:flex-row justify-between items-start mb-16 gap-10 border-b border-white/10 pb-16 relative z-10">
+                {/* EXPERIMENTAL LABS - Dark Surface / Inverse Surface */}
+                <div className="bg-[#1F1F1F] rounded-[28px] text-[#F8F9FA] p-8 md:p-12 mb-16">
+                    <div className="flex flex-col md:flex-row justify-between items-start mb-12 gap-8 border-b border-[#444746] pb-10">
                         <div className="max-w-xl">
-                            <span className="text-blue-400 font-bold text-xs uppercase tracking-widest mb-6 block">Open Source</span>
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-6 leading-[1.2]">
-                                Free Code <br /> <span className="font-bold text-white">Resources.</span>
+                            <span className="text-[#A8C7FA] font-medium text-xs tracking-wide uppercase mb-4 block">Open Source</span>
+                            <h2 className="text-[32px] leading-[40px] font-normal mb-4">
+                                Free Code Resources
                             </h2>
-                            <p className="text-gray-400 text-lg font-light leading-relaxed">
+                            <p className="text-[#C4C7C5] text-[18px] leading-[28px]">
                                 Where I test new ideas, learn new tools, and build free templates to share with other developers.
                             </p>
                         </div>
-                        <a href="https://github.com/hirenmasaliya" target="_blank" rel="noreferrer" className="flex items-center gap-3 px-8 py-4 bg-blue-600 rounded-full text-white text-sm font-bold hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95 transition-all duration-300">
-                            <Github size={18} />
+                        {/* Inverse Primary Button */}
+                        <a
+                            href="https://github.com/hirenmasaliya"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-[#A8C7FA] text-[#062E6F] rounded-full text-sm font-medium hover:bg-[#D3E3FD] transition-colors whitespace-nowrap"
+                        >
+                            <Code size={18} />
                             View GitHub
                         </a>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
                             { name: "Starter Kit", desc: "A fast, ready-to-use template for starting new Next.js websites.", tech: "Next.js" },
                             { name: "Login System", desc: "A secure and reusable way to handle user logins and accounts.", tech: "TypeScript" },
                             { name: "UI Components", desc: "A collection of beautiful, ready-to-use buttons and cards.", tech: "Tailwind CSS" },
                         ].map((lab, i) => (
-                            <div key={i} className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex flex-col group">
-                                <h3 className="text-xl font-bold tracking-tight mb-3 text-white group-hover:text-blue-400 transition-colors duration-300">{lab.name}</h3>
-                                <p className="text-sm font-light text-gray-400 leading-relaxed mb-8 flex-1">{lab.desc}</p>
-                                <span className="text-[11px] font-bold uppercase tracking-widest text-gray-300 border border-white/20 bg-white/5 rounded-lg px-3 py-1.5 w-max">
+                            <div key={i} className="p-6 rounded-[16px] border border-[#444746] hover:bg-[#2E2E2E] transition-colors flex flex-col">
+                                <h3 className="text-[20px] font-medium text-[#F8F9FA] mb-3">{lab.name}</h3>
+                                <p className="text-sm text-[#C4C7C5] leading-relaxed mb-6 flex-1">{lab.desc}</p>
+                                <span className="text-[12px] font-medium text-[#A8C7FA] border border-[#A8C7FA]/30 bg-[#A8C7FA]/10 rounded-lg px-3 py-1 w-max">
                                     {lab.tech}
                                 </span>
                             </div>
@@ -284,12 +304,11 @@ export default function Projects() {
                     </div>
                 </div>
 
-                <footer className="mt-20 text-center border-t border-gray-200 pt-10 pb-8">
-                    <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+                <footer className="text-center border-t border-[#E0E2E0] pt-8 pb-8">
+                    <p className="text-sm font-medium text-[#747775]">
                         © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat
                     </p>
                 </footer>
-
             </section>
         </main>
     );

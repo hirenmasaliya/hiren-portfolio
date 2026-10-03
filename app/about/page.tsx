@@ -2,227 +2,282 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Globe, Smartphone, ArrowUpRight, ArrowRight, ShieldCheck, HeartHandshake, CheckCircle2, Rocket } from "lucide-react";
+import {
+  Globe,
+  Smartphone,
+  ArrowRight,
+  ShieldCheck,
+  HeartHandshake,
+  CheckCircle2,
+  Rocket,
+  Code,
+  Sparkles,
+} from "lucide-react";
 
-// Premium easing curve for smooth animations
-const customEase = [0.25, 1, 0.5, 1] as const;
+// Google Material 3 Emphasized Decelerate easing
+const materialEase = [0.2, 0, 0, 1] as const;
 
 export default function About() {
   const staggerContainer = {
-    animate: { transition: { staggerChildren: 0.15 } },
+    animate: { transition: { staggerChildren: 0.12 } },
   };
 
   const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase } },
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: materialEase } },
   };
 
   return (
-    <main className="bg-[#FAFAFA] text-gray-900 min-h-screen pt-32 pb-16 selection:bg-blue-600 selection:text-white font-sans overflow-x-hidden">
-      
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+    <main className="bg-[#F8F9FA] text-[#1F1F1F] min-h-screen pt-24 md:pt-32 pb-20 font-sans selection:bg-[#D3E3FD] selection:text-[#041E49] antialiased">
+      <section className="max-w-[1200px] mx-auto px-4 md:px-8 relative z-10">
 
-        {/* 1. HERO SECTION */}
+        {/* =====================================================
+            1. HERO SECTION - Material Display Typography
+        ====================================================== */}
         <motion.div
           initial="initial"
           animate="animate"
           variants={staggerContainer}
-          className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20 mb-32"
+          className="flex flex-col lg:flex-row items-start lg:items-center gap-12 lg:gap-16 mb-24 md:mb-32"
         >
           {/* Text Section */}
-          <motion.div variants={fadeInUp} className="flex-1 text-left w-full lg:pr-8">
-            <div className="mb-8 inline-flex items-center gap-3 bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-              <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
-              <span className="text-gray-600 text-xs uppercase tracking-widest font-semibold">
-                Software Developer & Founder
-              </span>
+          <motion.div variants={fadeInUp} className="flex-1 w-full">
+            {/* M3 Primary Container Chip */}
+            <div className="mb-6 inline-flex items-center gap-2 bg-[#D3E3FD] text-[#041E49] px-3.5 py-1.5 rounded-lg text-sm font-medium">
+              <Code size={16} />
+              <span>Software Developer & Founder</span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-gray-900 mb-8 leading-[1.1] tracking-tight">
-              Building great apps, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 font-light italic">
-                made simple.
-              </span>
+            {/* M3 Display Large Scale */}
+            <h1 className="text-[44px] md:text-[57px] lg:text-[64px] font-normal text-[#1F1F1F] mb-6 leading-[1.1] md:leading-[68px] tracking-[-0.25px]">
+              Building thoughtful apps, made simple.
             </h1>
 
-            <div className="grid md:grid-cols-12 gap-8 border-t border-gray-200 pt-8 mt-8">
-              <div className="md:col-span-8">
-                {/* Jargon-free introduction */}
-                <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-normal">
-                  Hi, I’m <strong className="font-semibold text-gray-900">Hiren Masaliya</strong>, a software developer based in Jetpur, India. 
-                  I help businesses grow by building mobile apps and websites that are fast, secure, and incredibly easy for anyone to use. No confusing tech talk—just real results.
-                </p>
-              </div>
+            {/* M3 Body Large */}
+            <p className="text-[18px] md:text-[20px] text-[#444746] leading-[30px] md:leading-[32px] font-normal mb-8 max-w-2xl">
+              Hi, I’m <strong className="font-medium text-[#1F1F1F]">Hiren Masaliya</strong>, a software developer based in Jetpur, India. 
+              I help founders and businesses build modern mobile applications and web platforms that are fast, secure, and straightforward to use.
+            </p>
 
-              <div className="md:col-span-4 flex flex-col justify-end items-start md:items-end">
-                <a href="/contact" className="group text-sm font-semibold border-b-2 border-gray-900 text-gray-900 pb-1 flex items-center justify-between hover:text-blue-600 hover:border-blue-600 transition-all w-max gap-3">
-                  Let's Connect
-                  <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                </a>
-              </div>
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-[#0A56D1] text-white px-7 h-12 rounded-full text-sm font-medium hover:bg-[#0842A0] transition-colors active:scale-95 shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
+              >
+                Let's Connect
+                <ArrowRight size={18} />
+              </Link>
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 border border-[#747775] text-[#1F1F1F] px-6 h-12 rounded-full text-sm font-medium hover:bg-[#1F1F1F]/5 transition-colors"
+              >
+                View Selected Work
+              </Link>
             </div>
           </motion.div>
 
-          {/* Image Section - Friendly & Premium */}
-          <motion.div variants={fadeInUp} className="relative w-full lg:w-[450px] shrink-0 mt-10 lg:mt-0">
-            <motion.div 
-              animate={{ y: [-8, 8, -8] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="relative aspect-[3/4] bg-gray-200 overflow-hidden rounded-[2.5rem] md:rounded-[3rem] shadow-2xl shadow-gray-200"
-            >
-               <Image
-                src="/images/hiro.png" /* Verify your image name is correct */
+          {/* Profile Media - Material Outlined Container */}
+          <motion.div variants={fadeInUp} className="relative w-full sm:w-[380px] lg:w-[400px] shrink-0 mx-auto lg:mx-0">
+            <div className="relative aspect-[4/5] bg-[#E1E3E1] rounded-[28px] overflow-hidden border border-[#C4C7C5]">
+              <Image
+                src="/images/hiro.png"
                 alt="Hiren Masaliya - App Developer"
                 fill
                 priority
-                className="object-cover object-center scale-100 hover:scale-105 transition-transform duration-700"
+                className="object-cover object-center"
               />
-            </motion.div>
+            </div>
 
-            {/* Floating Metric Card - Easier to read */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6, duration: 0.8, ease: customEase }}
-              className="absolute bottom-10 -left-4 md:-left-12 bg-white/95 backdrop-blur-md p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100 flex flex-col gap-1"
-            >
-              <div className="flex items-center gap-3">
-                <div className="bg-green-100 p-2 rounded-full">
-                  <CheckCircle2 size={24} className="text-green-600" />
-                </div>
-                <p className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">6+</p>
+            {/* Floating Metric - Material Surface Card */}
+            <div className="absolute -bottom-6 -left-4 md:-left-6 bg-white border border-[#E0E2E0] p-5 rounded-[20px] shadow-[0_2px_6px_rgba(0,0,0,0.1)] flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#C2E7FF] text-[#001D35] flex items-center justify-center shrink-0">
+                <CheckCircle2 size={24} />
               </div>
-              <p className="text-gray-500 text-[11px] md:text-xs uppercase tracking-widest mt-2 font-bold pl-1">Live Projects</p>
-            </motion.div>
+              <div>
+                <p className="text-2xl font-medium text-[#1F1F1F] leading-tight">6+</p>
+                <p className="text-xs text-[#747775] font-medium uppercase tracking-wider mt-0.5">Live Products</p>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
 
-        {/* 2. WHAT I DO - Plain English Services */}
-        <div className="mb-32 md:mb-40 border-t border-gray-200 pt-20">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">How I Can Help You</h2>
-            <p className="text-gray-500 text-xs uppercase tracking-widest font-bold md:pb-2">My Services</p>
+        {/* =====================================================
+            2. SERVICES - Material Outlined Cards
+        ====================================================== */}
+        <div className="mb-24 md:mb-32 border-t border-[#E0E2E0] pt-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+              <span className="text-xs uppercase tracking-wider font-medium text-[#0A56D1] mb-2 block">
+                Areas of Expertise
+              </span>
+              <h2 className="text-[32px] md:text-[40px] font-normal text-[#1F1F1F] leading-tight">
+                How I Can Help You
+              </h2>
+            </div>
+            <p className="text-[#444746] text-base max-w-md">
+              Full lifecycle product engineering—from initial architectural decisions to store deployment.
+            </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
                 title: "Mobile Apps (iOS & Android)",
-                icon: <Smartphone className="w-7 h-7" />,
-                desc: "I build smooth, fast mobile apps that work perfectly on both iPhones and Androids. I handle everything from the first design to getting your app live on the App Store."
+                icon: <Smartphone size={24} />,
+                desc: "High-performance cross-platform applications built with Flutter. Clean architectures, reactive state management, and direct App Store / Play Store releases."
               },
               {
-                title: "Websites & Online Stores",
-                icon: <Globe className="w-7 h-7" />,
-                desc: "Need a beautiful website or a store to sell your products online? I create fast-loading, modern websites that look great on phones and computers alike."
+                title: "Web Apps & Platforms",
+                icon: <Globe size={24} />,
+                desc: "Fast, responsive web applications engineered with Next.js and React. Designed with clean design systems, accessible UI, and optimized search performance."
               },
               {
-                title: "Secure Payments & Data",
-                icon: <ShieldCheck className="w-7 h-7" />,
-                desc: "I set up secure databases to keep your customer information safe, and integrate payment systems like Razorpay so you can get paid easily and securely."
+                title: "Backend & Cloud Architecture",
+                icon: <ShieldCheck size={24} />,
+                desc: "Scalable cloud services powered by Firebase and PostgreSQL. Secure authentication, atomic database transactions, and compliant payment integrations with Razorpay."
               },
-            ].map((skill, i) => (
+            ].map((service, i) => (
               <div
                 key={i}
-                className="p-8 md:p-10 bg-white rounded-3xl border border-gray-100 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 group flex flex-col"
+                className="p-8 bg-[#FAFDFC] border border-[#747775] rounded-[24px] hover:bg-[#F0F4F9] transition-colors duration-200 flex flex-col justify-between"
               >
-                <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-500 shadow-sm">
-                  {skill.icon}
+                <div>
+                  <div className="w-12 h-12 rounded-full bg-[#D3E3FD] text-[#041E49] flex items-center justify-center mb-6">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-[22px] font-medium text-[#1F1F1F] mb-3">
+                    {service.title}
+                  </h3>
+                  <p className="text-[#444746] text-sm leading-[24px]">
+                    {service.desc}
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold tracking-tight mb-4 text-gray-900">{skill.title}</h3>
-                <p className="text-gray-600 text-sm md:text-base leading-relaxed font-normal">{skill.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* 3. THE FOUNDER'S JOURNEY - Relatable & Trust-building */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: customEase }}
-          className="mb-32 md:mb-40 bg-slate-900 rounded-[2rem] md:rounded-[3rem] text-white relative overflow-hidden p-10 md:p-20 shadow-2xl"
-        >
-          {/* Subtle background glow */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-
-          <div className="relative z-10 flex flex-col lg:flex-row gap-16 items-start justify-between">
-            <div className="flex-1 max-w-2xl">
-              <span className="text-blue-400 text-xs uppercase tracking-widest font-bold mb-8 block">My Approach</span>
-              <h3 className="text-3xl md:text-4xl lg:text-5xl font-light mb-10 leading-[1.3] tracking-tight text-white">
-                "Apps should be smart, <br /> 
-                <span className="text-gray-400 font-medium">so your users don't have to think hard."</span>
+        {/* =====================================================
+            3. FOUNDER JOURNEY - Material Inverse Surface
+        ====================================================== */}
+        <div className="mb-24 md:mb-32 bg-[#1F1F1F] text-[#F8F9FA] rounded-[28px] p-8 md:p-14 relative overflow-hidden">
+          <div className="relative z-10 grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
+            <div>
+              <span className="text-[#A8C7FA] text-xs uppercase tracking-wider font-medium mb-4 block">
+                Founder Perspective
+              </span>
+              <h3 className="text-[28px] md:text-[38px] font-normal leading-[1.25] text-white mb-6">
+                “Complex systems should always provide simple experiences.”
               </h3>
               
-              <div className="space-y-6 text-gray-300 text-lg leading-relaxed font-light">
+              <div className="space-y-4 text-[#C4C7C5] text-[16px] md:text-[17px] leading-[28px]">
                 <p>
-                  As the creator of an app called <strong className="text-white font-semibold">Aptro</strong>, I built a system from scratch to help small business owners easily manage their inventory, staff, and billing without needing a manual. 
+                  As the creator of <strong className="text-white font-medium">Aptro</strong>, I engineered an all-in-one business management platform that unifies GST billing, inventory tracking, staff records, and order operations into an accessible workflow.
                 </p>
                 <p>
-                  Because I build and run my own products, I understand what business owners care about. When you hire me, I treat your project with that exact same care—making sure it's done right, on time, and ready to make you money.
+                  Managing real-world commercial software shapes how I build for others. Every project receives the same standard of architectural rigor, uptime reliability, and maintainability.
                 </p>
               </div>
             </div>
             
-            <div className="w-full lg:w-auto flex flex-col sm:flex-row lg:flex-col gap-6 pt-8 lg:pt-0">
-              <div className="p-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/10 flex flex-col justify-center min-w-[240px]">
-                <HeartHandshake className="w-8 h-8 text-blue-400 mb-4" />
-                <p className="text-2xl font-bold text-white">I Handle Everything</p>
-                <p className="text-xs text-gray-400 mt-2 font-medium">From idea to launch</p>
+            <div className="flex flex-col gap-4">
+              <div className="p-6 bg-[#2B2B2B] rounded-[20px] border border-[#444746] flex items-start gap-4">
+                <div className="p-2.5 rounded-full bg-[#0A56D1]/20 text-[#A8C7FA]">
+                  <HeartHandshake size={22} />
+                </div>
+                <div>
+                  <h4 className="text-lg font-medium text-white">Full-Stack Accountability</h4>
+                  <p className="text-xs text-[#C4C7C5] mt-1 leading-relaxed">
+                    Direct communication, clear scope boundaries, and complete technical delivery.
+                  </p>
+                </div>
               </div>
-              <div className="p-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/10 flex flex-col justify-center min-w-[240px]">
-                <Rocket className="w-8 h-8 text-blue-400 mb-4" />
-                <p className="text-2xl font-bold tracking-tight text-white">Built to Grow</p>
-                <p className="text-xs text-gray-400 mt-2 font-medium">Fast & Reliable</p>
+
+              <div className="p-6 bg-[#2B2B2B] rounded-[20px] border border-[#444746] flex items-start gap-4">
+                <div className="p-2.5 rounded-full bg-[#0A56D1]/20 text-[#A8C7FA]">
+                  <Rocket size={22} />
+                </div>
+                <div>
+                  <h4 className="text-lg font-medium text-white">Engineered to Scale</h4>
+                  <p className="text-xs text-[#C4C7C5] mt-1 leading-relaxed">
+                    Clean codebases ready to handle growing data, transaction volume, and feature additions.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </motion.div>
-
-        {/* 4. TECH STACK & TOOLS - Friendly Title */}
-        <div className="mb-32 md:mb-40 text-center max-w-4xl mx-auto border-t border-gray-200 pt-20">
-            <p className="text-gray-500 text-xs uppercase tracking-widest font-bold mb-10">The Tools I Use</p>
-            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-                {["Flutter", "Next.js", "React", "PHP", "TypeScript", "Firebase", "Supabase", "Tailwind CSS", "Razorpay", "Generative AI"].map((tech) => (
-                    <span key={tech} className="px-6 py-3 bg-white border border-gray-200 rounded-full text-sm font-semibold tracking-wide text-gray-700 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md transition-all duration-300 cursor-default">
-                        {tech}
-                    </span>
-                ))}
-            </div>
         </div>
 
-        {/* 5. CALL TO ACTION - Softer, Premium look */}
-        <motion.div
-          initial={{ y: 40, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: customEase }}
-          className="relative text-center py-24 md:py-32 px-6 bg-gradient-to-b from-white to-blue-50/50 rounded-[2.5rem] md:rounded-[3rem] shadow-xl shadow-gray-200/40 border border-gray-100 overflow-hidden"
-        >
-          <div className="relative z-10 max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-10 tracking-tight leading-[1.1]">
-              Ready to bring your <br/> <span className="text-blue-600">idea to life?</span>
+        {/* =====================================================
+            4. TECH STACK - Material 3 Assist Chips
+        ====================================================== */}
+        <div className="mb-24 md:mb-32 max-w-3xl mx-auto text-center border-t border-[#E0E2E0] pt-16">
+          <span className="text-xs uppercase tracking-wider font-medium text-[#747775] mb-6 block">
+            Technologies & Frameworks
+          </span>
+          <div className="flex flex-wrap justify-center gap-2.5">
+            {[
+              "Flutter",
+              "Dart",
+              "Next.js",
+              "React",
+              "TypeScript",
+              "Tailwind CSS",
+              "Firebase",
+              "PostgreSQL",
+              "Razorpay",
+              "REST APIs",
+              "Git & CI/CD",
+            ].map((tech) => (
+              <span
+                key={tech}
+                className="h-9 px-4 inline-flex items-center text-sm font-medium text-[#444746] bg-transparent border border-[#747775] rounded-lg hover:bg-[#1F1F1F]/5 transition-colors"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* =====================================================
+            5. CTA - Material Tertiary Container
+        ====================================================== */}
+        <div className="text-center py-16 px-6 bg-[#E8DEF8] text-[#1D192B] rounded-[28px]">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-[32px] md:text-[44px] font-normal mb-4 leading-tight">
+              Ready to start your next project?
             </h2>
-            <div className="flex flex-col sm:flex-row justify-center gap-8 items-center">
-              <a href="/contact" className="group bg-blue-600 text-white px-10 py-4 rounded-full text-base font-bold transition-all hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 flex justify-center items-center gap-3 active:scale-95">
-                Send Me a Message
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="/projects" className="text-gray-700 text-base font-semibold border-b-2 border-gray-300 pb-1 hover:text-blue-600 hover:border-blue-600 transition-colors">
-                View My Past Work
-              </a>
+            <p className="text-[#4A4458] text-base md:text-lg mb-8 leading-relaxed">
+              Whether you need to build a mobile app from scratch, launch an online platform, or streamline business workflows, I am here to help.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 items-center">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-[#6750A4] text-white px-8 h-13 py-3.5 rounded-full text-sm font-medium hover:bg-[#7D66B6] transition-colors shadow-[0_2px_4px_rgba(0,0,0,0.15)] active:scale-95"
+              >
+                Start a Conversation
+                <ArrowRight size={18} />
+              </Link>
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 text-[#6750A4] hover:bg-[#6750A4]/10 px-6 h-13 py-3.5 rounded-full text-sm font-medium transition-colors"
+              >
+                Browse Projects
+              </Link>
             </div>
           </div>
-        </motion.div>
+        </div>
 
       </section>
 
-      {/* Footer */}
-      <footer className="text-center pb-8 pt-16 border-t border-gray-200 mt-20 mx-6 md:mx-12">
-        <p className="text-[11px] text-gray-500 uppercase tracking-widest font-bold">
-            © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat
+      {/* =====================================================
+          FOOTER
+      ====================================================== */}
+      <footer className="text-center pt-16 pb-8 border-t border-[#E0E2E0] mt-24">
+        <p className="text-xs text-[#747775] font-medium">
+          © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat, India
         </p>
       </footer>
     </main>

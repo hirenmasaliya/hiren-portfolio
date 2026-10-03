@@ -11,153 +11,160 @@ import {
   PieChart, 
   ShieldCheck, 
   Smartphone,
-  ArrowUpRight,
   Download,
-  Cloud,
-  Lock,
-  Zap,
   Bell,
-  ArrowRight,
-  XCircle,
-  CheckCircle2
+  ArrowRight, // Replaced ArrowForward
+  XCircle,     // Replaced Cancel
+  CheckCircle,
+  ArrowUpRight // Replaced OpenInNew
 } from 'lucide-react';
 
-const customEase = [0.25, 1, 0.5, 1] as const;
+// Google Material 3 Emphasized Decelerate easing
+const materialEase = [0.2, 0, 0, 1] as const;
 
 export default function AptroPage() {
   const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEase } }
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: materialEase } }
+  };
+
+  const staggerContainer = {
+    animate: { transition: { staggerChildren: 0.1 } }
   };
 
   return (
-    <main className="bg-[#FAFAFA] text-gray-900 min-h-screen pt-32 pb-16 selection:bg-blue-600 selection:text-white font-sans overflow-x-hidden">
+    <main className="bg-[#F8F9FA] text-[#1F1F1F] min-h-screen pt-24 md:pt-32 pb-16 selection:bg-[#D3E3FD] selection:text-[#041E49] font-sans overflow-x-hidden antialiased">
       
-      <section className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+      <section className="max-w-[1280px] mx-auto px-4 md:px-8 relative z-10">
 
-        {/* 1. HERO SECTION - Plain English & Logo Added */}
-        <div className="mb-24 md:mb-32 border-b border-gray-200 pb-16">
+        {/* =====================================================
+            1. HERO SECTION - Material Display Typography
+        ====================================================== */}
+        <div className="mb-20 md:mb-32 border-b border-[#E0E2E0] pb-16">
           <motion.div 
-            initial="initial" animate="animate" variants={fadeInUp}
+            initial="initial" animate="animate" variants={staggerContainer}
             className="flex flex-col items-start"
           >
-            {/* Aptro Logo & Badges */}
-            <div className="flex flex-wrap items-center gap-4 mb-8">
-                {/* Logo Placeholder (Replace src with your actual logo path) */}
-                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20 mr-2">
-                    {/* <span className="text-white font-bold text-2xl">A</span> */}
-                    <Image src="https://play-lh.googleusercontent.com/NGLIMqfdTLJPzeqRHJBAKmAOFucu9pzICIxzUKThGcQdg1e3FhGMBtPWNazC-gmxKrMGxCvRBkm0KvcqzcNn9w=s96-rw" alt="Aptro Logo" width={64} height={64} className="rounded-2xl" />
+            {/* Aptro Logo & Material Assist Chips */}
+            <motion.div variants={fadeInUp} className="flex flex-wrap items-center gap-3 mb-8">
+                <div className="w-16 h-16 bg-[#0A56D1] rounded-[16px] flex items-center justify-center shadow-[0_1px_3px_1px_rgba(0,0,0,0.15)] mr-2 overflow-hidden">
+                    <Image src="https://play-lh.googleusercontent.com/NGLIMqfdTLJPzeqRHJBAKmAOFucu9pzICIxzUKThGcQdg1e3FhGMBtPWNazC-gmxKrMGxCvRBkm0KvcqzcNn9w=s96-rw" alt="Aptro Logo" width={64} height={64} />
                 </div>
                 
-                <div className="flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-full shadow-sm">
-                    <Smartphone size={16} className="text-blue-600" />
-                    <span className="text-gray-700 text-xs uppercase tracking-widest font-bold">
+                <div className="flex items-center gap-2 border border-[#747775] px-4 h-8 rounded-lg">
+                    <Smartphone size={16} className="text-[#444746]" />
+                    <span className="text-[#444746] text-xs font-medium tracking-wide">
                         Business Manager
                     </span>
                 </div>
-                <span className="flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 px-4 py-2 rounded-full text-xs uppercase tracking-widest font-bold">
-                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                {/* Material Tertiary Container Chip */}
+                <span className="flex items-center gap-2 bg-[#C4EED0] text-[#072711] px-4 h-8 rounded-lg text-xs font-medium tracking-wide">
+                    <span className="w-2 h-2 bg-[#146C2E] rounded-full animate-pulse"></span>
                     Live on Android
                 </span>
-            </div>
+            </motion.div>
             
-            <h1 className="text-5xl md:text-[6rem] lg:text-[7.5rem] font-bold mb-8 tracking-tight leading-[1] text-gray-900">
+            {/* Material Display Large */}
+            <motion.h1 variants={fadeInUp} className="text-[44px] md:text-[64px] lg:text-[80px] font-normal mb-8 tracking-[-0.25px] leading-[1.05] text-[#1F1F1F]">
               Run your shop <br className="hidden md:block"/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 font-light italic">
+              <span className="text-[#0A56D1]">
                 from your phone.
               </span>
-            </h1>
+            </motion.h1>
             
-            <div className="grid md:grid-cols-12 gap-12 w-full pt-8 mt-4 border-t border-gray-200">
+            <motion.div variants={fadeInUp} className="grid md:grid-cols-12 gap-8 w-full pt-8 mt-4 border-t border-[#E0E2E0]">
                 <div className="md:col-span-7">
-                    <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-normal">
-                        Meet <strong className="font-bold text-gray-900">Aptro</strong>. 
+                    {/* Material Body Large */}
+                    <p className="text-[18px] md:text-[20px] text-[#444746] leading-[32px] font-normal">
+                        Meet <strong className="font-medium text-[#1F1F1F]">Aptro</strong>. 
                         It is a simple mobile app that replaces messy notebooks, lost bills, and confusing software. Track your stock, create bills, and manage your staff all in one easy place.
                     </p>
                 </div>
 
-                <div className="md:col-span-5 flex flex-col gap-8 md:justify-end">
+                <div className="md:col-span-5 flex flex-col gap-6 md:justify-end md:items-end">
+                    {/* Material Filled Button (Extended FAB Style) */}
                     <a
                         href="https://play.google.com/store/apps/details?id=com.hirenmasaliya.aptro"
                         target="_blank"
                         rel="noreferrer"
-                        className="group w-full md:w-auto bg-blue-600 text-white px-8 py-4 rounded-full text-sm font-bold transition-all duration-300 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 active:scale-95 flex items-center justify-between max-w-sm"
+                        className="inline-flex items-center justify-center gap-3 bg-[#0A56D1] text-white px-8 h-14 rounded-full text-sm font-medium transition-colors hover:bg-[#0842A0] shadow-[0_1px_3px_1px_rgba(0,0,0,0.15)] active:scale-95 w-full md:w-auto"
                     >
-                        <span className="flex items-center gap-3">
-                            <Download size={20} /> Download Aptro Free
-                        </span>
-                        <ArrowUpRight size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                        <Download size={20} />
+                        Download Aptro Free
+                        <ArrowUpRight size={18} className="ml-2 opacity-70" />
                     </a>
                 </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 
-        {/* 2. BEFORE VS AFTER - Visual Storytelling for Non-Tech Users */}
-        <div className="mb-32 md:mb-40">
-            <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
+        {/* =====================================================
+            2. BEFORE VS AFTER - Material Error/Primary Containers
+        ====================================================== */}
+        <div className="mb-24 md:mb-32">
+            <div className="mb-12">
+                <h2 className="text-[32px] md:text-[40px] font-normal tracking-tight text-[#1F1F1F] mb-4">
                     Why do you need Aptro?
                 </h2>
-                <p className="text-gray-600 text-lg font-normal">See the difference it makes in your daily life.</p>
+                <p className="text-[#444746] text-[18px] font-normal">See the difference it makes in your daily life.</p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 md:gap-10">
-                {/* BEFORE APTRO */}
-                <div className="bg-red-50/50 border border-red-100 p-8 md:p-12 rounded-[2rem] relative">
-                    <div className="absolute top-0 right-8 -translate-y-1/2 bg-red-100 text-red-600 px-6 py-2 rounded-full font-bold text-sm border border-red-200 shadow-sm">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+                {/* BEFORE APTRO - Material Error Container */}
+                <div className="bg-[#F9DEDC] border border-[#F2B8B5] p-8 md:p-12 rounded-[28px] relative overflow-hidden">
+                    <div className="inline-flex items-center bg-[#8C1D18] text-white px-4 py-1.5 rounded-full font-medium text-xs tracking-wide mb-8">
                         Before Aptro
                     </div>
-                    <ul className="space-y-6 mt-4">
+                    <ul className="space-y-6">
                         <li className="flex gap-4 items-start">
-                            <XCircle className="text-red-500 shrink-0 mt-1" size={24} />
+                            <XCircle className="text-[#8C1D18] shrink-0 mt-0.5" size={24} />
                             <div>
-                                <h4 className="font-bold text-gray-900 text-lg">Paper Notebooks</h4>
-                                <p className="text-gray-600">Writing everything down in books that get lost, torn, or ruined.</p>
+                                <h4 className="font-medium text-[#410E0B] text-[20px] mb-1">Paper Notebooks</h4>
+                                <p className="text-[#8C1D18] text-sm leading-[24px]">Writing everything down in books that get lost, torn, or ruined.</p>
                             </div>
                         </li>
                         <li className="flex gap-4 items-start">
-                            <XCircle className="text-red-500 shrink-0 mt-1" size={24} />
+                            <XCircle className="text-[#8C1D18] shrink-0 mt-0.5" size={24} />
                             <div>
-                                <h4 className="font-bold text-gray-900 text-lg">Guessing Stock</h4>
-                                <p className="text-gray-600">Never knowing exactly how many items you have left to sell.</p>
+                                <h4 className="font-medium text-[#410E0B] text-[20px] mb-1">Guessing Stock</h4>
+                                <p className="text-[#8C1D18] text-sm leading-[24px]">Never knowing exactly how many items you have left to sell.</p>
                             </div>
                         </li>
                         <li className="flex gap-4 items-start">
-                            <XCircle className="text-red-500 shrink-0 mt-1" size={24} />
+                            <XCircle className="text-[#8C1D18] shrink-0 mt-0.5" size={24} />
                             <div>
-                                <h4 className="font-bold text-gray-900 text-lg">Messy Calculations</h4>
-                                <p className="text-gray-600">Wasting time at night with a calculator trying to figure out daily profits.</p>
+                                <h4 className="font-medium text-[#410E0B] text-[20px] mb-1">Messy Calculations</h4>
+                                <p className="text-[#8C1D18] text-sm leading-[24px]">Wasting time at night with a calculator trying to figure out daily profits.</p>
                             </div>
                         </li>
                     </ul>
                 </div>
 
-                {/* AFTER APTRO */}
-                <div className="bg-blue-50/50 border border-blue-200 p-8 md:p-12 rounded-[2rem] relative shadow-lg shadow-blue-900/5">
-                    <div className="absolute top-0 right-8 -translate-y-1/2 bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-sm shadow-md">
+                {/* AFTER APTRO - Material Primary Container */}
+                <div className="bg-[#D3E3FD] border border-[#A8C7FA] p-8 md:p-12 rounded-[28px] relative">
+                    <div className="inline-flex items-center bg-[#0A56D1] text-white px-4 py-1.5 rounded-full font-medium text-xs tracking-wide mb-8">
                         With Aptro
                     </div>
-                    <ul className="space-y-6 mt-4">
+                    <ul className="space-y-6">
                         <li className="flex gap-4 items-start">
-                            <CheckCircle2 className="text-blue-600 shrink-0 mt-1" size={24} />
+                            <CheckCircle className="text-[#041E49] shrink-0 mt-0.5" size={24} />
                             <div>
-                                <h4 className="font-bold text-gray-900 text-lg">Everything on Phone</h4>
-                                <p className="text-gray-600">All your bills and customer details are safely stored in your pocket.</p>
+                                <h4 className="font-medium text-[#041E49] text-[20px] mb-1">Everything on Phone</h4>
+                                <p className="text-[#001D35] text-sm leading-[24px]">All your bills and customer details are safely stored in your pocket.</p>
                             </div>
                         </li>
                         <li className="flex gap-4 items-start">
-                            <CheckCircle2 className="text-blue-600 shrink-0 mt-1" size={24} />
+                            <CheckCircle className="text-[#041E49] shrink-0 mt-0.5" size={24} />
                             <div>
-                                <h4 className="font-bold text-gray-900 text-lg">Automatic Stock</h4>
-                                <p className="text-gray-600">The app automatically deducts stock when you make a bill.</p>
+                                <h4 className="font-medium text-[#041E49] text-[20px] mb-1">Automatic Stock</h4>
+                                <p className="text-[#001D35] text-sm leading-[24px]">The app automatically deducts stock when you make a bill.</p>
                             </div>
                         </li>
                         <li className="flex gap-4 items-start">
-                            <CheckCircle2 className="text-blue-600 shrink-0 mt-1" size={24} />
+                            <CheckCircle className="text-[#041E49] shrink-0 mt-0.5" size={24} />
                             <div>
-                                <h4 className="font-bold text-gray-900 text-lg">Instant Profit Reports</h4>
-                                <p className="text-gray-600">See exactly how much money you made today with one simple tap.</p>
+                                <h4 className="font-medium text-[#041E49] text-[20px] mb-1">Instant Profit Reports</h4>
+                                <p className="text-[#001D35] text-sm leading-[24px]">See exactly how much money you made today with one simple tap.</p>
                             </div>
                         </li>
                     </ul>
@@ -165,107 +172,108 @@ export default function AptroPage() {
             </div>
         </div>
 
-        {/* 3. CORE FEATURES - Simple English Grid */}
-        <div className="mb-32 md:mb-40">
-            <div className="flex flex-col md:flex-row justify-between items-start mb-16 gap-8 border-b border-gray-200 pb-12">
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-[1.2]">
-                    What can you do <br/> <span className="text-blue-600">with Aptro?</span>
+        {/* =====================================================
+            3. CORE FEATURES - Material Outlined Cards
+        ====================================================== */}
+        <div className="mb-24 md:mb-32 border-t border-[#E0E2E0] pt-16">
+            <div className="flex flex-col md:flex-row justify-between items-start mb-12 gap-8">
+                <h2 className="text-[32px] md:text-[40px] font-normal tracking-tight text-[#1F1F1F] leading-[1.2]">
+                    What can you do <br className="hidden md:block" /> with Aptro?
                 </h2>
                 <div className="md:text-right flex flex-col items-start md:items-end justify-end">
-                    <p className="text-gray-600 text-base font-normal max-w-sm leading-relaxed mb-6">
-                        Six powerful tools combined into one simple app.
+                    <p className="text-[#444746] text-[18px] font-normal max-w-sm leading-[28px]">
+                        Six powerful tools combined into one simple application.
                     </p>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {features.map((f, i) => (
-                    <div key={i} className="group p-8 md:p-10 bg-white rounded-[2rem] border border-gray-200 hover:shadow-xl hover:shadow-blue-900/10 hover:border-blue-200 transition-all duration-500 flex flex-col">
-                        <div className="flex justify-between items-start mb-8">
-                            <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-500 shadow-sm">
-                                {f.icon}
-                            </div>
+                    <div key={i} className="p-8 bg-[#FAFDFC] rounded-[24px] border border-[#747775] hover:bg-[#F0F4F9] transition-colors duration-200 flex flex-col">
+                        <div className="w-14 h-14 rounded-full bg-[#E8DEF8] text-[#1D192B] flex items-center justify-center mb-6">
+                            {f.icon}
                         </div>
-                        <h3 className="text-2xl font-bold mb-3 tracking-tight text-gray-900">{f.title}</h3>
-                        <p className="text-gray-600 text-base font-normal leading-relaxed mt-auto">{f.desc}</p>
+                        <h3 className="text-[22px] font-normal mb-3 text-[#1F1F1F]">{f.title}</h3>
+                        <p className="text-[#444746] text-sm leading-[24px] mt-auto">{f.desc}</p>
                     </div>
                 ))}
             </div>
         </div>
 
-        {/* 4. BENEFITS & UI PREVIEW */}
-        <div className="mb-32 md:mb-40">
-            <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+        {/* =====================================================
+            4. BENEFITS & UI PREVIEW - Material Tonal Surface
+        ====================================================== */}
+        <div className="mb-24 md:mb-32">
+            <div className="flex flex-col lg:flex-row gap-16 items-center">
                 <div className="lg:w-1/2">
-                    <span className="text-blue-600 text-xs uppercase tracking-widest font-bold mb-6 block border-b border-gray-200 pb-4">Designed for You</span>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-12 tracking-tight leading-[1.2] text-gray-900">
-                        So simple, anyone <br /> <span className="font-light italic text-gray-500">can use it.</span>
+                    <span className="text-[#0A56D1] text-xs uppercase tracking-wider font-medium mb-4 block">
+                        Designed for You
+                    </span>
+                    <h2 className="text-[32px] md:text-[48px] font-normal mb-10 tracking-tight leading-[1.1] text-[#1F1F1F]">
+                        So simple, anyone <br /> can use it.
                     </h2>
                     
-                    <div className="space-y-10">
+                    <div className="space-y-8">
                         {benefits.map((b, i) => (
-                            <div key={i} className="flex gap-5 group">
-                                <div className="mt-2 flex-shrink-0">
-                                    <div className="w-3 h-3 bg-blue-600 rounded-full group-hover:scale-150 transition-transform duration-300 shadow-sm"></div>
+                            <div key={i} className="flex gap-4">
+                                <div className="mt-1 flex-shrink-0">
+                                    <div className="w-2.5 h-2.5 bg-[#0A56D1] rounded-full mt-2"></div>
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-xl text-gray-900 mb-2 tracking-tight">{b.title}</h4>
-                                    <p className="text-gray-600 text-base font-normal leading-relaxed">{b.desc}</p>
+                                    <h4 className="font-medium text-[20px] text-[#1F1F1F] mb-1">{b.title}</h4>
+                                    <p className="text-[#444746] text-[16px] font-normal leading-[26px]">{b.desc}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
                 
-                {/* MODERN MOBILE DASHBOARD WIREFRAME */}
-                <div className="lg:w-1/2 w-full aspect-[4/5] bg-slate-900 rounded-[2.5rem] md:rounded-[3rem] border border-gray-800 flex flex-col items-center justify-center relative p-8 md:p-12 shadow-2xl overflow-hidden">
+                {/* MODERN MOBILE DASHBOARD WIREFRAME - Material Surface Container Highest */}
+                <div className="lg:w-1/2 w-full aspect-[4/5] bg-[#E1E3E1] rounded-[32px] flex flex-col items-center justify-center relative p-8 shadow-inner border border-[#C4C7C5]">
                     
-                    {/* Background decoration */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-600/20 blur-[80px] rounded-full pointer-events-none"></div>
-
                     {/* Wireframe Phone Frame */}
                     <div className="relative z-10 w-full max-w-[280px]">
-                        <div className="w-full aspect-[9/19.5] bg-[#FAFAFA] border-8 border-gray-800 rounded-[2.5rem] mx-auto relative flex flex-col overflow-hidden shadow-2xl">
+                        <div className="w-full aspect-[9/19.5] bg-[#F8F9FA] border-[12px] border-[#1F1F1F] rounded-[36px] mx-auto relative flex flex-col overflow-hidden shadow-[0_4px_8px_3px_rgba(0,0,0,0.15)]">
                             
                             {/* App Header */}
-                            <div className="pt-10 pb-4 px-5 flex items-center justify-between bg-white border-b border-gray-200">
-                                <div className="flex flex-col gap-1.5">
-                                    <div className="w-24 h-4 bg-gray-900 rounded-full"></div>
-                                    <div className="w-12 h-2 bg-gray-300 rounded-full"></div>
+                            <div className="pt-12 pb-4 px-5 flex items-center justify-between bg-white border-b border-[#E0E2E0]">
+                                <div className="flex flex-col gap-2">
+                                    <div className="w-24 h-4 bg-[#1F1F1F] rounded-full"></div>
+                                    <div className="w-12 h-2 bg-[#C4C7C5] rounded-full"></div>
                                 </div>
-                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center relative">
-                                    <Bell size={18} className="text-blue-600" />
+                                <div className="w-10 h-10 rounded-full bg-[#F0F4F9] flex items-center justify-center relative">
+                                    <Bell size={20} className="text-[#444746]" />
                                     {/* Backend Notification Integration Dot (Red) */}
-                                    <div className="absolute top-2 right-2 w-2.5 h-2.5 border-2 border-white bg-red-500 rounded-full animate-pulse"></div>
+                                    <div className="absolute top-2 right-2 w-2.5 h-2.5 border-2 border-white bg-[#B3261E] rounded-full"></div>
                                 </div>
                             </div>
 
                             {/* App Body */}
-                            <div className="flex-1 p-5 flex flex-col gap-4 overflow-hidden bg-gray-50">
+                            <div className="flex-1 p-5 flex flex-col gap-4 overflow-hidden bg-[#F8F9FA]">
                                 
-                                {/* Sales Summary Card */}
-                                <div className="bg-blue-600 p-5 rounded-2xl flex flex-col gap-2 shadow-lg shadow-blue-600/20">
-                                    <span className="text-blue-200 text-[10px] uppercase tracking-widest font-bold">Today's Sales</span>
+                                {/* Sales Summary Card (Primary) */}
+                                <div className="bg-[#0A56D1] p-5 rounded-[16px] flex flex-col gap-2 shadow-[0_1px_3px_1px_rgba(0,0,0,0.15)]">
+                                    <span className="text-[#D3E3FD] text-[10px] uppercase tracking-widest font-medium">Today's Sales</span>
                                     <div className="w-24 h-6 bg-white rounded-md mt-1"></div>
                                 </div>
 
-                                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mt-2">Recent Orders</span>
+                                <span className="text-[12px] font-medium text-[#747775] mt-2">Recent Orders</span>
                                 
                                 {/* Order Card 1 */}
-                                <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-green-100 shrink-0"></div>
+                                <div className="bg-white p-4 rounded-[12px] border border-[#E0E2E0] shadow-sm flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-[#C4EED0] shrink-0"></div>
                                     <div className="flex flex-col gap-2 w-full">
-                                        <div className="w-2/3 h-3 bg-gray-800 rounded-full"></div>
-                                        <div className="w-1/3 h-2 bg-gray-300 rounded-full"></div>
+                                        <div className="w-2/3 h-3 bg-[#444746] rounded-full"></div>
+                                        <div className="w-1/3 h-2 bg-[#C4C7C5] rounded-full"></div>
                                     </div>
                                 </div>
 
                                 {/* Order Card 2 */}
-                                <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-yellow-100 shrink-0"></div>
+                                <div className="bg-white p-4 rounded-[12px] border border-[#E0E2E0] shadow-sm flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-[#FFDDA6] shrink-0"></div>
                                     <div className="flex flex-col gap-2 w-full">
-                                        <div className="w-1/2 h-3 bg-gray-800 rounded-full"></div>
-                                        <div className="w-1/4 h-2 bg-gray-300 rounded-full"></div>
+                                        <div className="w-1/2 h-3 bg-[#444746] rounded-full"></div>
+                                        <div className="w-1/4 h-2 bg-[#C4C7C5] rounded-full"></div>
                                     </div>
                                 </div>
                             </div>
@@ -275,39 +283,39 @@ export default function AptroPage() {
             </div>
         </div>
 
-        {/* 5. FINAL CALL TO ACTION */}
+        {/* =====================================================
+            5. FINAL CALL TO ACTION - Material Inverse Surface
+        ====================================================== */}
         <motion.div 
             whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: customEase }}
-            className="mb-20 bg-blue-600 rounded-[2.5rem] md:rounded-[3rem] p-10 md:p-20 flex flex-col md:flex-row justify-between items-center gap-10 shadow-2xl shadow-blue-900/20 relative overflow-hidden"
+            transition={{ duration: 0.6, ease: materialEase }}
+            className="mb-16 bg-[#1F1F1F] rounded-[28px] p-10 md:p-16 flex flex-col md:flex-row justify-between items-center gap-10 relative overflow-hidden"
         >
-            {/* Decorative background circle */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div className="max-w-xl text-center md:text-left text-white relative z-10">
-                <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.2]">
-                    Stop struggling with <br/> <span className="text-blue-200">paper and pen.</span>
+            <div className="max-w-xl text-center md:text-left text-[#F8F9FA] relative z-10">
+                <h2 className="text-[32px] md:text-[44px] font-normal mb-4 tracking-[-0.25px] leading-tight">
+                    Stop struggling with <br/> <span className="text-[#A8C7FA]">paper and pen.</span>
                 </h2>
-                <p className="text-blue-100 text-lg font-normal leading-relaxed">
+                <p className="text-[#C4C7C5] text-[18px] font-normal leading-[28px]">
                     Download Aptro today and start managing your shop the smart, modern way. It's completely free to try.
                 </p>
             </div>
+            {/* Inverse Primary Action Button */}
             <a
                 href="https://play.google.com/store/apps/details?id=com.hirenmasaliya.aptro"
                 target="_blank"
                 rel="noreferrer"
-                className="group w-full md:w-auto bg-white text-blue-700 rounded-full px-10 py-5 text-base font-bold transition-all duration-300 hover:scale-105 shadow-xl flex items-center justify-center gap-3 shrink-0 active:scale-95 relative z-10"
+                className="inline-flex items-center justify-center gap-2 bg-[#A8C7FA] text-[#062E6F] rounded-full px-8 h-14 text-sm font-medium transition-colors hover:bg-[#D3E3FD] shadow-[0_2px_4px_rgba(0,0,0,0.15)] active:scale-95 shrink-0 w-full md:w-auto relative z-10"
             >
-                Download Now <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
+                Download Now <ArrowRight size={20} />
             </a>
         </motion.div>
 
       </section>
 
-      <footer className="text-center pb-10 border-t border-gray-200 pt-10 mx-6 md:mx-12">
-        <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+      <footer className="text-center pb-8 border-t border-[#E0E2E0] pt-8 mx-4 md:mx-8">
+        <p className="text-[12px] font-medium text-[#747775]">
             Aptro by Hiren Masaliya — Made in Jetpur, Gujarat
         </p>
       </footer>
@@ -318,32 +326,32 @@ export default function AptroPage() {
 // Plain English Features Data
 const features = [
   {
-    icon: <LayoutDashboard strokeWidth={2} size={28} />,
+    icon: <LayoutDashboard size={24} />,
     title: "Track Orders Easily",
     desc: "See exactly which customer ordered what, and know if the order is pending or completed in one tap."
   },
   {
-    icon: <Receipt strokeWidth={2} size={28} />,
+    icon: <Receipt size={24} />,
     title: "Quick Digital Bills",
     desc: "Create professional bills with GST automatically added. Send them to customers directly on WhatsApp."
   },
   {
-    icon: <Package strokeWidth={2} size={28} />,
+    icon: <Package size={24} />,
     title: "Know Your Stock",
     desc: "Aptro automatically removes items from your stock count when you sell them, so you never run out unexpectedly."
   },
   {
-    icon: <Users strokeWidth={2} size={28} />,
+    icon: <Users size={24} />,
     title: "Manage Your Staff",
     desc: "Give your workers access to the app, but hide your profits and private information from them."
   },
   {
-    icon: <PieChart strokeWidth={2} size={28} />,
+    icon: <PieChart size={24} />,
     title: "See Your Profits",
     desc: "Check your phone at the end of the day to see exactly how much money you made and what you spent."
   },
   {
-    icon: <ShieldCheck strokeWidth={2} size={28} />,
+    icon: <ShieldCheck size={24} />,
     title: "Safe & Private",
     desc: "Your business data is safely backed up on the internet. If you lose your phone, your data is still safe."
   }
