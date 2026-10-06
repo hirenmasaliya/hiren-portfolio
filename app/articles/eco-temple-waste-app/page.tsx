@@ -19,6 +19,7 @@ import {
   HandHeart,
   ArrowRight,
 } from "lucide-react";
+import { Metadata } from "next";
 
 const smoothEase = [0.2, 0, 0, 1] as const;
 
@@ -31,6 +32,17 @@ const tableOfContents = [
   { id: "architecture", label: "Tech Architecture" },
   { id: "conclusion", label: "Conclusion" },
 ];
+
+export const metadata: Metadata = {
+  title: "App Idea: Upcycling Temple & Household Offerings",
+  description: "A blueprint for an eco-platform connecting temples and households to convert floral waste into circular products.",
+  openGraph: {
+    type: "article",
+    publishedTime: "2026-10-05T00:00:00.000Z",
+    authors: ["https://hirenmasaliya1411.web.app"],
+    tags: ["Sustainability", "App Ideas", "Circular Economy"],
+  },
+};
 
 export default function EcoTempleWasteArticle() {
   const { scrollYProgress } = useScroll();
