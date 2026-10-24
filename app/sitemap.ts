@@ -24,6 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   const articleSlugs = [
+    '/articles/apple-app-store-upload',
+    '/articles/google-play-store-upload',
     '/articles/voting-app',
     '/articles/eco-temple-waste-app',
     '/articles/small-business-app',

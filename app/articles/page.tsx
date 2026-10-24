@@ -15,6 +15,11 @@ import {
   ArrowUpRight,
   ShieldCheck,
   Leaf,
+  Upload,
+  Smartphone,
+  Search, // Added for SEO guide
+  Globe,  // Added for PWA guide
+  Rocket, // Added for Deployment guide
 } from "lucide-react"; 
 
 // --- Animation Variants ---
@@ -38,9 +43,33 @@ const fadeUpVariant: Variants = {
 export default function ArticlesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const categories = ["All", "Case Studies", "Business Advice", "App Ideas"];
+  const categories = ["All", "Case Studies", "Guides", "Business Advice", "App Ideas"];
 
   const articles = [
+    {
+      id: "apple-app-store-upload",
+      slug: "/articles/apple-app-store-upload",
+      title: "Apple App Store Submission Requirements",
+      excerpt:
+        "A complete walkthrough of App Store Connect, managing certificates, provisioning profiles, and avoiding common Apple review rejection pitfalls.",
+      category: "Guides",
+      date: "Oct 24, 2026",
+      readTime: "8 min read",
+      icon: <Upload size={24} />,
+      featured: false,
+    },
+    {
+      id: "google-play-store-upload",
+      slug: "/articles/google-play-store-upload",
+      title: "Google Play Store Submission Requirements",
+      excerpt:
+        "Everything you need to know about the Google Play Console, generating keystores, app signing, and setting up your store listing for a successful launch.",
+      category: "Guides",
+      date: "Oct 22, 2026",
+      readTime: "7 min read",
+      icon: <Smartphone size={24} />,
+      featured: false,
+    },
     {
       id: "voting-app",
       slug: "/articles/voting-app",

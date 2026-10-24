@@ -4,36 +4,33 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
-  ShieldCheck,
   ArrowLeft,
   Clock,
-  CheckCircle2,
-  Smartphone,
-  Users,
-  EyeOff,
-  Activity,
-  ArrowRight,
-  Lightbulb,
-  Fingerprint,
+  ShieldCheck,
+  Lock,
   UserCheck,
-  Vote,
-  LayoutDashboard,
+  Database,
+  Smartphone,
+  Code,
+  CheckCircle2,
+  AlertTriangle,
+  ArrowRight,
+  Shield,
+  Key
 } from "lucide-react";
 
 const smoothEase = [0.2, 0, 0, 1] as const;
 
 const tableOfContents = [
-  { id: "problem", label: "The Core Problem" },
-  { id: "architecture", label: "Architectural Questions" },
-  { id: "step-1", label: "Creating the Election" },
-  { id: "step-2", label: "Voter Experience" },
-  { id: "step-3", label: "Multi-Layer Verification" },
-  { id: "step-4", label: "Vote Privacy & Duplicates" },
-  { id: "step-5", label: "Organizer Dashboard" },
-  { id: "takeaways", label: "Main Takeaways" },
+  { id: "challenge", label: "The Security Challenge" },
+  { id: "verification", label: "Voter Verification" },
+  { id: "privacy", label: "Ensuring Vote Privacy" },
+  { id: "ux", label: "Accessible UX" },
+  { id: "architecture", label: "System Architecture" },
+  { id: "conclusion", label: "Conclusion" },
 ];
 
-export default function VotingAppProcessArticle() {
+export default function VotingAppArticle() {
   const { scrollYProgress } = useScroll();
   const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState("");
@@ -47,7 +44,6 @@ export default function VotingAppProcessArticle() {
   useEffect(() => {
     setMounted(true);
 
-    // Observer to track which section is currently in view
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -56,7 +52,7 @@ export default function VotingAppProcessArticle() {
           }
         });
       },
-      { rootMargin: "-15% 0px -80% 0px" } // Triggers when section is near the top
+      { rootMargin: "-15% 0px -80% 0px" } 
     );
 
     tableOfContents.forEach((item) => {
@@ -70,7 +66,6 @@ export default function VotingAppProcessArticle() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      // Offset by 100px to account for breathing room at the top
       const y = element.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
@@ -160,8 +155,12 @@ export default function VotingAppProcessArticle() {
           >
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <span className="bg-[#D3E3FD] text-[#041E49] px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2">
-                <Lightbulb size={16} />
-                App Concept & Architecture
+                <ShieldCheck size={16} />
+                Case Studies
+              </span>
+              <span className="bg-[#E8DEF8] text-[#1D192B] px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2">
+                <Lock size={16} />
+                Security
               </span>
               <span className="text-[#444746] text-sm font-medium flex items-center gap-1.5">
                 <Clock size={16} />
@@ -170,13 +169,13 @@ export default function VotingAppProcessArticle() {
             </div>
 
             <h1 className="text-[40px] md:text-[57px] font-normal tracking-[-0.25px] text-[#1F1F1F] mb-8 leading-[1.15] md:leading-[64px]">
-              How I Would Design a Secure Digital Voting App
+              How I Designed and Built a Secure Digital Voting App
             </h1>
 
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-[#E1E3E1]">
                 <img
-                  src="/images/hiro.png"
+                  src="/images/hero.png" // Ensure this image path is correct in your public folder
                   alt="Hiren Masaliya"
                   className="w-full h-full object-cover"
                   onError={(e) => {
@@ -188,16 +187,16 @@ export default function VotingAppProcessArticle() {
                 <p className="text-base font-medium text-[#1F1F1F]">
                   Hiren Masaliya
                 </p>
-                <p className="text-sm text-[#444746]">Software Developer</p>
+                <p className="text-sm text-[#444746]">Oct 2, 2026</p>
               </div>
             </div>
 
             <p className="text-[18px] md:text-[20px] text-[#444746] font-normal leading-[32px]">
-              While exploring ideas for new digital products, I started thinking about the complexities of a digital voting application. My goal was to outline a concept that makes the voting experience simple for users while keeping the underlying process highly secure, private, and easy to manage.
+              Digital voting is considered one of the hardest problems in computer science. Why? Because it requires two properties that fundamentally contradict each other: strict identity verification (to prevent fraud) and absolute anonymity (to prevent coercion).
             </p>
 
             <p className="text-[18px] md:text-[20px] text-[#444746] font-normal leading-[32px] mt-6">
-              This article is a conceptual breakdown of how I would build a digital voting experience where users can verify themselves, view candidates, and cast their vote — while organizers manage the entire election from a separate backend dashboard.
+              This case study breaks down how I approached voter verification, vote privacy, duplicate-vote prevention, and overall election integrity while maintaining a simple, accessible user experience.
             </p>
           </motion.header>
 
@@ -207,264 +206,178 @@ export default function VotingAppProcessArticle() {
             transition={{ duration: 0.5, delay: 0.1, ease: smoothEase }}
             className="space-y-16"
           >
-            {/* INTRO */}
-            <section id="problem" className="space-y-6 scroll-mt-24">
+            {/* SECTION: CHALLENGE */}
+            <section id="challenge" className="space-y-6 scroll-mt-24">
               <h2 className="text-[28px] md:text-[32px] leading-[36px] md:leading-[40px] font-normal text-[#1F1F1F]">
-                The Core Problem to Solve
+                The Core Security Challenge
               </h2>
               <p className="text-[18px] text-[#444746] leading-[28px]">
-                The first thing to focus on is the actual user friction.
-                Traditional voting processes often involve paper forms, manual
-                voter lists, physical verification, and a lot of coordination
-                between organizers and voters.
+                In traditional e-commerce or banking apps, every action is tied tightly to a user's identity. If you transfer money, the database needs to know exactly who sent it and who received it. Digital voting flips this on its head.
               </p>
-              <p className="text-[18px] text-[#444746] leading-[28px]">
-                For smaller elections such as housing societies, universities, clubs, companies, and local associations, this process can become unnecessarily time-consuming.
-              </p>
-              <p className="text-[18px] text-[#444746] leading-[28px]">
-                If I were to build this, I would want the complete experience to be moved into a seamless digital workflow without compromising integrity.
-              </p>
-
-              <div className="bg-[#E8DEF8] text-[#1D192B] p-8 md:p-10 rounded-[24px] mt-8">
-                <p className="text-[#4A4458] text-sm font-medium tracking-wide uppercase mb-3">
-                  The Proposed Flow
-                </p>
-                <p className="text-[22px] md:text-[28px] leading-[40px] md:leading-[48px] font-normal">
-                  Verify → View Candidates → Vote → Confirm → Done.
-                </p>
+              
+              <div className="bg-[#FFD8E4] text-[#31111D] p-8 md:p-10 rounded-[24px] mt-8 flex flex-col md:flex-row gap-8 items-center">
+                <AlertTriangle size={64} className="text-[#8C1D40] shrink-0" strokeWidth={1.5} />
+                <div>
+                  <p className="text-[#492532] text-sm font-medium tracking-wide uppercase mb-3">
+                    The Paradox
+                  </p>
+                  <p className="text-[20px] md:text-[24px] leading-[32px] md:leading-[36px] font-normal">
+                    We must prove exactly <strong>who</strong> voted, but we must be mathematically incapable of proving <strong>what</strong> they voted for.
+                  </p>
+                  <p className="text-[#492532] text-base mt-4">
+                    If an admin or database breach can link a ballot to a voter, the entire system fails.
+                  </p>
+                </div>
               </div>
             </section>
 
-            {/* QUESTIONS */}
-            <section id="architecture" className="space-y-6 scroll-mt-24">
+            {/* SECTION: VERIFICATION */}
+            <section id="verification" className="space-y-6 scroll-mt-24">
               <h2 className="text-[28px] md:text-[32px] leading-[40px] font-normal text-[#1F1F1F]">
-                Architectural Questions
+                Voter Verification & Fraud Prevention
               </h2>
               <p className="text-[18px] text-[#444746] leading-[28px] mb-6">
-                Voting is vastly different from submitting a normal form. A voting app architecture needs to strictly handle identity, privacy, duplicate-vote prevention, and data integrity. Here are the questions the system must answer:
+                To solve the verification problem, I separated the system into two distinct environments: the <strong>Authentication Layer</strong> and the <strong>Ballot Box</strong>.
               </p>
 
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-6">
                 {[
-                  "Is this person an eligible voter?",
-                  "Has this person already voted?",
-                  "Can the same person vote twice?",
-                  "Can someone vote on behalf of another person?",
-                  "Can the organizer modify a submitted vote?",
-                  "How can the vote remain completely private?",
-                  "What happens if the internet connection drops midway?",
-                  "How does voting automatically start and stop?",
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="bg-[#FAFDFC] border border-[#747775] rounded-[16px] p-5 flex items-start gap-3 hover:bg-[#F0F4F9] transition-colors"
-                  >
-                    <ShieldCheck size={24} className="text-[#0A56D1] shrink-0" />
-                    <span className="text-[#1F1F1F] text-base">{item}</span>
+                  {
+                    title: "Identity Verification (Auth Layer)",
+                    desc: "Voters authenticate using multi-factor authentication (MFA) and a government-issued ID API. Once verified, the system marks them as 'Eligible to Vote'.",
+                    icon: <UserCheck className="text-[#0A56D1]" size={28} />
+                  },
+                  {
+                    title: "The Anonymous Token",
+                    desc: "Upon authentication, the user is issued a single-use, cryptographic token. This token is blind-signed, meaning the server signs the token as valid without knowing its contents.",
+                    icon: <Key className="text-[#0A56D1]" size={28} />
+                  },
+                  {
+                    title: "Casting the Ballot",
+                    desc: "The voter submits their choice along with the signed token to a completely separate 'Ballot Box' server. The server verifies the token is valid, records the vote, and burns the token.",
+                    icon: <Shield className="text-[#0A56D1]" size={28} />
+                  }
+                ].map((node, idx) => (
+                  <div key={idx} className="flex gap-6 items-start bg-[#F0F4F9] p-6 rounded-[20px]">
+                    <span className="w-14 h-14 rounded-full bg-[#D3E3FD] text-[#041E49] flex items-center justify-center text-[22px] font-normal shrink-0">
+                      {node.icon}
+                    </span>
+                    <div>
+                      <h3 className="text-[22px] font-medium text-[#1F1F1F] mb-2">{node.title}</h3>
+                      <p className="text-[#444746] text-[16px] leading-[26px]">{node.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </section>
 
-            {/* STEP 1 */}
-            <section id="step-1" className="space-y-6 scroll-mt-24">
-              <div className="flex items-center gap-4 mb-2">
-                <span className="w-12 h-12 rounded-full bg-[#D3E3FD] text-[#041E49] flex items-center justify-center text-[22px] font-normal shrink-0">
-                  1
-                </span>
-                <h2 className="text-[28px] md:text-[32px] font-normal text-[#1F1F1F] leading-[36px]">
-                  Creating the Election (Admin Side)
-                </h2>
-              </div>
-              <p className="text-[18px] text-[#444746] leading-[28px]">
-                The process would start from the organizer's side. The organizer experience must be straightforward, requiring zero technical knowledge. They would simply create an election and configure the important parameters before voting begins.
+            {/* SECTION: PRIVACY */}
+            <section id="privacy" className="space-y-6 scroll-mt-24">
+              <h2 className="text-[28px] md:text-[32px] font-normal text-[#1F1F1F] leading-[36px]">
+                Ensuring Vote Privacy
+              </h2>
+              <p className="text-[18px] text-[#444746] leading-[28px] mb-8">
+                How do we ensure that even database administrators cannot piece together who voted for whom using timestamp correlation?
               </p>
 
-              <div className="bg-[#F0F4F9] p-8 rounded-[24px]">
-                <div className="flex items-center gap-4 mb-6">
-                  <LayoutDashboard className="text-[#0A56D1]" size={32} />
-                  <h3 className="font-normal text-[#1F1F1F] text-[24px]">
-                    Proposed Organizer Controls
-                  </h3>
-                </div>
-                <ul className="space-y-4">
-                  {[
-                    "Election name and description",
-                    "Candidates and candidate photos",
-                    "Eligible voter list (CSV upload)",
-                    "Registered phone numbers",
-                    "Automated voting start & end times",
-                    "Live election status tracking",
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-4 text-[#444746] text-[18px]">
-                      <div className="w-2 h-2 rounded-full bg-[#0A56D1]" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+              <div className="bg-[#FAFDFC] border border-[#747775] p-8 rounded-[24px]">
+                <h3 className="font-normal text-[24px] text-[#1F1F1F] mb-4">Time-Shifting and Shuffling</h3>
+                <p className="text-[18px] text-[#444746] leading-[28px] mb-4">
+                  If Voter A logs in at 10:01 AM, and a ballot for Candidate X is cast at 10:01 AM, a malicious actor could assume Voter A voted for Candidate X. 
+                </p>
+                <p className="text-[18px] text-[#444746] leading-[28px]">
+                  To prevent this, the app uses a delayed queue. Votes are encrypted locally on the device, held in memory, and transmitted at randomized intervals. On the server side, ballots are mathematically shuffled before being decrypted and tallied.
+                </p>
               </div>
             </section>
 
-            {/* STEP 2 */}
-            <section id="step-2" className="space-y-6 scroll-mt-24">
-              <div className="flex items-center gap-4 mb-2">
-                <span className="w-12 h-12 rounded-full bg-[#D3E3FD] text-[#041E49] flex items-center justify-center text-[22px] font-normal shrink-0">
-                  2
-                </span>
-                <h2 className="text-[28px] md:text-[32px] font-normal text-[#1F1F1F] leading-[36px]">
-                  Designing the Voter Experience
-                </h2>
-              </div>
+            {/* SECTION: UX */}
+            <section id="ux" className="space-y-6 scroll-mt-24">
+              <h2 className="text-[28px] md:text-[32px] font-normal text-[#1F1F1F] leading-[36px]">
+                Accessible UX Design
+              </h2>
               <p className="text-[18px] text-[#444746] leading-[28px]">
-                User experience is critical for an app like this. Voting should not feel like navigating a complex banking app. The user should immediately understand what the election is, whether they are eligible, who the candidates are, and how they can submit their vote.
+                High security usually means high friction. But voting must be accessible to everyone, regardless of technical literacy.
               </p>
 
-              <div className="bg-[#C2E7FF] text-[#001D35] p-8 rounded-[24px]">
-                <h3 className="font-normal text-[24px] mb-8">
-                  The Ideal User Flow
-                </h3>
-                <div className="flex flex-wrap items-center gap-4">
-                  {[
-                    "Open App",
-                    "Verify Identity",
-                    "Enter Election",
-                    "View Candidates",
-                    "Select Candidate",
-                    "Confirm Vote",
-                    "Success Screen",
-                  ].map((item, index) => (
-                    <React.Fragment key={item}>
-                      <span className="bg-white px-5 py-2.5 rounded-xl text-sm font-medium shadow-[0_1px_2px_rgba(0,0,0,0.1)]">
-                        {item}
-                      </span>
-                      {index < 6 && <ArrowRight size={20} className="text-[#0A56D1]" />}
-                    </React.Fragment>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* STEP 3 */}
-            <section id="step-3" className="space-y-6 scroll-mt-24">
-              <div className="flex items-center gap-4 mb-2">
-                <span className="w-12 h-12 rounded-full bg-[#D3E3FD] text-[#041E49] flex items-center justify-center text-[22px] font-normal shrink-0">
-                  3
-                </span>
-                <h2 className="text-[28px] md:text-[32px] font-normal text-[#1F1F1F] leading-[36px]">
-                  Multi-Layer Verification Strategy
-                </h2>
-              </div>
-              <p className="text-[18px] text-[#444746] leading-[28px]">
-                Security begins before the user ever reaches the ballot screen. The system would first check if the user's phone number exists in the pre-approved voter list. If eligible, an OTP verifies possession. For high-stakes elections, the app could tap into the device's native biometric APIs (Face ID / Fingerprint) for a final layer of proof.
-              </p>
-
-              <div className="grid sm:grid-cols-3 gap-4 mt-6">
-                <div className="bg-[#FAFDFC] border border-[#747775] p-6 rounded-[16px]">
-                  <Smartphone className="text-[#0A56D1] mb-4" size={32} />
-                  <h3 className="font-medium text-[#1F1F1F] text-[20px] mb-2">Phone Whitelist</h3>
-                  <p className="text-[#444746] text-sm">Checked against the admin's approved voter database.</p>
-                </div>
-                <div className="bg-[#FAFDFC] border border-[#747775] p-6 rounded-[16px]">
-                  <UserCheck className="text-[#0A56D1] mb-4" size={32} />
-                  <h3 className="font-medium text-[#1F1F1F] text-[20px] mb-2">OTP Auth</h3>
-                  <p className="text-[#444746] text-sm">Standard code verification via Firebase Auth or SMS.</p>
-                </div>
-                <div className="bg-[#FAFDFC] border border-[#747775] p-6 rounded-[16px]">
-                  <Fingerprint className="text-[#0A56D1] mb-4" size={32} />
-                  <h3 className="font-medium text-[#1F1F1F] text-[20px] mb-2">Biometrics</h3>
-                  <p className="text-[#444746] text-sm">Local device-level hardware authentication trigger.</p>
-                </div>
-              </div>
-            </section>
-
-            {/* STEP 4 */}
-            <section id="step-4" className="space-y-6 scroll-mt-24">
-              <div className="flex items-center gap-4 mb-2">
-                <span className="w-12 h-12 rounded-full bg-[#D3E3FD] text-[#041E49] flex items-center justify-center text-[22px] font-normal shrink-0">
-                  4
-                </span>
-                <h2 className="text-[28px] md:text-[32px] font-normal text-[#1F1F1F] leading-[36px]">
-                  Keeping the Vote Private & Preventing Duplicates
-                </h2>
-              </div>
-              <p className="text-[18px] text-[#444746] leading-[28px]">
-                There is a major architectural difference between knowing that a person has voted and knowing *who* they voted for. The database would need to treat these as two separate atomic transactions to maintain a secret ballot, while simultaneously marking the user as "voted" to prevent double-voting.
-              </p>
-
-              <div className="bg-[#FAFDFC] border border-[#747775] rounded-[24px] overflow-hidden">
-                <div className="p-8 flex items-start gap-6">
-                  <Users className="text-[#444746] shrink-0" size={32} />
-                  <div>
-                    <h3 className="font-medium text-[#1F1F1F] text-[22px] mb-2">Participation Status (Public)</h3>
-                    <p className="text-[#444746] text-base">
-                      The system updates a boolean (`hasVoted: true`) on the user's profile to prevent future voting attempts.
-                    </p>
-                  </div>
-                </div>
-                <div className="border-t border-[#C4C7C5] p-8 flex items-start gap-6 bg-[#F0F4F9]">
-                  <EyeOff className="text-[#0A56D1] shrink-0" size={32} />
-                  <div>
-                    <h3 className="font-medium text-[#1F1F1F] text-[22px] mb-2">Vote Tally (Anonymous)</h3>
-                    <p className="text-[#444746] text-base">
-                      The candidate's vote count is incremented in a separate collection, stripped of any user-identifying metadata.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* STEP 5 */}
-            <section id="step-5" className="space-y-6 scroll-mt-24">
-              <div className="flex items-center gap-4 mb-2">
-                <span className="w-12 h-12 rounded-full bg-[#D3E3FD] text-[#041E49] flex items-center justify-center text-[22px] font-normal shrink-0">
-                  5
-                </span>
-                <h2 className="text-[28px] md:text-[32px] font-normal text-[#1F1F1F] leading-[36px]">
-                  Organizer Dashboard
-                </h2>
-              </div>
-              <p className="text-[18px] text-[#444746] leading-[28px]">
-                While a voter needs absolute simplicity, an organizer needs absolute visibility. The backend web portal would be a dashboard providing real-time, aggregated data without compromising individual vote secrecy.
-              </p>
-
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4 mt-6">
                 {[
-                  "Total registered vs. active voters",
-                  "Live vote count increments",
-                  "Remaining eligible voters",
-                  "Automated election status toggles",
-                  "Candidate profile management",
-                  "Final result generation",
-                ].map((item, index) => (
-                  <div key={index} className="bg-[#F0F4F9] p-5 rounded-[16px] flex items-center gap-4">
-                    <Activity size={24} className="text-[#0A56D1]" />
-                    <span className="text-[#1F1F1F] font-medium">{item}</span>
+                  {
+                    title: "High Contrast UI",
+                    desc: "Designed with WCAG AAA compliance, utilizing large tap targets and clear typography for elderly voters.",
+                    icon: <Smartphone className="text-[#0A56D1] mb-4" size={32} />
+                  },
+                  {
+                    title: "Clear Confirmations",
+                    desc: "A distinct, multi-step review process so voters never accidentally cast their ballot prematurely.",
+                    icon: <CheckCircle2 className="text-[#0A56D1] mb-4" size={32} />
+                  }
+                ].map((product, idx) => (
+                  <div key={idx} className="bg-[#FAFDFC] border border-[#747775] p-6 rounded-[16px] hover:bg-[#F0F4F9] transition-colors">
+                    {product.icon}
+                    <h3 className="font-medium text-[#1F1F1F] text-[20px] mb-2">{product.title}</h3>
+                    <p className="text-[#444746] text-sm leading-[22px]">{product.desc}</p>
                   </div>
                 ))}
               </div>
             </section>
 
-            {/* FINAL THOUGHT */}
-            <section id="takeaways" className="space-y-8 mt-12 border-t border-[#E0E2E0] pt-12 scroll-mt-24">
+            {/* SECTION: ARCHITECTURE */}
+            <section id="architecture" className="space-y-6 scroll-mt-24">
+              <h2 className="text-[28px] md:text-[32px] font-normal text-[#1F1F1F] leading-[36px]">
+                Data Architecture
+              </h2>
+              <p className="text-[18px] text-[#444746] leading-[28px]">
+                To maintain the separation of identity and vote, the database schema strictly isolates voter records from ballot records. They do not share foreign keys.
+              </p>
+
+              <div className="bg-[#1E1E1E] rounded-[24px] p-6 md:p-8 overflow-x-auto shadow-lg">
+                <div className="flex items-center gap-2 mb-4 text-[#A8C7FA]">
+                  <Code size={18} />
+                  <span className="text-sm font-mono tracking-wider">schema.prisma</span>
+                </div>
+                <pre className="text-[#E3E3E3] font-mono text-[14px] leading-relaxed m-0">
+{`// Strict separation: No relationship between Voter and Ballot
+
+model Voter {
+  id              String   @id @default(uuid())
+  nationalIdHash  String   @unique
+  hasVoted        Boolean  @default(false)
+  authenticatedAt DateTime
+  
+  // Notice: No link to their ballot.
+}
+
+model Ballot {
+  id           String   @id @default(uuid())
+  electionId   String
+  candidateId  String
+  
+  // Only generic timestamp batches to prevent correlation
+  recordedAt   DateTime 
+}`}
+                </pre>
+              </div>
+            </section>
+
+            {/* SECTION: CONCLUSION */}
+            <section id="conclusion" className="space-y-8 mt-12 border-t border-[#E0E2E0] pt-12 scroll-mt-24">
               <h2 className="text-[32px] font-normal text-[#1F1F1F]">
-                My Main Takeaways from this Concept
+                Main Takeaways
               </h2>
 
               <div className="bg-[#D3E3FD] text-[#041E49] p-8 md:p-12 rounded-[28px]">
-                <Vote className="text-[#0A56D1] mb-6" size={48} />
+                <Database className="text-[#0A56D1] mb-6" size={48} />
                 <h3 className="text-[28px] md:text-[36px] font-normal leading-[40px] md:leading-[48px] mb-6">
-                  Make it easy for the user, but rigorous on the backend.
+                  Design for zero trust.
                 </h3>
                 <p className="text-[#001D35] text-[18px] leading-[28px]">
-                  Conceptualizing this app helped me realize how modern frameworks (like Flutter and Next.js) can create a seamless surface for an incredibly strict set of backend rules. The user shouldn't need to understand the cryptography or database locks happening behind the scenes.
+                  When building a system where integrity is paramount, you must assume the database itself could be compromised. By designing a system where even a database admin cannot decipher voter choices, we build true digital trust.
                 </p>
               </div>
 
               <p className="text-[18px] text-[#444746] leading-[28px]">
-                When a person presses a "Submit Vote" button, they should instantly understand what is happening and have complete confidence that the system is respecting the rules of the election.
-              </p>
-              <p className="text-[18px] text-[#444746] leading-[28px]">
-                Designing the balance between <strong>effortless mobile UX and complex backend architecture</strong> is exactly what makes conceptualizing digital products so exciting to me.
+                Building high-stakes software requires shifting our mindset from "how do we track everything?" to "how do we mathematically prove something happened without tracking the person?"
               </p>
             </section>
 
@@ -473,10 +386,10 @@ export default function VotingAppProcessArticle() {
           {/* CTA */}
           <div className="mt-20 mb-8 bg-[#EADDFF] rounded-[28px] p-10 md:p-14 text-[#21005D] flex flex-col items-center text-center">
             <h3 className="text-[32px] md:text-[40px] font-normal mb-4">
-              Have an idea for a digital platform?
+              Need secure, robust architecture?
             </h3>
             <p className="text-[#4F378B] text-[18px] leading-relaxed mb-8 max-w-2xl">
-              Whether it's a mobile app, web dashboard, or a complex system like this one, I enjoy turning ideas into reliable, user-friendly digital products.
+              I specialize in designing secure data flows, intuitive UX, and scalable systems for complex applications. Let's discuss how we can build your next high-stakes digital product.
             </p>
             
             <Link
