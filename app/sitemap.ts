@@ -24,6 +24,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   const articleSlugs = [
+    // Newly added articles
+    '/articles/aptro-app-case-study',
+    '/articles/fcm-notification-guide',
+    '/articles/create-google-play-developer-account',
+    '/articles/create-apple-developer-account',
+    
+    // Previously existing articles
     '/articles/apple-app-store-upload',
     '/articles/google-play-store-upload',
     '/articles/voting-app',

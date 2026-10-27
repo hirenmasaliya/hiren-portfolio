@@ -1,67 +1,72 @@
+
 import type { Metadata } from "next";
 import "@/app/globals.css";
 import ConditionalNavbar from "./components/ConditionalNavbar";
 
+const SITE_URL = "https://hirenmasaliya1411.web.app";
+const SITE_NAME = "Hiren Masaliya";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hirenmasaliya1411.web.app"),
+  metadataBase: new URL(SITE_URL),
 
   title: {
-    default: "Hiren Masaliya | Full-Stack Developer, Case Studies & Tech Articles",
+    default:
+      "Hiren Masaliya | Flutter & Next.js Developer",
     template: "%s | Hiren Masaliya",
   },
 
   description:
-    "Explore in-depth software engineering case studies, app architecture ideas, and technical insights by Hiren Masaliya. Full-stack Flutter & Next.js developer building scalable digital products.",
+    "Hiren Masaliya is a Flutter and Next.js developer building mobile apps, web platforms, and scalable business software with Firebase and modern technologies.",
 
   keywords: [
     "Hiren Masaliya",
-    "Developer Journal",
-    "App Architecture Case Studies",
-    "Software Engineering Articles",
-    "Digital Product Ideas",
-    "Freelance Flutter Developer India",
-    "Next.js Developer Gujarat",
-    "React Web Developer",
-    "Firebase Expert",
-    "SaaS Architecture",
-    "Secure App Design",
-    "Aptro Founder",
-    "Custom Business Software",
-    "Mobile App Developer Jetpur",
-    "Tech Blog India"
+    "Hiren Masaliya Developer",
+    "Flutter Developer India",
+    "Next.js Developer India",
+    "Full Stack Developer Gujarat",
+    "Mobile App Developer",
+    "Firebase Developer",
+    "React Developer",
+    "Web Application Development",
+    "Software Engineering Case Studies",
   ],
 
-  authors: [{ name: "Hiren Masaliya", url: "https://hirenmasaliya1411.web.app" }],
-  creator: "Hiren Masaliya",
-  publisher: "Hiren Masaliya",
+  authors: [
+    {
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  ],
 
-  alternates: {
-    canonical: "https://hirenmasaliya1411.web.app/",
-  },
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+
+  // Set canonical URLs in each page's metadata.
+  // Do not define "/" as the canonical for every route.
 
   openGraph: {
-    title: "Hiren Masaliya | Full-Stack Developer, Case Studies & Tech Articles",
-    description:
-      "In-depth articles, real-world development case studies, and production blueprints for mobile apps and web platforms built with Flutter, Next.js, and Firebase.",
-    url: "https://hirenmasaliya1411.web.app/",
-    siteName: "Hiren Masaliya | Dev Journal & Portfolio",
-    locale: "en_IN",
     type: "website",
+    locale: "en_IN",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: "Hiren Masaliya | Flutter & Next.js Developer",
+    description:
+      "Explore real-world software projects, Flutter apps, Next.js platforms, technical articles, and development case studies by Hiren Masaliya.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Hiren Masaliya – Development Journal, Case Studies & Portfolio",
+        alt: "Hiren Masaliya — Developer Portfolio",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Hiren Masaliya | Full-Stack Developer & Tech Articles",
+    title: "Hiren Masaliya | Flutter & Next.js Developer",
     description:
-      "Deep dives into app development, secure voting system architecture, eco-friendly tech concepts, and scalable Next.js platforms.",
+      "Mobile apps, web development, software architecture, and real-world engineering case studies.",
     images: ["/og-image.jpg"],
   },
 
@@ -78,99 +83,66 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${SITE_URL}/#person`,
+  name: SITE_NAME,
+  url: `${SITE_URL}/`,
+  image: `${SITE_URL}/images/hero.png`,
+  jobTitle: "Flutter and Full-Stack Developer",
+  description:
+    "Software developer specializing in Flutter, Next.js, React, Firebase, and scalable business applications.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Jetpur",
+    addressRegion: "Gujarat",
+    addressCountry: "IN",
+  },
+  sameAs: [
+    "https://www.linkedin.com/in/hiren-masaliya/",
+    "https://github.com/hirenmasaliya",
+    "https://www.instagram.com/hirenmasaliya14",
+  ],
+  knowsAbout: [
+    "Flutter Development",
+    "Next.js Development",
+    "React",
+    "Firebase",
+    "Mobile App Development",
+    "Web Application Development",
+    "Software Architecture",
+    "SaaS Development",
+  ],
+};
+
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": ["Person", "ProfessionalService"],
-        "@id": "https://hirenmasaliya1411.web.app/#person",
-        "name": "Hiren Masaliya",
-        "url": "https://hirenmasaliya1411.web.app/",
-        "image": "https://hirenmasaliya1411.web.app/images/hero.png",
-        "jobTitle": "Full-Stack Web & Flutter Developer",
-        "description":
-          "Freelance Software Developer and technical writer specializing in Next.js, Flutter, React, system design, and scalable business applications.",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Jetpur",
-          "addressRegion": "Gujarat",
-          "addressCountry": "IN",
-        },
-        "priceRange": "$$",
-        "sameAs": [
-          "https://www.linkedin.com/in/hiren-masaliya/",
-          "https://github.com/hirenmasaliya",
-          "https://www.instagram.com/hirenmasaliya14",
-        ],
-        "knowsAbout": [
-          "Flutter App Development",
-          "Next.js Web Development",
-          "Software Architecture",
-          "System Security & Verification",
-          "Sustainable Tech Innovations",
-          "React.js",
-          "Firebase Integration",
-          "SaaS Architecture",
-          "Technical Writing & Case Studies",
-        ],
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://hirenmasaliya1411.web.app/#website",
-        "url": "https://hirenmasaliya1411.web.app/",
-        "name": "Hiren Masaliya | Dev Journal & Portfolio",
-        "description":
-          "Personal portfolio, technical journal, and case studies by Hiren Masaliya.",
-        "publisher": {
-          "@id": "https://hirenmasaliya1411.web.app/#person",
-        },
-      },
-      {
-        "@type": "Blog",
-        "@id": "https://hirenmasaliya1411.web.app/#blog",
-        "url": "https://hirenmasaliya1411.web.app/articles",
-        "name": "Developer Journal by Hiren Masaliya",
-        "description":
-          "Practical articles on building mobile apps, web platforms, security design, and real-world system architecture.",
-        "isPartOf": {
-          "@id": "https://hirenmasaliya1411.web.app/#website",
-        },
-        "author": {
-          "@id": "https://hirenmasaliya1411.web.app/#person",
-        },
-        "inLanguage": "en-US",
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://hirenmasaliya1411.web.app/#organization",
-        "name": "Aptro",
-        "url": "https://hirenmasaliya1411.web.app/",
-        "logo": "https://hirenmasaliya1411.web.app/favicon.ico",
-        "founder": {
-          "@id": "https://hirenmasaliya1411.web.app/#person",
-        },
-      },
-    ],
-  };
-
+}>) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <head>
         <meta
           name="google-site-verification"
           content="uljdxnlbbu3lWTHQtj1pHRdt_-KURCN0cdngsmV7LJ0"
         />
+
         <link rel="icon" href="/favicon.ico" />
-        <meta name="application-name" content="Hiren Masaliya Portfolio" />
+        <meta
+          name="application-name"
+          content="Hiren Masaliya Portfolio"
+        />
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(
+              /</g,
+              "\\u003c"
+            ),
+          }}
         />
       </head>
 

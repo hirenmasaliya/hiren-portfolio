@@ -3,281 +3,384 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
-  Globe,
-  Smartphone,
+  ArrowDownRight,
   ArrowRight,
-  ShieldCheck,
-  HeartHandshake,
   CheckCircle2,
+  Code2,
+  Globe2,
+  HeartHandshake,
+  Layers3,
   Rocket,
-  Code,
+  ShieldCheck,
+  Smartphone,
   Sparkles,
 } from "lucide-react";
 
-// Google Material 3 Emphasized Decelerate easing
 const materialEase = [0.2, 0, 0, 1] as const;
 
-export default function About() {
-  const staggerContainer = {
-    animate: { transition: { staggerChildren: 0.12 } },
-  };
+const services = [
+  {
+    title: "Mobile applications",
+    eyebrow: "iOS · Android",
+    icon: Smartphone,
+    description:
+      "Cross-platform apps built with Flutter, with thoughtful interactions, maintainable architecture, and reliable store releases.",
+    tags: ["Flutter", "Dart"],
+  },
+  {
+    title: "Web products",
+    eyebrow: "Web · SaaS",
+    icon: Globe2,
+    description:
+      "Responsive websites and web applications built with Next.js and React, focused on speed, accessibility, and usability.",
+    tags: ["Next.js", "React"],
+  },
+  {
+    title: "Backend & cloud",
+    eyebrow: "APIs · Data",
+    icon: ShieldCheck,
+    description:
+      "Secure authentication, practical database design, API integrations, and cloud services designed to grow with your product.",
+    tags: ["Firebase", "PostgreSQL"],
+  },
+];
 
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: materialEase } },
-  };
+const technologies = [
+  "Flutter",
+  "Dart",
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Tailwind CSS",
+  "Firebase",
+  "PostgreSQL",
+  "REST APIs",
+  "Git & CI/CD",
+];
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: materialEase },
+  },
+};
+
+export default function About() {
+  const reduceMotion = useReducedMotion();
+
+  const reveal = reduceMotion
+    ? {}
+    : {
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, amount: 0.15 },
+        variants: fadeInUp,
+      };
 
   return (
-    <main className="bg-[#F8F9FA] text-[#1F1F1F] min-h-screen pt-24 md:pt-32 pb-20 font-sans selection:bg-[#D3E3FD] selection:text-[#041E49] antialiased">
-      <section className="max-w-[1200px] mx-auto px-4 md:px-8 relative z-10">
+    <main className="min-h-screen overflow-hidden bg-[#F8FAFC] pt-24 font-sans text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-950 md:pt-32">
+      {/* HERO */}
+      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8 md:pb-28">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+          <motion.div
+            initial={reduceMotion ? false : "hidden"}
+            animate={reduceMotion ? undefined : "visible"}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } },
+            }}
+          >
+            <motion.div variants={reduceMotion ? undefined : fadeInUp} className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 text-sm font-medium text-blue-700 shadow-sm">
+              <span className="h-2 w-2 rounded-full bg-blue-600" />
+              Developer · Founder · Product Builder
+            </motion.div>
 
-        {/* =====================================================
-            1. HERO SECTION - Material Display Typography
-        ====================================================== */}
-        <motion.div
-          initial="initial"
-          animate="animate"
-          variants={staggerContainer}
-          className="flex flex-col lg:flex-row items-start lg:items-center gap-12 lg:gap-16 mb-24 md:mb-32"
-        >
-          {/* Text Section */}
-          <motion.div variants={fadeInUp} className="flex-1 w-full">
-            {/* M3 Primary Container Chip */}
-            <div className="mb-6 inline-flex items-center gap-2 bg-[#D3E3FD] text-[#041E49] px-3.5 py-1.5 rounded-lg text-sm font-medium">
-              <Code size={16} />
-              <span>Software Developer & Founder</span>
-            </div>
+            <motion.h1
+              variants={reduceMotion ? undefined : fadeInUp}
+              className="max-w-3xl text-4xl font-semibold leading-[1.08] tracking-[-0.045em] text-slate-950 sm:text-5xl md:text-6xl xl:text-[68px]"
+            >
+              I turn complex ideas into{" "}
+              <span className="text-blue-600">simple digital products.</span>
+            </motion.h1>
 
-            {/* M3 Display Large Scale */}
-            <h1 className="text-[44px] md:text-[57px] lg:text-[64px] font-normal text-[#1F1F1F] mb-6 leading-[1.1] md:leading-[68px] tracking-[-0.25px]">
-              Building thoughtful apps, made simple.
-            </h1>
+            <motion.p
+              variants={reduceMotion ? undefined : fadeInUp}
+              className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg"
+            >
+              I’m <strong className="font-semibold text-slate-900">Hiren Masaliya</strong>,
+              a software developer based in Jetpur, India. I work with founders
+              and businesses to build useful mobile apps, web platforms, and
+              dependable backend systems.
+            </motion.p>
 
-            {/* M3 Body Large */}
-            <p className="text-[18px] md:text-[20px] text-[#444746] leading-[30px] md:leading-[32px] font-normal mb-8 max-w-2xl">
-              Hi, I’m <strong className="font-medium text-[#1F1F1F]">Hiren Masaliya</strong>, a software developer based in Jetpur, India. 
-              I help founders and businesses build modern mobile applications and web platforms that are fast, secure, and straightforward to use.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <motion.div
+              variants={reduceMotion ? undefined : fadeInUp}
+              className="mt-8 flex flex-col gap-3 sm:flex-row"
+            >
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-[#0A56D1] text-white px-7 h-12 rounded-full text-sm font-medium hover:bg-[#0842A0] transition-colors active:scale-95 shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
+                className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-blue-600/20 transition duration-200 hover:-translate-y-0.5 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
               >
-                Let's Connect
-                <ArrowRight size={18} />
+                Let’s talk about your project
+                <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 border border-[#747775] text-[#1F1F1F] px-6 h-12 rounded-full text-sm font-medium hover:bg-[#1F1F1F]/5 transition-colors"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
               >
-                View Selected Work
+                Explore my work
+                <ArrowDownRight size={17} />
               </Link>
-            </div>
+            </motion.div>
+
+            <motion.div
+              variants={reduceMotion ? undefined : fadeInUp}
+              className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-slate-200 pt-6 text-sm text-slate-500"
+            >
+              <span className="inline-flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-blue-600" />
+                End-to-end development
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-blue-600" />
+                Clear communication
+              </span>
+            </motion.div>
           </motion.div>
 
-          {/* Profile Media - Material Outlined Container */}
-          <motion.div variants={fadeInUp} className="relative w-full sm:w-[380px] lg:w-[400px] shrink-0 mx-auto lg:mx-0">
-            <div className="relative aspect-[4/5] bg-[#E1E3E1] rounded-[28px] overflow-hidden border border-[#C4C7C5]">
+          <motion.div
+            {...reveal}
+            className="relative mx-auto w-full max-w-[420px] lg:mr-2"
+          >
+            <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-br from-blue-100 via-sky-50 to-transparent blur-2xl" />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white bg-slate-200 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.35)]">
               <Image
                 src="/images/hiro.png"
-                alt="Hiren Masaliya - App Developer"
+                alt="Portrait of Hiren Masaliya, software developer and founder"
                 fill
                 priority
+                sizes="(max-width: 1024px) 90vw, 420px"
                 className="object-cover object-center"
               />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent p-6 pt-24">
+                <p className="text-sm font-medium text-white/75">Based in</p>
+                <p className="mt-1 text-lg font-semibold text-white">Jetpur, Gujarat, India</p>
+              </div>
             </div>
 
-            {/* Floating Metric - Material Surface Card */}
-            <div className="absolute -bottom-6 -left-4 md:-left-6 bg-white border border-[#E0E2E0] p-5 rounded-[20px] shadow-[0_2px_6px_rgba(0,0,0,0.1)] flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#C2E7FF] text-[#001D35] flex items-center justify-center shrink-0">
-                <CheckCircle2 size={24} />
+            <div className="absolute -bottom-5 left-3 flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-xl shadow-slate-900/10 sm:-left-7 sm:p-5">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+                <Layers3 size={22} />
               </div>
               <div>
-                <p className="text-2xl font-medium text-[#1F1F1F] leading-tight">6+</p>
-                <p className="text-xs text-[#747775] font-medium uppercase tracking-wider mt-0.5">Live Products</p>
+                <p className="text-xl font-bold tracking-tight text-slate-900">6+</p>
+                <p className="text-xs font-medium text-slate-500">Live products</p>
               </div>
+            </div>
+            <div className="absolute right-3 top-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/80 bg-white/90 text-blue-600 shadow-lg backdrop-blur sm:-right-5 sm:top-8">
+              <Sparkles size={21} />
             </div>
           </motion.div>
-        </motion.div>
+        </div>
+      </section>
 
-        {/* =====================================================
-            2. SERVICES - Material Outlined Cards
-        ====================================================== */}
-        <div className="mb-24 md:mb-32 border-t border-[#E0E2E0] pt-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      {/* SERVICES */}
+      <section className="border-y border-slate-200/80 bg-white py-20 md:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <motion.div {...reveal} className="mb-10 flex flex-col gap-4 md:mb-12 md:flex-row md:items-end md:justify-between">
             <div>
-              <span className="text-xs uppercase tracking-wider font-medium text-[#0A56D1] mb-2 block">
-                Areas of Expertise
-              </span>
-              <h2 className="text-[32px] md:text-[40px] font-normal text-[#1F1F1F] leading-tight">
-                How I Can Help You
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-blue-600">
+                What I do
+              </p>
+              <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+                From first idea to launch
               </h2>
             </div>
-            <p className="text-[#444746] text-base max-w-md">
-              Full lifecycle product engineering—from initial architectural decisions to store deployment.
+            <p className="max-w-lg text-base leading-7 text-slate-600">
+              Practical engineering and thoughtful design, aligned with the real
+              needs of your users and business.
             </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Mobile Apps (iOS & Android)",
-                icon: <Smartphone size={24} />,
-                desc: "High-performance cross-platform applications built with Flutter. Clean architectures, reactive state management, and direct App Store / Play Store releases."
-              },
-              {
-                title: "Web Apps & Platforms",
-                icon: <Globe size={24} />,
-                desc: "Fast, responsive web applications engineered with Next.js and React. Designed with clean design systems, accessible UI, and optimized search performance."
-              },
-              {
-                title: "Backend & Cloud Architecture",
-                icon: <ShieldCheck size={24} />,
-                desc: "Scalable cloud services powered by Firebase and PostgreSQL. Secure authentication, atomic database transactions, and compliant payment integrations with Razorpay."
-              },
-            ].map((service, i) => (
-              <div
-                key={i}
-                className="p-8 bg-[#FAFDFC] border border-[#747775] rounded-[24px] hover:bg-[#F0F4F9] transition-colors duration-200 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-full bg-[#D3E3FD] text-[#041E49] flex items-center justify-center mb-6">
-                    {service.icon}
+          </motion.div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {services.map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <motion.article
+                  key={service.title}
+                  {...reveal}
+                  transition={reduceMotion ? undefined : { ...fadeInUp.visible.transition, delay: index * 0.06 }}
+                  className="group rounded-3xl border border-slate-200 bg-[#FCFDFE] p-6 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:bg-white hover:shadow-[0_20px_55px_-32px_rgba(37,99,235,0.35)] sm:p-7"
+                >
+                  <div className="mb-8 flex items-start justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 transition group-hover:bg-blue-600 group-hover:text-white">
+                      <Icon size={23} />
+                    </div>
+                    <span className="pt-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      0{index + 1}
+                    </span>
                   </div>
-                  <h3 className="text-[22px] font-medium text-[#1F1F1F] mb-3">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-blue-600">
+                    {service.eyebrow}
+                  </p>
+                  <h3 className="text-xl font-semibold tracking-tight text-slate-900">
                     {service.title}
                   </h3>
-                  <p className="text-[#444746] text-sm leading-[24px]">
-                    {service.desc}
+                  <p className="mt-3 min-h-[96px] text-sm leading-6 text-slate-600">
+                    {service.description}
                   </p>
-                </div>
-              </div>
-            ))}
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {service.tags.map((tag) => (
+                      <span key={tag} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
         </div>
+      </section>
 
-        {/* =====================================================
-            3. FOUNDER JOURNEY - Material Inverse Surface
-        ====================================================== */}
-        <div className="mb-24 md:mb-32 bg-[#1F1F1F] text-[#F8F9FA] rounded-[28px] p-8 md:p-14 relative overflow-hidden">
-          <div className="relative z-10 grid lg:grid-cols-[1.3fr_1fr] gap-12 items-center">
+      {/* FOUNDER STORY */}
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+        <motion.div
+          {...reveal}
+          className="relative overflow-hidden rounded-[2rem] bg-slate-950 p-7 text-white sm:p-10 md:p-14"
+        >
+          <div className="pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full bg-blue-600/25 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-sky-400/10 blur-3xl" />
+
+          <div className="relative grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16">
             <div>
-              <span className="text-[#A8C7FA] text-xs uppercase tracking-wider font-medium mb-4 block">
-                Founder Perspective
-              </span>
-              <h3 className="text-[28px] md:text-[38px] font-normal leading-[1.25] text-white mb-6">
-                “Complex systems should always provide simple experiences.”
-              </h3>
-              
-              <div className="space-y-4 text-[#C4C7C5] text-[16px] md:text-[17px] leading-[28px]">
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+                Building Aptro
+              </p>
+              <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+                “Complex systems should create simple experiences.”
+              </h2>
+              <div className="mt-6 max-w-2xl space-y-4 text-base leading-7 text-slate-300">
                 <p>
-                  As the creator of <strong className="text-white font-medium">Aptro</strong>, I engineered an all-in-one business management platform that unifies GST billing, inventory tracking, staff records, and order operations into an accessible workflow.
+                  I created <strong className="font-semibold text-white">Aptro</strong>,
+                  a business management platform that brings GST billing,
+                  inventory, staff records, and order workflows into one place.
                 </p>
                 <p>
-                  Managing real-world commercial software shapes how I build for others. Every project receives the same standard of architectural rigor, uptime reliability, and maintainability.
+                  Building a real product keeps me close to the challenges
+                  business owners face. I bring that practical mindset to every
+                  project: understand the problem, keep the experience clear,
+                  and build software that is easier to maintain and improve.
                 </p>
               </div>
+              <Link
+                href="/founder"
+                className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-blue-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
+              >
+                Learn more about my work
+                <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
-            
-            <div className="flex flex-col gap-4">
-              <div className="p-6 bg-[#2B2B2B] rounded-[20px] border border-[#444746] flex items-start gap-4">
-                <div className="p-2.5 rounded-full bg-[#0A56D1]/20 text-[#A8C7FA]">
+
+            <div className="grid gap-4">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 sm:p-6">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/15 text-blue-200">
                   <HeartHandshake size={22} />
                 </div>
-                <div>
-                  <h4 className="text-lg font-medium text-white">Full-Stack Accountability</h4>
-                  <p className="text-xs text-[#C4C7C5] mt-1 leading-relaxed">
-                    Direct communication, clear scope boundaries, and complete technical delivery.
-                  </p>
-                </div>
+                <h3 className="text-lg font-semibold">Clear collaboration</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-300">
+                  Open communication, clear milestones, and practical decisions
+                  throughout development.
+                </p>
               </div>
-
-              <div className="p-6 bg-[#2B2B2B] rounded-[20px] border border-[#444746] flex items-start gap-4">
-                <div className="p-2.5 rounded-full bg-[#0A56D1]/20 text-[#A8C7FA]">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 sm:p-6">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/15 text-blue-200">
                   <Rocket size={22} />
                 </div>
-                <div>
-                  <h4 className="text-lg font-medium text-white">Engineered to Scale</h4>
-                  <p className="text-xs text-[#C4C7C5] mt-1 leading-relaxed">
-                    Clean codebases ready to handle growing data, transaction volume, and feature additions.
-                  </p>
-                </div>
+                <h3 className="text-lg font-semibold">Built for what’s next</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-300">
+                  Maintainable foundations that make future improvements and
+                  new features easier to deliver.
+                </p>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
+      </section>
 
-        {/* =====================================================
-            4. TECH STACK - Material 3 Assist Chips
-        ====================================================== */}
-        <div className="mb-24 md:mb-32 max-w-3xl mx-auto text-center border-t border-[#E0E2E0] pt-16">
-          <span className="text-xs uppercase tracking-wider font-medium text-[#747775] mb-6 block">
-            Technologies & Frameworks
-          </span>
-          <div className="flex flex-wrap justify-center gap-2.5">
-            {[
-              "Flutter",
-              "Dart",
-              "Next.js",
-              "React",
-              "TypeScript",
-              "Tailwind CSS",
-              "Firebase",
-              "PostgreSQL",
-              "Razorpay",
-              "REST APIs",
-              "Git & CI/CD",
-            ].map((tech) => (
+      {/* TECHNOLOGIES */}
+      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8 md:pb-28">
+        <motion.div {...reveal} className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+            <Code2 size={23} />
+          </div>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">
+            Tools of the trade
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+            The right tools for the job
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-slate-600">
+            A flexible toolkit for building and shipping reliable digital products.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-2.5">
+            {technologies.map((tech) => (
               <span
                 key={tech}
-                className="h-9 px-4 inline-flex items-center text-sm font-medium text-[#444746] bg-transparent border border-[#747775] rounded-lg hover:bg-[#1F1F1F]/5 transition-colors"
+                className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm shadow-slate-900/[0.02] transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
               >
                 {tech}
               </span>
             ))}
           </div>
-        </div>
+        </motion.div>
+      </section>
 
-        {/* =====================================================
-            5. CTA - Material Tertiary Container
-        ====================================================== */}
-        <div className="text-center py-16 px-6 bg-[#E8DEF8] text-[#1D192B] rounded-[28px]">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-[32px] md:text-[44px] font-normal mb-4 leading-tight">
-              Ready to start your next project?
+      {/* CTA */}
+      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8 md:pb-24">
+        <motion.div
+          {...reveal}
+          className="relative overflow-hidden rounded-[2rem] border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-sky-50 px-6 py-12 text-center sm:px-10 md:py-16"
+        >
+          <div className="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-blue-100/70 blur-3xl" />
+          <div className="relative mx-auto max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/80 px-3 py-1.5 text-xs font-semibold text-blue-700">
+              <Sparkles size={14} />
+              Have an idea in mind?
+            </span>
+            <h2 className="mt-5 text-3xl font-semibold leading-tight tracking-tight text-slate-950 sm:text-4xl md:text-5xl">
+              Let’s build something useful.
             </h2>
-            <p className="text-[#4A4458] text-base md:text-lg mb-8 leading-relaxed">
-              Whether you need to build a mobile app from scratch, launch an online platform, or streamline business workflows, I am here to help.
+            <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
+              Tell me what you’re working on. We can discuss the problem,
+              explore the right approach, and plan the next steps together.
             </p>
-            <div className="flex flex-wrap justify-center gap-4 items-center">
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-[#6750A4] text-white px-8 h-13 py-3.5 rounded-full text-sm font-medium hover:bg-[#7D66B6] transition-colors shadow-[0_2px_4px_rgba(0,0,0,0.15)] active:scale-95"
+                className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
               >
-                Start a Conversation
-                <ArrowRight size={18} />
+                Start a conversation
+                <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 text-[#6750A4] hover:bg-[#6750A4]/10 px-6 h-13 py-3.5 rounded-full text-sm font-medium transition-colors"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-slate-200 bg-white px-7 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-100"
               >
-                Browse Projects
+                View projects
               </Link>
             </div>
           </div>
-        </div>
-
+        </motion.div>
       </section>
 
-      {/* =====================================================
-          FOOTER
-      ====================================================== */}
-      <footer className="text-center pt-16 pb-8 border-t border-[#E0E2E0] mt-24">
-        <p className="text-xs text-[#747775] font-medium">
-          © {new Date().getFullYear()} Hiren Masaliya — Jetpur, Gujarat, India
+      <footer className="border-t border-slate-200 bg-white px-5 py-7 text-center">
+        <p className="text-xs font-medium text-slate-500">
+          © {new Date().getFullYear()} Hiren Masaliya <span className="mx-1.5 text-slate-300">·</span> Jetpur, Gujarat, India
         </p>
       </footer>
     </main>

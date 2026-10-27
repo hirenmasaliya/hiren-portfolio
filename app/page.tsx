@@ -1,484 +1,472 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import {
+  ArrowDownRight,
   ArrowRight,
-  Code,
-  Smartphone,
-  Database,
-  Palette,
-  Sparkles,
+  BriefcaseBusiness,
+  Check,
   CheckCircle2,
-  Briefcase,
-  Play,
-  MapPin,
-  Calendar,
+  Code2,
   Copy,
-  MessageCircle
-} from 'lucide-react';
+  ExternalLink,
+  Layers3,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Smartphone,
+  Sparkles,
+  Globe2,
+  Workflow,
+  Zap,
+} from "lucide-react";
 
-// Google Material 3 Emphasized Decelerate easing
-const materialEase = [0.2, 0, 0, 1] as const;
+const EMAIL = "hirenmasliya14@gmail.com";
+const WORDS = ["mobile apps", "web platforms", "business tools"];
+const ease = [0.2, 0, 0, 1] as const;
+
+const projects = [
+  {
+    title: "Aptro",
+    category: "Business management · Mobile app",
+    description:
+      "A practical business tool that helps small businesses manage products, stock, orders and everyday operations in one place.",
+    image: "/images/projects/aptro-website.png",
+    link: "https://aptrooms.web.app/",
+    label: "Explore Aptro",
+  },
+  {
+    title: "Clothiva Elite",
+    category: "E-commerce · Web",
+    description:
+      "An online shopping experience designed to make product discovery and browsing feel clear, smooth and simple.",
+    image: "/images/projects/clothiva-thumbnail.png",
+    link: "https://clothivaelite.vercel.app/",
+    label: "Visit website",
+  },
+  {
+    title: "Buildart Industries",
+    category: "Business website · Web",
+    description:
+      "A company website that presents the business, its offerings and key information in a professional way.",
+    image: "/images/projects/buildart-website.png",
+    link: "https://buildartind.com",
+    label: "Visit website",
+  },
+];
+
+const experience = [
+  {
+    company: "Aptro",
+    role: "Founder & Lead Developer",
+    date: "Oct 2025 – Present",
+    location: "Jetpur, India",
+    tags: ["Flutter", "Firebase", "Web dashboard"],
+  },
+  {
+    company: "Buildart Industries",
+    role: "Freelance Web Developer",
+    date: "Jan 2026 – Present",
+    location: "Remote",
+    tags: ["Next.js", "React"],
+  },
+  {
+    company: "50% App",
+    role: "Mobile App Developer",
+    date: "Jan 2026",
+    location: "Remote",
+    tags: ["Flutter", "Firebase", "Android & iOS"],
+  },
+  {
+    company: "DIRA Infratech",
+    role: "Web Developer",
+    date: "Aug 2025 – Sep 2025",
+    location: "Remote",
+    tags: ["Web development"],
+  },
+  {
+    company: "Wallzer",
+    role: "Founder",
+    date: "May 2025 – Jul 2025",
+    location: "Jetpur, India",
+    tags: ["Product design", "Mobile app"],
+  },
+];
+
+const services = [
+  {
+    icon: Smartphone,
+    title: "Mobile app development",
+    description:
+      "Cross-platform Android and iOS apps built with Flutter, from the first screen to release.",
+    tags: ["Flutter", "Android", "iOS"],
+  },
+  {
+    icon: Globe2,
+    title: "Websites & web apps",
+    description:
+      "Fast, responsive websites and dashboards that help customers understand your business and get things done.",
+    tags: ["Next.js", "React", "TypeScript"],
+  },
+  {
+    icon: Workflow,
+    title: "Business systems",
+    description:
+      "Useful tools that simplify daily workflows, connect data and reduce repetitive manual work.",
+    tags: ["Firebase", "APIs", "Automation"],
+  },
+  {
+    icon: Layers3,
+    title: "Product delivery",
+    description:
+      "Practical support across UI implementation, backend integration, testing and deployment.",
+    tags: ["UI/UX", "Integration", "Launch"],
+  },
+];
 
 export default function HomeContent() {
-  // --- Typing Effect State & Logic ---
-  const words = ["Flutter", "Next.js", "React", "Full-Stack"];
-  const [text, setText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [loopNum, setLoopNum] = useState(0);
-  const [typingSpeed, setTypingSpeed] = useState(150);
-  const [isCopied, setIsCopied] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const [wordIndex, setWordIndex] = useState(0);
+  const [typedText, setTypedText] = useState("");
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    let timer = setTimeout(() => {
-      handleType();
-    }, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [text, isDeleting, typingSpeed]);
+    if (reduceMotion) {
+      setTypedText(WORDS[0]);
+      return;
+    }
 
-  const handleType = () => {
-    const i = loopNum % words.length;
-    const fullText = words[i];
+    let timeout: ReturnType<typeof setTimeout>;
+    let current = typedText;
+    const target = WORDS[wordIndex];
 
-    setText(
-      isDeleting
-        ? fullText.substring(0, text.length - 1)
-        : fullText.substring(0, text.length + 1)
-    );
+    if (current === target) {
+      timeout = setTimeout(() => {
+        setTypedText("");
+        setWordIndex((index) => (index + 1) % WORDS.length);
+      }, 1900);
+    } else {
+      timeout = setTimeout(() => {
+        setTypedText(target.slice(0, current.length + 1));
+      }, 75);
+    }
 
-    setTypingSpeed(isDeleting ? 40 : 120);
+    return () => clearTimeout(timeout);
+  }, [typedText, wordIndex, reduceMotion]);
 
-    if (!isDeleting && text === fullText) {
-      setTypingSpeed(2500);
-      setIsDeleting(true);
-    } else if (isDeleting && text === "") {
-      setIsDeleting(false);
-      setLoopNum(loopNum + 1);
-      setTypingSpeed(500);
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${EMAIL}`;
     }
   };
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText("hirenmasliya14@gmail.com");
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+  const fadeUp = {
+    hidden: { opacity: 0, y: reduceMotion ? 0 : 18 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduceMotion ? 0 : 0.55, ease },
+    },
   };
-  // -----------------------------------
 
-  const containerVars = {
+  const reveal = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 }
-    }
-  };
-
-  const itemVars = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEase } }
+      transition: { staggerChildren: reduceMotion ? 0 : 0.09 },
+    },
   };
 
   return (
-    <main className="bg-[#F8F9FA] text-[#1F1F1F] min-h-screen font-sans overflow-x-hidden selection:bg-[#D3E3FD] selection:text-[#041E49] antialiased">
+    <main className="min-h-screen overflow-x-clip bg-[#f8f9fc] text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-950">
+      {/* Hero */}
+      <section className="relative isolate px-5 pb-20 pt-28 sm:px-8 sm:pb-24 sm:pt-16 lg:px-12 lg:pt-24">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px] overflow-hidden">
+          <div className="absolute -right-24 -top-32 h-[420px] w-[420px] rounded-full bg-blue-200/40 blur-3xl" />
+          <div className="absolute left-[15%] top-36 h-56 w-56 rounded-full bg-indigo-100/60 blur-3xl" />
+        </div>
 
-      {/* =====================================================
-          1. HERO SECTION - Material Display Typography & Surfaces
-      ====================================================== */}
-      <section className="relative pt-32 md:pt-40 pb-20 px-4 md:px-8 max-w-[1280px] mx-auto min-h-[90vh] flex items-center justify-center">
         <motion.div
           initial="hidden"
           animate="visible"
-          variants={containerVars}
-          className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center w-full"
+          variants={reveal}
+          className="mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16"
         >
-          {/* Left Column: Copy & CTAs */}
-          <div className="flex flex-col relative z-10 max-w-2xl">
-            {/* M3 Primary Container Chip */}
-            <motion.div variants={itemVars} className="mb-8 inline-flex self-start">
-              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D3E3FD] text-[#041E49] transition-colors hover:bg-[#B1DDF6]">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0A56D1] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0A56D1]"></span>
-                </span>
-                <span className="text-sm font-medium">Available for new projects</span>
-              </div>
+          <div className="relative z-10 max-w-3xl">
+            <motion.div variants={fadeUp} className="mb-7 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/80 px-3.5 py-2 text-sm font-medium text-blue-800 shadow-sm backdrop-blur">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+              </span>
+              Available for select projects
             </motion.div>
 
-            {/* M3 Display Large */}
-            <motion.h1
-              variants={itemVars}
-              className="text-[44px] sm:text-[57px] lg:text-[64px] font-normal tracking-[-0.25px] text-[#1F1F1F] leading-[1.1] mb-6"
-            >
-              Building great <br />
-              <span className="inline-block min-w-[280px] text-[#0A56D1]">
-                {text || "\u00A0"}
-                <motion.span
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
-                  className="font-light text-[#0A56D1] -ml-1"
-                >
-                  |
-                </motion.span>
-              </span>
-              <br />
-              experiences.
-            </motion.h1>
-
-            {/* M3 Body Large */}
-            <motion.p variants={itemVars} className="text-[#444746] text-[18px] md:text-[20px] font-normal leading-[32px] mb-10 max-w-xl">
-              Hi, I'm <strong className="font-medium text-[#1F1F1F]">Hiren Masaliya</strong>, a developer based in Gujarat. I build fast, easy-to-use mobile apps and websites that solve real business problems without the technical headaches.
+            <motion.p variants={fadeUp} className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">
+              Flutter & Full-Stack Developer
             </motion.p>
 
-            {/* M3 Buttons */}
-            <motion.div variants={itemVars} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              {/* Filled Button */}
+            <motion.h1 variants={fadeUp} className="max-w-3xl text-4xl font-semibold leading-[1.08] tracking-[-0.045em] text-slate-950 sm:text-5xl md:text-6xl lg:text-[4.35rem]">
+              I turn ideas into
+              <span className="mt-2 block min-h-[1.12em] text-blue-700" aria-label={WORDS[wordIndex]}>
+                <span aria-hidden="true">{reduceMotion ? WORDS[0] : typedText}</span>
+                {!reduceMotion && <span aria-hidden="true" className="ml-0.5 animate-pulse font-normal">|</span>}
+              </span>
+              digital products.
+            </motion.h1>
+
+            <motion.p variants={fadeUp} className="mt-7 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+              I’m Hiren Masaliya, a developer from Gujarat, India. I build mobile apps, websites and business tools that make complex tasks feel simple—from the first idea to launch.
+            </motion.p>
+
+            <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-2 bg-[#0A56D1] text-white px-8 h-12 rounded-full text-sm font-medium transition-colors hover:bg-[#0842A0] shadow-[0_1px_2px_rgba(0,0,0,0.2)] active:scale-95"
+                className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-700/20 transition hover:-translate-y-0.5 hover:bg-blue-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-300"
               >
-                Discuss Your Idea
-                <ArrowRight size={18} />
+                Let’s discuss your idea
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </a>
-              {/* Outlined Button */}
               <a
                 href="#portfolio"
-                className="inline-flex items-center justify-center gap-2 px-8 h-12 rounded-full text-sm font-medium border border-[#747775] text-[#1F1F1F] transition-colors hover:bg-[#1F1F1F]/5 active:scale-95"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white/80 px-6 py-3 text-sm font-semibold text-slate-800 transition hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
               >
-                <Play size={18} />
-                See My Work
+                Explore my work
+                <ArrowDownRight size={18} />
               </a>
             </motion.div>
+
+            <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-slate-500">
+              <span className="inline-flex items-center gap-2"><MapPin size={16} /> Jetpur, Gujarat, India</span>
+              <span className="inline-flex items-center gap-2"><Code2 size={16} /> Flutter · Next.js · Firebase</span>
+            </motion.div>
           </div>
 
-          {/* Right Column: Hero Image & M3 Elevation Cards */}
-          <motion.div
-            variants={itemVars}
-            // CHANGED: aspect-[3/4] for Instagram portrait ratio and max-w-[420px] to balance height
-            className="relative w-full aspect-[3/4] max-w-[420px] mx-auto mt-12 lg:mt-0"
-          >
-            <div className="w-full h-full relative z-10">
-              {/* Main Image - Material Outlined Surface */}
-              <div className="w-full h-full bg-[#E1E3E1] rounded-[28px] overflow-hidden relative border border-[#C4C7C5]">
-                <img
-                  src="/images/hero.png"
-                  alt="Hiren Masaliya"
-                  className="w-full h-full object-cover object-center"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                />
+          <motion.div variants={fadeUp} className="relative mx-auto w-full max-w-[440px] lg:max-w-none">
+            <div aria-hidden="true" className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-blue-200/70 via-indigo-100/60 to-white blur-2xl" />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white bg-slate-200 shadow-2xl shadow-slate-900/10">
+              <img
+                src="/images/hero.png"
+                alt="Portrait of Hiren Masaliya"
+                className="h-full w-full object-cover object-center"
+                onError={(event) => {
+                  event.currentTarget.style.opacity = "0";
+                }}
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/75 via-slate-950/25 to-transparent p-6 pt-24 sm:p-8 sm:pt-28">
+                <p className="text-sm font-medium text-blue-100">Founder · Developer · Builder</p>
+                <p className="mt-1 text-2xl font-semibold tracking-tight text-white sm:text-3xl">Hiren Masaliya</p>
               </div>
+            </div>
 
-              {/* Stat 1 - Material Surface Card */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6, duration: 0.5, ease: materialEase }}
-                className="absolute -right-2 sm:-right-12 top-10 bg-white border border-[#E0E2E0] p-4 rounded-[20px] shadow-[0_2px_6px_rgba(0,0,0,0.1)] z-20 flex items-center gap-4"
-              >
-                <div className="bg-[#C2E7FF] p-2.5 rounded-full flex-shrink-0 text-[#001D35]">
-                  <CheckCircle2 size={24} />
-                </div>
-                <div>
-                  <h4 className="text-[22px] font-medium text-[#1F1F1F] leading-none">100%</h4>
-                  <p className="text-[11px] font-medium text-[#747775] uppercase tracking-wider mt-1">Happy Clients</p>
-                </div>
-              </motion.div>
-
-              {/* Stat 2 */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8, duration: 0.5, ease: materialEase }}
-                className="absolute -left-2 sm:-left-12 bottom-10 bg-white border border-[#E0E2E0] p-4 rounded-[20px] shadow-[0_2px_6px_rgba(0,0,0,0.1)] z-20 flex items-center gap-4"
-              >
-                <div className="bg-[#E8DEF8] p-2.5 rounded-full flex-shrink-0 text-[#1D192B]">
-                  <Briefcase size={24} />
-                </div>
-                <div>
-                  <h4 className="text-[22px] font-medium text-[#1F1F1F] leading-none">5+</h4>
-                  <p className="text-[11px] font-medium text-[#747775] uppercase tracking-wider mt-1">Apps Launched</p>
-                </div>
-              </motion.div>
+            <div className="absolute -left-3 top-8 flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-3.5 shadow-xl shadow-slate-900/10 sm:-left-8 sm:p-4">
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-700"><CheckCircle2 size={22} /></span>
+              <span><strong className="block text-sm font-semibold text-slate-900">Built for real needs</strong><span className="mt-0.5 block text-xs text-slate-500">People-first products</span></span>
+            </div>
+            <div className="absolute -bottom-4 right-2 flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-3.5 shadow-xl shadow-slate-900/10 sm:-right-6 sm:p-4">
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-700"><BriefcaseBusiness size={21} /></span>
+              <span><strong className="block text-sm font-semibold text-slate-900">End-to-end delivery</strong><span className="mt-0.5 block text-xs text-slate-500">Idea to deployment</span></span>
             </div>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* =====================================================
-          2. ABOUT & SERVICES - M3 Tonal Surfaces
-      ====================================================== */}
-      <section id="about" className="py-24 px-4 md:px-8 bg-white border-y border-[#E0E2E0]">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={containerVars}
-          className="max-w-[1280px] mx-auto grid lg:grid-cols-2 gap-16 items-center"
-        >
-          <motion.div variants={itemVars} className="flex flex-col gap-6 max-w-xl">
-            <h2 className="text-[32px] md:text-[40px] font-normal text-[#1F1F1F] leading-tight">What I Do</h2>
-            <p className="text-[#444746] text-[18px] leading-[28px] font-normal">
-              I create smooth mobile apps that work on both Android and iPhone using <strong className="font-medium text-[#1F1F1F]">Flutter</strong>. I also build fast, modern websites using <strong className="font-medium text-[#1F1F1F]">Next.js and React</strong>.
-              <br /><br />
-              Whether you need an online store, a system to manage your business, or a simple company website, I handle everything from the first design to putting it live on the app store or the web.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 gap-4 md:gap-6">
-            {/* M3 Primary Container */}
-            <motion.div variants={itemVars} className="bg-[#D3E3FD] text-[#041E49] p-8 rounded-[24px] flex flex-col justify-center">
-              <h3 className="text-[24px] md:text-[28px] font-normal mb-2">Fast & Reliable</h3>
-              <p className="text-[#001D35] text-sm leading-[24px]">Built for speed so your users never have to wait.</p>
-            </motion.div>
-
-            {/* M3 Inverse Surface */}
-            <motion.div variants={itemVars} className="bg-[#1F1F1F] text-[#F8F9FA] rounded-[24px] p-8 flex flex-col justify-center">
-              <p className="text-[#A8C7FA] font-medium mb-4 text-xs uppercase tracking-wider">Tools I Use</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-center gap-3"><Smartphone size={20} className="text-[#C4C7C5]" /> <span className="text-sm font-medium">Flutter</span></div>
-                <div className="flex items-center gap-3"><Code size={20} className="text-[#C4C7C5]" /> <span className="text-sm font-medium">Next.js</span></div>
-                <div className="flex items-center gap-3"><Database size={20} className="text-[#C4C7C5]" /> <span className="text-sm font-medium">Firebase</span></div>
-                <div className="flex items-center gap-3"><Palette size={20} className="text-[#C4C7C5]" /> <span className="text-sm font-medium">React</span></div>
-              </div>
-            </motion.div>
-
-            {/* M3 Outlined Container */}
-            <motion.div variants={itemVars} className="col-span-2 bg-[#FAFDFC] border border-[#747775] p-8 rounded-[24px] flex flex-col md:flex-row items-start md:items-center gap-6">
-              <div className="bg-[#E8DEF8] text-[#1D192B] p-4 rounded-full shrink-0">
-                <Sparkles size={28} />
-              </div>
-              <p className="text-[#1F1F1F] text-[18px] font-normal leading-[28px]">
-                From setting up the database to publishing on the <strong className="font-medium">Apple App Store and Google Play</strong>, I take care of the entire process so you don't have to worry.
-              </p>
-            </motion.div>
-          </div>
-        </motion.div>
+      {/* Value strip */}
+      <section aria-label="What you can expect" className="border-y border-slate-200 bg-white px-5 py-6 sm:px-8 lg:px-12">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-8">
+          {[
+            { icon: Zap, title: "Performance-minded", text: "Fast, responsive experiences" },
+            { icon: Sparkles, title: "Simple by design", text: "Clear interfaces, less friction" },
+            { icon: CheckCircle2, title: "Practical outcomes", text: "Technology built around your goals" },
+          ].map((item) => (
+            <div key={item.title} className="flex items-center gap-3 sm:justify-center">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-blue-50 text-blue-700"><item.icon size={21} /></span>
+              <span><strong className="block text-sm font-semibold text-slate-900">{item.title}</strong><span className="mt-1 block text-sm text-slate-500">{item.text}</span></span>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* =====================================================
-          3. EXPERIENCE SECTION - Material Lists & Assist Chips
-      ====================================================== */}
-      <section className="py-24 px-4 md:px-8 bg-[#F8F9FA]">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={containerVars}
-          className="max-w-[1280px] mx-auto"
-        >
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-[#E0E2E0] pb-8">
+      {/* About and services */}
+      <section id="about" className="scroll-mt-24 px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <div>
-              <p className="text-[#0A56D1] text-xs uppercase tracking-wider font-medium mb-2">My Background</p>
-              <h2 className="text-[32px] md:text-[40px] font-normal text-[#1F1F1F]">Work History</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">How I can help</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Good technology should make work easier.</h2>
+              <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+                I work with founders and businesses to turn rough ideas into reliable digital products. I focus on understanding the problem first, then choosing the right tools to solve it.
+              </p>
+              <a href="#contact" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900">
+                Tell me what you’re building <ArrowRight size={17} />
+              </a>
             </div>
-            <p className="text-[#444746] max-w-md text-base leading-[24px]">
-              A quick look at the apps, online stores, and digital tools I have built for different businesses over the years.
-            </p>
-          </div>
 
-          <div className="flex flex-col">
+            <div className="grid gap-4 sm:grid-cols-2">
+              {services.map((service) => (
+                <article key={service.title} className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5 sm:p-7">
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-blue-50 text-blue-700 transition group-hover:bg-blue-700 group-hover:text-white"><service.icon size={23} /></span>
+                  <h3 className="mt-5 text-lg font-semibold tracking-tight text-slate-900">{service.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{service.description}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {service.tags.map((tag) => <span key={tag} className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">{tag}</span>)}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="border-y border-slate-200 bg-white px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">A clear process</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">From idea to launch, step by step.</h2>
+            <p className="mt-4 text-base leading-7 text-slate-600">You’ll know what we’re building, why it matters and what comes next.</p>
+          </div>
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
             {[
-              { company: "Aptro (Business App)", location: "Jetpur, India", role: "Founder & Lead Developer", date: "Oct 2025 - Present", tags: ["Flutter", "Web Dashboard", "Firebase"] },
-              { company: "Buildart Industries", location: "Remote", role: "Freelance Web Developer", date: "Jan 2026 - Present", tags: ["Next.js", "React"] },
-              { company: "50% App", location: "Remote", role: "Mobile App Developer", date: "Jan 2026", tags: ["Flutter", "Firebase", "Android & iOS"] },
-              { company: "DIRA Infratech", location: "Remote", role: "Web Developer", date: "Aug 2025 – Sep 2025", tags: ["Web Development"] },
-              { company: "Wallzer", location: "Jetpur, India", role: "Founder", date: "May 2025 - Jul 2025", tags: ["App Design", "Mobile Dev"] }
-            ].map((job, i) => (
-              <motion.div
-                variants={itemVars}
-                key={i}
-                className="flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-[#E0E2E0] hover:bg-[#1F1F1F]/5 px-4 -mx-4 rounded-xl transition-colors duration-200"
-              >
-                <div className="md:w-1/3 mb-2 md:mb-0">
-                  <h3 className="text-[20px] font-medium text-[#1F1F1F]">{job.company}</h3>
-                </div>
-                <div className="md:w-1/3 mb-4 md:mb-0">
-                  <p className="text-[#1F1F1F] font-medium text-base">{job.role}</p>
-                  <p className="text-[#747775] text-sm mt-0.5">{job.date} • {job.location}</p>
-                </div>
-                <div className="md:w-1/3 flex flex-wrap md:justify-end gap-2">
-                  {/* M3 Assist Chips */}
-                  {job.tags.map(tag => (
-                    <span key={tag} className="px-3 py-1 border border-[#747775] rounded-lg text-xs font-medium text-[#444746]">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
+              { n: "01", title: "Understand", text: "We discuss your goals, users and biggest pain points before choosing a solution." },
+              { n: "02", title: "Design & build", text: "I shape the user experience and develop the product in clear, manageable steps." },
+              { n: "03", title: "Test & launch", text: "We check the details, prepare the release and get your product ready for real users." },
+            ].map((step) => (
+              <div key={step.n} className="rounded-3xl bg-[#f8f9fc] p-6 sm:p-8">
+                <span className="text-sm font-bold tracking-widest text-blue-700">{step.n}</span>
+                <h3 className="mt-4 text-xl font-semibold text-slate-900">{step.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{step.text}</p>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* =====================================================
-          4. CTA BANNER - Material Tertiary Container
-      ====================================================== */}
-      <section className="px-4 md:px-8 py-12 bg-[#F8F9FA]">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: materialEase }}
-          className="max-w-[1280px] mx-auto bg-[#EADDFF] rounded-[28px] py-16 px-8 text-center flex flex-col items-center justify-center"
-        >
-          <h2 className="text-[32px] md:text-[44px] font-normal text-[#21005D] mb-8 max-w-2xl leading-tight">
-            Need a reliable developer? <br /> Let's build your idea.
-          </h2>
-          <a href="#contact" className="inline-flex items-center gap-2 bg-[#6750A4] text-white px-8 h-12 rounded-full text-sm font-medium transition-colors hover:bg-[#7D66B6] shadow-[0_1px_2px_rgba(0,0,0,0.2)] active:scale-95">
-            Talk to Me for Free
-            <MessageCircle size={18} />
-          </a>
-        </motion.div>
-      </section>
-
-      {/* =====================================================
-          5. PORTFOLIO - Material Outlined Cards
-      ====================================================== */}
-      <section id="portfolio" className="py-24 px-4 md:px-8 bg-white border-t border-[#E0E2E0]">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={containerVars}
-          className="max-w-[1280px] mx-auto"
-        >
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 md:mb-12 gap-4 sm:gap-6">
+      {/* Experience */}
+      <section id="experience" className="scroll-mt-24 px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 grid gap-4 md:grid-cols-[1fr_0.7fr] md:items-end">
             <div>
-              <p className="text-[#0A56D1] text-xs uppercase tracking-wider font-medium mb-1.5 md:mb-2">
-                Past Work
-              </p>
-              <h2 className="text-[28px] md:text-[32px] lg:text-[40px] font-normal text-[#1F1F1F] leading-tight">
-                Featured Projects
-              </h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">The journey so far</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Experience & collaboration</h2>
             </div>
-
-            <a
-              href="/projects"
-              className="inline-flex items-center gap-2 text-[#0A56D1] text-sm font-medium hover:bg-[#0A56D1]/10 px-4 h-10 rounded-full transition-colors shrink-0 -ml-4 sm:ml-0"
-            >
-              See All Projects <ArrowRight size={18} />
-            </a>
+            <p className="max-w-xl text-sm leading-7 text-slate-600 md:justify-self-end">A selection of product, mobile and web development work across independent projects and business teams.</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { title: "Aptro", desc: "Business Management App", image: "/images/projects/aptro-website.png", link: "https://aptrooms.web.app/" },
-              { title: "Clothiva Elite", desc: "Online Shopping Website", image: "/images/projects/clothiva-thumbnail.png", link: "https://clothivaelite.vercel.app/" },
-              { title: "Buildart Industries", desc: "Company Website", image: "/images/projects/buildart-website.png", link: "https://buildartind.com" }
-            ].map((work, i) => (
-              <motion.div variants={itemVars} key={i} className="group flex flex-col bg-[#FAFDFC] border border-[#747775] rounded-[20px] overflow-hidden hover:bg-[#F0F4F9] transition-colors duration-200">
-                <a href={work.link} target="_blank" rel="noreferrer" className="block aspect-[16/9] bg-[#E1E3E1] relative overflow-hidden border-b border-[#747775]">
+          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white">
+            {experience.map((job, index) => (
+              <article key={job.company} className={`grid gap-4 p-5 sm:p-6 md:grid-cols-[1fr_1.2fr_1fr] md:items-center ${index !== experience.length - 1 ? "border-b border-slate-200" : ""} transition-colors hover:bg-slate-50`}>
+                <div>
+                  <h3 className="font-semibold text-slate-900">{job.company}</h3>
+                  <p className="mt-1 text-sm text-slate-500">{job.location}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-slate-800">{job.role}</p>
+                  <p className="mt-1 text-sm text-slate-500">{job.date}</p>
+                </div>
+                <div className="flex flex-wrap gap-2 md:justify-end">
+                  {job.tags.map((tag) => <span key={tag} className="rounded-full border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-600">{tag}</span>)}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects */}
+      <section id="portfolio" className="scroll-mt-24 border-y border-slate-200 bg-white px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">Selected work</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Products built to solve problems.</h2>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">A few examples of the products and websites I’ve helped bring to life.</p>
+            </div>
+            <Link href="/projects" className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-slate-300 px-5 text-sm font-semibold text-slate-800 transition hover:border-blue-300 hover:bg-blue-50 sm:self-auto">
+              View all projects <ArrowRight size={17} />
+            </Link>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project) => (
+              <article key={project.title} className="group overflow-hidden rounded-3xl border border-slate-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-slate-900/5">
+                <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`${project.label}: ${project.title}`} className="relative block aspect-[16/10] overflow-hidden bg-slate-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-blue-300">
                   <img
-                    src={work.image}
-                    alt={`${work.title} - ${work.desc}`}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    src={project.image}
+                    alt={`${project.title} project preview`}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                    onError={(event) => {
+                      event.currentTarget.style.opacity = "0";
+                    }}
                   />
+                  <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-slate-800 opacity-0 shadow-sm transition group-hover:opacity-100"><ExternalLink size={17} /></span>
                 </a>
-                <div className="p-5">
-                  <h3 className="text-[20px] font-medium text-[#1F1F1F] mb-1 group-hover:text-[#0A56D1] transition-colors">
-                    <a href={work.link} target="_blank" rel="noreferrer">{work.title}</a>
-                  </h3>
-                  <p className="text-[#444746] text-sm">{work.desc}</p>
+                <div className="p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-blue-700">{project.category}</p>
+                  <h3 className="mt-2 text-xl font-semibold tracking-tight text-slate-900">{project.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{project.description}</p>
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900">
+                    {project.label} <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  </a>
                 </div>
-              </motion.div>
+              </article>
             ))}
           </div>
-
-          <div className="flex justify-center mt-8 md:hidden">
-            <a href="/projects" className="inline-flex items-center gap-2 text-[#0A56D1] text-sm font-medium hover:bg-[#0A56D1]/10 px-4 h-10 rounded-full transition-colors">
-              See All Projects <ArrowRight size={18} />
-            </a>
-          </div>
-        </motion.div>
+        </div>
       </section>
 
-
-      <footer id="contact" className="bg-[#001D35] pt-20 md:pt-24 pb-10 px-4 md:px-8 text-[#F8F9FA] relative">
-        <div className="max-w-[1000px] mx-auto text-center mb-16 md:mb-20">
-
-          {/* Status Indicator */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8">
-            <span className="w-2 h-2 rounded-full bg-[#388E3C] animate-pulse"></span>
-            <span className="text-xs font-medium text-[#C2E7FF] uppercase tracking-wider">Ready to start a project</span>
-          </div>
-
-          {/* Fluid Headline */}
-          <h2 className="text-[36px] sm:text-[44px] md:text-[57px] font-normal tracking-[-0.25px] text-white mb-4 md:mb-6 leading-[1.15]">
-            Let's build something <br className="hidden sm:block" />
-            <span className="text-[#A8C7FA]">great together.</span>
-          </h2>
-
-          <p className="text-[#D3E3FD] text-[16px] sm:text-[18px] font-normal mb-10 md:mb-12 max-w-2xl mx-auto leading-[26px] md:leading-[28px] px-4">
-            Need a new app or a website? I am here to turn your idea into a real, working product. Send me an email and let's chat.
-          </p>
-
-          <div className="flex flex-col items-center gap-6 w-full max-w-xl mx-auto">
-
-            {/* Responsive Email Group (Stacks on mobile, Pill on desktop) */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 bg-white/5 p-2 rounded-[24px] sm:rounded-full border border-white/10 w-full sm:w-auto">
-              <a
-                href="mailto:hirenmasliya14@gmail.com"
-                className="text-[18px] sm:text-[20px] md:text-[24px] font-normal text-white px-4 sm:px-6 py-3 sm:py-2 hover:text-[#A8C7FA] transition-colors break-all text-center"
-              >
-                hirenmasliya14@gmail.com
-              </a>
-              <button
-                onClick={handleCopyEmail}
-                className="inline-flex items-center justify-center gap-2 bg-[#A8C7FA] text-[#001D35] px-6 h-12 sm:h-12 rounded-full text-sm font-medium hover:bg-[#D3E3FD] transition-colors w-full sm:w-auto active:scale-95 shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
-              >
-                {isCopied ? (
-                  <>
-                    <CheckCircle2 size={18} className="text-[#001D35]" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy size={18} />
-                    Copy Email
-                  </>
-                )}
-              </button>
-            </div>
-
-            <p className="text-white/40 text-sm font-medium">or</p>
-
-            {/* Alternative Contact */}
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 text-[#A8C7FA] hover:bg-[#A8C7FA]/10 px-6 h-12 rounded-full text-sm font-medium transition-colors"
-            >
-              <Calendar size={18} />
-              Schedule a quick chat
+      {/* CTA */}
+      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-slate-950 px-6 py-12 text-center sm:px-12 sm:py-16">
+          <div aria-hidden="true" className="absolute -right-10 -top-24 h-72 w-72 rounded-full bg-blue-600/30 blur-3xl" />
+          <div aria-hidden="true" className="absolute -bottom-32 -left-10 h-72 w-72 rounded-full bg-indigo-500/20 blur-3xl" />
+          <div className="relative mx-auto max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-300">Have an idea?</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">Let’s make something useful.</h2>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">Tell me what you’re trying to build or improve. We can talk through the idea, the users and the best next step—without making it complicated.</p>
+            <a href={`mailto:${EMAIL}?subject=${encodeURIComponent("Let's discuss a project")}`} className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-300">
+              <MessageCircle size={18} /> Start a conversation <ArrowRight size={17} />
             </a>
           </div>
         </div>
+      </section>
 
-        {/* Bottom Bar - Stacks on mobile, Row on Desktop */}
-        <div className="max-w-[1280px] mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0">
-
-          {/* Location - Top on Mobile, Left on Desktop */}
-          <div className="flex items-center gap-2 text-[#C2E7FF] text-sm font-medium order-1">
-            <MapPin size={18} className="text-[#A8C7FA]" />
-            <p>Jetpur, Gujarat, India</p>
-          </div>
-
-          {/* Socials - Middle on Mobile, Center on Desktop */}
-          <div className="flex flex-wrap justify-center gap-6 order-2">
-            {['LinkedIn', 'GitHub', 'Twitter'].map((social) => (
-              <a
-                key={social}
-                href="#"
-                className="text-[#C2E7FF] text-sm font-medium hover:text-white transition-colors"
-              >
-                {social}
+      {/* Contact */}
+      <footer id="contact" className="scroll-mt-24 border-t border-slate-200 bg-white px-5 pb-8 pt-14 sm:px-8 sm:pt-16 lg:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">Get in touch</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">What can we build together?</h2>
+              <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">For project enquiries, collaborations or a quick conversation, email is the best place to start.</p>
+              <a href={`mailto:${EMAIL}`} className="mt-5 inline-flex items-center gap-2 break-all text-lg font-semibold text-blue-700 hover:text-blue-900 sm:text-xl">
+                <Mail size={20} className="shrink-0" /> {EMAIL}
               </a>
-            ))}
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
+              <button
+                type="button"
+                onClick={copyEmail}
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-slate-300 px-5 text-sm font-semibold text-slate-800 transition hover:border-blue-300 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200"
+              >
+                {copied ? <Check size={17} /> : <Copy size={17} />}
+                {copied ? "Email copied" : "Copy email"}
+              </button>
+              <a href={`mailto:${EMAIL}?subject=${encodeURIComponent("Project enquiry")}`} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-blue-700 px-5 text-sm font-semibold text-white transition hover:bg-blue-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-300">
+                Send an email <ArrowRight size={17} />
+              </a>
+            </div>
           </div>
 
-          {/* Copyright - Bottom on Mobile, Right on Desktop */}
-          <div className="text-white/50 text-sm font-medium order-3">
-            <p>© {new Date().getFullYear()} Hiren Masaliya.</p>
+          <div className="mt-12 flex flex-col gap-3 border-t border-slate-200 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <p className="inline-flex items-center gap-2"><MapPin size={15} /> Jetpur, Gujarat, India</p>
+            <p>© {new Date().getFullYear()} Hiren Masaliya. Built with care.</p>
           </div>
         </div>
       </footer>
